@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MPS"
+             Title="Principal"
+             x:Class="MPS.MainParameters">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button
+                x:Name="buttonMainShowDate"
+                Text="Actualizar fecha y hora"
+                Clicked="buttonMainShowDate_Clicked"
+                />
+            <Button
+                x:Name="buttonMainView"
+                Text="Cambiar vista"
+                Clicked="buttonMainView_Clicked"                
+                />
+            
+            <Stepper
+                HorizontalOptions="Center"
+                x:Name="stepperMainBrightness"
+                Maximum="5"
+                Minimum="0"
+                Value="0"
+                Increment="1"
+                ValueChanged="stepperMainBrightness_ValueChanged"/>
+            <Label
+                Text="Brillo"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
