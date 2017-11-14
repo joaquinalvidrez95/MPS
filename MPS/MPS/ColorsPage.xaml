@@ -4,10 +4,27 @@
              Title="Colores"
              x:Class="MPS.ColorsPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Vertical">
+            <Label Text="Línea Superior"/>
+            <StackLayout Orientation="Horizontal">
+                <Stepper/>
+                <Label Text="Rojo"
+                       TextColor="Red"
+                       VerticalOptions="Center"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Stepper/>
+                <Label Text="Verde"
+                        TextColor="Green"
+                       VerticalOptions="Center"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Stepper/>
+                <Label Text="Azul"
+                        TextColor="Blue"
+                       VerticalOptions="Center"/>
+            </StackLayout>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -16,5 +16,26 @@ namespace MPS
         {
             InitializeComponent();
         }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonMessageNew_Clicked(object sender, EventArgs e)
+        {
+            
+            
+            //var promptConfig = new PromptConfig();
+            //promptConfig.InputType = InputType.Name;
+            //promptConfig.IsCancellable = true;
+            
+            //promptConfig.Message = "Write your name";
+            //var result = await UserDialogs.Instance.PromptAsync(promptConfig);
+            //if (result.Ok)
+            //{
+            //    PromptedTextLabel.Text = result.Text;
+            //}
+        }
     }
 }

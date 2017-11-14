@@ -5,7 +5,11 @@
              x:Class="MPS.MessagePage">
     <ContentPage.Content>
         <StackLayout>
-            <Editor/>
+            <Editor
+                HeightRequest="300"/>
+            <Button
+                x:Name="buttonMessageNew"
+                Clicked="buttonMessageNew_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
