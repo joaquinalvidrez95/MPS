@@ -25,7 +25,7 @@
                 Value="0"
                 Increment="1"
                 ValueChanged="stepperMainBrightness_ValueChanged"/>
-            <Label
+            <Label x:Name="labelParametersBrightness"
                 Text="Brillo"/>
         </StackLayout>
     </ContentPage.Content>

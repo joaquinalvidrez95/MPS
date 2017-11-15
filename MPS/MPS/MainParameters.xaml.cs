@@ -24,13 +24,14 @@ namespace MPS
             {
                 now = now.AddHours(1);
             }
-            string currentTime = (string.Format("Current Time: {0}", now));            
-            
+            string currentTime = (string.Format("Current Time: {0}", now));
+            buttonMainShowDate.Text = currentTime;
 
         }
 
         private void buttonMainView_Clicked(object sender, EventArgs e)
         {
+            labelParametersBrightness.Text = "tes";
 
         }      
 
