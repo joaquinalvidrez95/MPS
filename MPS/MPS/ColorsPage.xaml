@@ -3,99 +3,105 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Colores"
              xmlns:local="clr-namespace:MPS"
-             x:Class="MPS.ColorsPage">
+             x:Class="MPS.ColorsPage"
+             Padding="0,10,0,0">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
-            <!--<StackLayout Orientation="Horizontal"
-                         HorizontalOptions="Center">
-                <local:ColorView HorizontalOptions="Start"></local:ColorView>
+            <StackLayout Style="{StaticResource StackLayoutColors}">
+                <local:ColorView></local:ColorView>
                 <Label Text="Línea superior"                  
                        VerticalOptions="Center"/>
             </StackLayout>
-            <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="FillAndExpand">
-                <local:ColorView HorizontalOptions="Center"></local:ColorView>
+
+            <StackLayout Style="{StaticResource StackLayoutColors}">
+                <local:ColorView></local:ColorView>
                 <Label Text="Línea inferior"                  
-                       VerticalOptions="FillAndExpand"/>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="Center">
-                <local:ColorView HorizontalOptions="Start"></local:ColorView>
-                <Label Text="Fondo"                  
                        VerticalOptions="Center"/>
-            </StackLayout>-->
-            
-            <Label Text="Línea superior"                                     
-                       HorizontalOptions="Center"/>
-            <local:ColorView HorizontalOptions="Center"
-                             
-                             Margin="0,0,0,10"></local:ColorView>
+            </StackLayout>
 
-            <Label Text="Línea inferior"                  
-                       HorizontalOptions="Center"/>
-            <local:ColorView HorizontalOptions="Center"
-                             Margin="0,0,0,10"></local:ColorView>
+            <StackLayout Style="{StaticResource StackLayoutColors}">
+                <local:ColorView/>
+                <Label Text="Fondo"                                  
+                       VerticalOptions="Center"/>
+            </StackLayout>
 
-            <Label Text="Fondo"                  
-                       HorizontalOptions="Center"/>
-            <local:ColorView HorizontalOptions="Center"                             
-                             Margin="0,0,0,10"></local:ColorView>
+            <Frame OutlineColor="Black"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center">
+                <Grid ColumnSpacing="5"                
+                  HorizontalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
 
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="0"       
+                                 Grid.Row="0"
+                                 ColorName="Red"/>
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="1"       
+                                 Grid.Row="0"
+                                 ColorName="Orange"/>
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="2"       
+                                 Grid.Row="0"
+                                 ColorName="Yellow"/>
+                    
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="0"       
+                                 Grid.Row="1"                                     
+                                 ColorName="LawnGreen"/>
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="1"       
+                                 Grid.Row="1"
+                                 ColorName="SpringGreen"/>
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="2"       
+                                 Grid.Row="1"
+                                 ColorName="Cyan"/>
 
-            <!--<RelativeLayout HorizontalOptions="Fill"
-                            >
-                <local:ColorView x:Name="colorViewUpperLine"
-                                 RelativeLayout.XConstraint =
-                                 "{ConstraintExpression Type=RelativeToParent,
-                                                        Property=Width,
-                                                        Factor=0.5,
-                                                        Constant=-15}"></local:ColorView>
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="0"       
+                                 Grid.Row="2"
+                                 ColorName="DodgerBlue"/>
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="1"       
+                                 Grid.Row="2"
+                                 ColorName="Blue"/>
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="2"       
+                                 Grid.Row="2"
+                                 ColorName="BlueViolet"/>
 
-                <Label Text="Línea superior"                  
-                      VerticalOptions="Center"
-                       RelativeLayout.XConstraint=
-                       "{ConstraintExpression Type=RelativeToParent,
-                        Property=Width,
-                        Factor=0.5,
-                        Constant=15               
-                    }"/>
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="0"       
+                                 Grid.Row="3"
+                                 ColorName="Magenta"/>
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="1"       
+                                 Grid.Row="3"
+                                 ColorName="Black"/>
+                    <local:ColorView HorizontalOptions="Center"                                                             
+                                 Grid.Column="2"       
+                                 Grid.Row="3"
+                                 ColorName="White"/>
 
-            </RelativeLayout>-->
+                </Grid>
+            </Frame>
 
-            <Grid ColumnSpacing="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"></ColumnDefinition>
-                    <ColumnDefinition Width="30"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <local:ColorView HorizontalOptions="Center"                                                             
-                                 Grid.Column="0"
-                                 Grid.Row="0"/>
-                <local:ColorView HorizontalOptions="Center"                                                             
-                                 Grid.Column="0"
-                                 Grid.Row="1"/>
-                <local:ColorView HorizontalOptions="Center"                                                             
-                                 Grid.Column="1"
-                                 Grid.Row="0"/>
-                <local:ColorView HorizontalOptions="Center"                                                             
-                                 Grid.Column="1"
-                                 Grid.Row="1"/>
-                <local:ColorView HorizontalOptions="Center"                                                             
-                                 Grid.Column="2"
-                                 Grid.Row="1"/>
-                <local:ColorView HorizontalOptions="Center"                                                             
-                                 Grid.Column="1"
-                                 Grid.Row="1"/>
-            </Grid>
+            <StackLayout>
+                <Label Text="Opacity Binding Demo"
+                       FontSize="Large"
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="Center"
+                       BindingContext="{x:Reference Name=slider}"
+                       Opacity="{Binding Path=Value}" />
+                <Slider x:Name="slider"
+                        VerticalOptions="CenterAndExpand" />
+            </StackLayout>
         </StackLayout>
 
-        
-        
-           
-
-        
     </ContentPage.Content>
 </ContentPage>

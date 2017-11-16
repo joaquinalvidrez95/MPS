@@ -10,11 +10,15 @@
                 HeightRequest="30"
                 WidthRequest="30"/>-->
 
-            <Button BackgroundColor="Red"
-                    HeightRequest="30"
+            <Button           
                     x:Name="button"
-                    Clicked="Button_Clicked"
-                WidthRequest="30"/>
+           BackgroundColor="DodgerBlue"
+                    Clicked="Button_Clicked"         
+                BorderColor="Black"
+                BorderWidth="1"
+                
+                    Style="{StaticResource ButtonColorStyle}"/>
+           
         </StackLayout>
             
      
