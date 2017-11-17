@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Colores"
+             xmlns:local="clr-namespace:MPS"
+             x:Class="MPS.ColorsPage"
+             Padding="0,10,0,0">
+
+    <!--Command="{Binding ColorsCommand}"
+    BackgroundColor="{Binding DisplayColors.ColorNameUpperLine}"-->
+    
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <StackLayout Style="{StaticResource StackLayoutColors}">
+                <Button Style="{StaticResource ButtonColorStyle}"
+                        Command="{Binding ColorsCommand}"
+                        BackgroundColor="{Binding DisplayColors.ColorUpperLine}"/>
+                <Label Text="Línea superior"                                
+                       VerticalOptions="Center"/>
+            
+            </StackLayout>
+        
+            <StackLayout Style="{StaticResource StackLayoutColors}">
+                <local:ColorView>
+                </local:ColorView>
+                <Label Text="Línea inferior"                  
+                       VerticalOptions="Center"/>
+            </StackLayout>
+
+            <StackLayout Style="{StaticResource StackLayoutColors}">
+                <local:ColorView/>
+                <Label Text="Fondo"                                  
+                       VerticalOptions="Center"/>
+            </StackLayout>
+
+            <Frame OutlineColor="Black"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center">
+                <Grid ColumnSpacing="5"                
+                  HorizontalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            CommandParameter="Red"
+                            Grid.Column="0"       
+                            Grid.Row="0"
+                            BackgroundColor="Red"/>
+
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            Grid.Column="1"       
+                            Grid.Row="0"
+                            BackgroundColor="Orange"
+                            CommandParameter="Orange"/>
+
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            Grid.Column="2"       
+                            Grid.Row="0"
+                            BackgroundColor="Yellow"
+                            CommandParameter="Yellow"/>
+                    
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            Grid.Column="3"       
+                            Grid.Row="0"
+                            BackgroundColor="LawnGreen"
+                            CommandParameter="LawnGreen"/>
+
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            Grid.Column="0"       
+                            Grid.Row="1"
+                            BackgroundColor="SpringGreen"
+                            CommandParameter="SpringGreen"/>
+
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            Grid.Column="1"       
+                            Grid.Row="1"
+                            BackgroundColor="Cyan"
+                            CommandParameter="Cyan"/>
+
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            Grid.Column="2"       
+                            Grid.Row="1"
+                            BackgroundColor="DodgerBlue"
+                            CommandParameter="DodgerBlue"/>
+
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            Grid.Column="3"       
+                            Grid.Row="1"
+                            BackgroundColor="Blue"
+                            CommandParameter="Blue"/>
+
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            Grid.Column="0"       
+                            Grid.Row="2"
+                            BackgroundColor="BlueViolet"
+                            CommandParameter="BlueViolet"/>
+
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            Grid.Column="1"       
+                            Grid.Row="2"
+                            BackgroundColor="Magenta"
+                            CommandParameter="Magenta"/>
+
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            Grid.Column="2"       
+                            Grid.Row="2"
+                            BackgroundColor="Black"
+                            CommandParameter="Black"/>
+
+                    <Button Style="{StaticResource ButtonColorStyle}"
+                            Command="{Binding ColorsCommand}"
+                            Grid.Column="3"       
+                            Grid.Row="2"
+                            BackgroundColor="White"
+                            CommandParameter="White"/>
+
+                </Grid>
+            </Frame>
+
+            <StackLayout>
+                <Label Text="Opacity Binding Demo"
+                       FontSize="Large"
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="Center"
+                       BindingContext="{x:Reference Name=slider}"
+                       Opacity="{Binding Path=Value}" />
+                <Slider x:Name="slider"
+                        VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

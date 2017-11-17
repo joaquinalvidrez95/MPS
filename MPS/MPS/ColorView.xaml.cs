@@ -14,9 +14,32 @@ namespace MPS
 	{
         string colorName;
         ColorTypeConverter colorTypeConv = new ColorTypeConverter();
+        //public static readonly BindableProperty ColorNameProperty = BindableProperty.Create(
+        //                                                 propertyName: "ColorName",
+        //                                                 returnType: typeof(string),
+        //                                                 declaringType: typeof(ColorView),
+        //                                                 defaultValue: "",
+        //                                                 defaultBindingMode: BindingMode.TwoWay,
+        //                                                 propertyChanged: ColorNamePropertyChanged);
+
+        //private static void ColorNamePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        //{
+        //    var control = (ColorView)bindable;
+        //    control.button.BackgroundColor =(Color) new ColorTypeConverter().ConvertFromInvariantString((string)newValue);
+        //}
+
+        public Command ColorCommand
+        {
+           
+            set
+            {
+                button.Command = value;
+            }
+        }
         public ColorView ()
 		{
 			InitializeComponent ();
+            
 		}
 
         public string ColorName
@@ -28,9 +51,8 @@ namespace MPS
                
                 // Get the actual Color and set the other views.
                 Color color = (Color)colorTypeConv.ConvertFromInvariantString(colorName);
-//                Color color = (Color)colorTypeConv.ConvertFrom(colorName);
 
-                button.BackgroundColor = color;
+                button.BackgroundColor = color;           
                
             }
             get
@@ -39,10 +61,7 @@ namespace MPS
             }
         }
     
-
-    private void Button_Clicked(object sender, EventArgs e)
-        {
-          
-        }
+   
     }
+    
 }

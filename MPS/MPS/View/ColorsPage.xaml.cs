@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MPS.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace MPS
         public ColorsPage()
         {
             InitializeComponent();
+            this.BindingContext = new ColorsPageViewModel();
         }
     }
 }
