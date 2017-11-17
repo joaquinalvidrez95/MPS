@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace MPS.Model
 {
-    public class DisplayColors : INotifyPropertyChanged
+    public class DisplayColors 
     {
         Color colorUpperLine;
         Color colorLowerLine;
@@ -23,7 +23,7 @@ namespace MPS.Model
             set
             {
                 colorLowerLine = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("ColorLowerLine"));
+                //PropertyChanged(this, new PropertyChangedEventArgs("ColorLowerLine"));
             }
         }
 
@@ -36,7 +36,7 @@ namespace MPS.Model
             set
             {
                 colorUpperLine = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("ColorUpperLine"));
+                //PropertyChanged(this, new PropertyChangedEventArgs("ColorUpperLine"));
             }
         }
 
@@ -49,11 +49,12 @@ namespace MPS.Model
             set
             {
                 colorBackground = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("ColorBackground"));
+              //  PropertyChanged(this, new PropertyChangedEventArgs("ColorBackground"));
             }
         }
+ 
 
-        public event PropertyChangedEventHandler PropertyChanged;
-       
+        //public event PropertyChangedEventHandler PropertyChanged;
+
     }
 }

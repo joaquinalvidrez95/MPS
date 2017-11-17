@@ -6,29 +6,35 @@
              x:Class="MPS.ColorsPage"
              Padding="0,10,0,0">
 
-    <!--Command="{Binding ColorsCommand}"
-    BackgroundColor="{Binding DisplayColors.ColorNameUpperLine}"-->
-    
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <StackLayout Style="{StaticResource StackLayoutColors}">
                 <Button Style="{StaticResource ButtonColorStyle}"
-                        Command="{Binding ColorsCommand}"
-                        BackgroundColor="{Binding DisplayColors.ColorUpperLine}"/>
+                        Command="{Binding SetUpperLineColorCommand}"
+                        BackgroundColor="{Binding ColorUpperLine}"
+                        BorderColor="{Binding BorderColorUpperLineButton}"
+                        BorderWidth="{Binding BorderWidthUpperLineButton}"/>
                 <Label Text="Línea superior"                                
                        VerticalOptions="Center"/>
-            
+
             </StackLayout>
         
             <StackLayout Style="{StaticResource StackLayoutColors}">
-                <local:ColorView>
-                </local:ColorView>
+                <Button Style="{StaticResource ButtonColorStyle}"
+                        Command="{Binding SetLowerLineColorCommand}"
+                        BackgroundColor="{Binding ColorLowerLine}"
+                        BorderColor="{Binding BorderColorLowerLineButton}"
+                        BorderWidth="{Binding BorderWidthLowerLineButton}"/>
                 <Label Text="Línea inferior"                  
                        VerticalOptions="Center"/>
             </StackLayout>
 
             <StackLayout Style="{StaticResource StackLayoutColors}">
-                <local:ColorView/>
+                <Button Style="{StaticResource ButtonColorStyle}"
+                        Command="{Binding SetBackgroundColorCommand}"
+                        BackgroundColor="{Binding ColorBackground}"
+                        BorderColor="{Binding BorderColorBackgroundButton}"
+                        BorderWidth="{Binding BorderWidthBackgroundButton}"/>
                 <Label Text="Fondo"                                  
                        VerticalOptions="Center"/>
             </StackLayout>

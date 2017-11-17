@@ -40,6 +40,7 @@
     </Compile>
     <Compile Include="Model\DisplayColors.cs" />
     <Compile Include="ViewModel\ColorsPageViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\ColorsPage.xaml.cs">
       <DependentUpon>ColorsPage.xaml</DependentUpon>
     </Compile>

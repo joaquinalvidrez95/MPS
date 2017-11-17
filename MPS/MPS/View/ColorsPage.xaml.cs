@@ -16,7 +16,22 @@ namespace MPS
         public ColorsPage()
         {
             InitializeComponent();
-            this.BindingContext = new ColorsPageViewModel();
+            int initialBorderWith = 1;
+            Color initialBorderColor = Color.Black;
+            this.BindingContext = new ColorsPageViewModel            
+            {
+                ColorBackground = Color.Aqua,
+                ColorLowerLine = Color.BlueViolet,
+                ColorUpperLine = Color.Chartreuse,
+                BorderColorLowerLineButton = initialBorderColor,
+                BorderColorUpperLineButton = initialBorderColor,
+                BorderColorBackgroundButton = initialBorderColor,
+                BorderWidthLowerLineButton = initialBorderWith,
+                BorderWidthBackgroundButton = initialBorderWith,
+                BorderWidthUpperLineButton = initialBorderWith,
+
+              
+            };
         }
     }
 }
