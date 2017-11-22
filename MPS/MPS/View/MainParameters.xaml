@@ -8,25 +8,27 @@
         <StackLayout>
             <Button
                 x:Name="buttonMainShowDate"
-                Text="Actualizar fecha y hora"
-                Clicked="buttonMainShowDate_Clicked"
+                Text="Actualizar fecha y hora"      
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill"              
                 />
-            <Button
-                x:Name="buttonMainView"
-                Text="Cambiar vista"
-                Clicked="buttonMainView_Clicked"                
-                />
-            
-            <Stepper
-                HorizontalOptions="Center"
-                x:Name="stepperMainBrightness"
-                Maximum="5"
-                Minimum="0"
-                Value="0"
-                Increment="1"
-                ValueChanged="stepperMainBrightness_ValueChanged"/>
+          
+            <Image Source="ic_access_time_black_48dp.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DateTimeCommand}"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <Slider Minimum="0"
+                    x:Name="slider"
+                    Maximum="9"                          
+                    ValueChanged="slider_ValueChanged"/>
+
             <Label x:Name="labelParametersBrightness"
-                Text="Brillo"/>
+                Text="{Binding CurrentDateTime}"
+                   HorizontalOptions="CenterAndExpand"      
+                   />
+
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

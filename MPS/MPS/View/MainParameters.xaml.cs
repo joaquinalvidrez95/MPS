@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MPS.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,31 +13,20 @@ namespace MPS
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainParameters : ContentPage
     {
+        private const double STEP_VALUE = 1.0;
+
         public MainParameters()
         {
             InitializeComponent();
+            BindingContext = new MainParametersViewModel();
         }
+     
 
-        private void buttonMainShowDate_Clicked(object sender, EventArgs e)
+        private void slider_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            DateTime now = DateTime.Now.ToLocalTime();
-            if (DateTime.Now.IsDaylightSavingTime() == true)
-            {
-                now = now.AddHours(1);
-            }
-            string currentTime = (string.Format("Current Time: {0}", now));
-            buttonMainShowDate.Text = currentTime;
+            var newStep = Math.Round(e.NewValue / STEP_VALUE);
 
-        }
-
-        private void buttonMainView_Clicked(object sender, EventArgs e)
-        {
-            labelParametersBrightness.Text = "tes";
-
-        }      
-
-        private void stepperMainBrightness_ValueChanged(object sender, ValueChangedEventArgs e)
-        {
+            slider.Value = newStep * STEP_VALUE;
 
         }
     }

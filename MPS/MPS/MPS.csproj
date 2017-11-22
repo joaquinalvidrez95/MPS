@@ -40,6 +40,7 @@
     </Compile>
     <Compile Include="Model\DisplayColors.cs" />
     <Compile Include="ViewModel\ColorsPageViewModel.cs" />
+    <Compile Include="ViewModel\MainParametersViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\ColorsPage.xaml.cs">
       <DependentUpon>ColorsPage.xaml</DependentUpon>
@@ -47,6 +48,7 @@
     <Compile Include="ColorView.xaml.cs">
       <DependentUpon>ColorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DiscreteSlider.cs" />
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
