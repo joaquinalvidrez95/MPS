@@ -12,6 +12,7 @@ namespace MPS.ViewModel
     {
         private const double STEP_VALUE = 1.0;
         private string currentDateTime;
+        private double speed;
 
         public ICommand DateTimeCommand{get;private set;}
         public string CurrentDateTime
@@ -27,9 +28,26 @@ namespace MPS.ViewModel
             }
         }
 
-        public MainParametersViewModel()
+        public double Speed
         {
-            DateTimeCommand = new Command(showTime);
+            get
+            {
+                return speed;
+            }
+            set
+            {
+                //var newStep = Math.Round(value / STEP_VALUE);               
+                //speed = newStep * STEP_VALUE;
+                value = Math.Round(value / STEP_VALUE);
+                value = value * STEP_VALUE;
+                speed = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public MainParametersViewModel(INavigation navigation)
+        {
+            DateTimeCommand = new Command(showTime);            
         }
 
         private void showTime(object obj)
@@ -42,5 +60,8 @@ namespace MPS.ViewModel
             string currentTime = (string.Format("Current Time: {0}", now));
             CurrentDateTime= currentTime;
         }
+
+
+       
     }
 }

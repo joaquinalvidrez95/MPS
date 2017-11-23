@@ -3,31 +3,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MPS"
              Title="Principal"
-             x:Class="MPS.MainParameters">
+             x:Class="MPS.MainParameters"
+             Padding="0,10,0,0">
     <ContentPage.Content>
         <StackLayout>
-            <Button
-                x:Name="buttonMainShowDate"
-                Text="Actualizar fecha y hora"      
-                HorizontalOptions="Fill"
-                VerticalOptions="Fill"              
-                />
-          
+
             <Image Source="ic_access_time_black_48dp.png">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding DateTimeCommand}"/>
                 </Image.GestureRecognizers>
             </Image>
+
+            <Image Source="ic_remove_red_eye_black_48dp.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DateTimeCommand}"/>
+                </Image.GestureRecognizers>
+            </Image>
+            
             <Slider Minimum="0"
-                    x:Name="slider"
-                    Maximum="9"                          
-                    ValueChanged="slider_ValueChanged"/>
-
+                    x:Name="sliderSpeed"
+                    Maximum="9"            
+                    ValueChanged="sliderSpeed_ValueChanged"
+                    Value="{Binding Speed}"/>
+        
             <Label x:Name="labelParametersBrightness"
-                Text="{Binding CurrentDateTime}"
-                   HorizontalOptions="CenterAndExpand"      
-                   />
+                   Text="Velocidad"
+                   HorizontalOptions="CenterAndExpand"/>
 
+            <Image Source="ic_power_settings_new_black_48dp.png"
+                   >
+                <!--<Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DateTimeCommand}"/>
+                </Image.GestureRecognizers>-->
+            </Image>
+
+            <Label Text="{Binding Source={x:Reference sliderSpeed},
+Path=Value}" 
+                   
+                   HorizontalOptions="CenterAndExpand"/>
 
         </StackLayout>
     </ContentPage.Content>

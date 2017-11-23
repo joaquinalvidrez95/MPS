@@ -18,16 +18,17 @@ namespace MPS
         public MainParameters()
         {
             InitializeComponent();
-            BindingContext = new MainParametersViewModel();
+            BindingContext = new MainParametersViewModel(Navigation);
         }
-     
 
-        private void slider_ValueChanged(object sender, ValueChangedEventArgs e)
+
+        private void sliderSpeed_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            var newStep = Math.Round(e.NewValue / STEP_VALUE);
-
-            slider.Value = newStep * STEP_VALUE;
-
+            //MainParametersViewModel viewModel = BindingContext as MainParametersViewModel;
+            //viewModel.Speed = e.NewValue;
+           
         }
+
+
     }
 }

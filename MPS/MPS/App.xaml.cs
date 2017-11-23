@@ -13,8 +13,8 @@ namespace MPS
         {
             InitializeComponent();
 
-            NavigationPage navigationPage = new NavigationPage(new MainPage());
-            MainPage = navigationPage;           
+            MainPage = new NavigationPage(new MainPage());
+                      
         }
 
         protected override void OnStart()
