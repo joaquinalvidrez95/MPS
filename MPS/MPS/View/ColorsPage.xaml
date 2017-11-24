@@ -22,6 +22,7 @@
             <StackLayout Style="{StaticResource StackLayoutColors}">
                 <Button Style="{StaticResource ButtonColorStyle}"
                         Command="{Binding SetLowerLineColorCommand}"
+                        
                         BackgroundColor="{Binding ColorLowerLine}"
                         BorderColor="{Binding BorderColorLowerLineButton}"
                         BorderWidth="{Binding BorderWidthLowerLineButton}"/>

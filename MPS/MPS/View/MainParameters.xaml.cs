@@ -26,7 +26,6 @@ namespace MPS
         {
             //MainParametersViewModel viewModel = BindingContext as MainParametersViewModel;
             //viewModel.Speed = e.NewValue;
-           
         }
 
 

@@ -16,7 +16,7 @@
 
             <Image Source="ic_remove_red_eye_black_48dp.png">
                 <Image.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding DateTimeCommand}"/>
+                    <TapGestureRecognizer Command="{Binding ToggleViewCommand}"/>
                 </Image.GestureRecognizers>
             </Image>
             
@@ -38,9 +38,16 @@
             </Image>
 
             <Label Text="{Binding Source={x:Reference sliderSpeed},
-Path=Value}" 
+                            Path=Value}" 
                    
                    HorizontalOptions="CenterAndExpand"/>
+            <Label Text="{Binding Text}"/>
+            <StackLayout Orientation="Horizontal">
+                <BoxView Color="{Binding StatusColor}"/>
+                <Label Text="Conexión"
+                       VerticalOptions="Center"/>
+            </StackLayout>
+            
 
         </StackLayout>
     </ContentPage.Content>

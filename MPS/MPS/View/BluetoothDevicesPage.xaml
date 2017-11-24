@@ -1,12 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MPS.View.BluetoothDevicesPage">
+             xmlns:local="clr-namespace:MPS.Behaviour"
+             x:Class="MPS.View.BluetoothDevicesPage"
+             Title="Seleccione dispositivo">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Text}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="{Binding Text}"/>
+
+            <ListView 
+            ItemsSource="{Binding Devices}"                
+                local:ItemTappedAttached.Command="{Binding ItemTappedCommand}"
+                SelectedItem="{Binding DeviceSelected}"
+               
+                ></ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
