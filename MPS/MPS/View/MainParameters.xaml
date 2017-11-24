@@ -19,26 +19,23 @@
                     <TapGestureRecognizer Command="{Binding ToggleViewCommand}"/>
                 </Image.GestureRecognizers>
             </Image>
-            
+
             <Slider Minimum="0"
                     x:Name="sliderSpeed"
                     Maximum="9"            
                     ValueChanged="sliderSpeed_ValueChanged"
-                    Value="{Binding Speed}"/>
-        
+                    BackgroundColor="Red"
+                    Value="{Binding Speed}">
+             
+            </Slider>/>
+
             <Label x:Name="labelParametersBrightness"
                    Text="Velocidad"
                    HorizontalOptions="CenterAndExpand"/>
 
-            <Image Source="ic_power_settings_new_black_48dp.png"
-                   >
-                <!--<Image.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding DateTimeCommand}"/>
-                </Image.GestureRecognizers>-->
-            </Image>
-
             <Label Text="{Binding Source={x:Reference sliderSpeed},
-                            Path=Value}" 
+                            Path=Value}"
+                   
                    
                    HorizontalOptions="CenterAndExpand"/>
             <Label Text="{Binding Text}"/>
@@ -47,7 +44,11 @@
                 <Label Text="Conexión"
                        VerticalOptions="Center"/>
             </StackLayout>
-            
+
+            <Button BackgroundColor="Red"
+                    Image="ic_power_settings_new_black_48dp.png"
+                    HorizontalOptions="Center"/>
+
 
         </StackLayout>
     </ContentPage.Content>

@@ -89,7 +89,7 @@ namespace MPS.ViewModel
 
         public MainParametersViewModel(INavigation navigation)
         {
-            DateTimeCommand = new Command(showTime);
+            DateTimeCommand = new Command(updateDateTime);
             ToggleViewCommand = new Command(toggleView);
             CurrentView = 0;
             Speed = 0;
@@ -118,7 +118,7 @@ namespace MPS.ViewModel
 
         }
 
-        private void showTime(object obj)
+        private void updateDateTime()
         {
             DateTime now = DateTime.Now.ToLocalTime();
             if (DateTime.Now.IsDaylightSavingTime() == true)
