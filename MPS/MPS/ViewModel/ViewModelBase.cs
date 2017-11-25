@@ -17,7 +17,7 @@ namespace MPS.ViewModel
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

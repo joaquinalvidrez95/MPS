@@ -8,53 +8,90 @@ using Xamarin.Forms;
 
 namespace MPS.Model
 {
-    public class DisplayColors 
+    public class DisplayColors
     {
-        Color colorUpperLine;
-        Color colorLowerLine;
-        Color colorBackground;       
+        public Color ColorLowerLine { get; set; }
 
-        public Color ColorLowerLine
+        public Color ColorUpperLine { get; set; }
+
+        public Color ColorBackground { get; set; }
+
+        public string GetColorCode()
         {
-            get
-            {
-                return colorLowerLine;
-            }
-            set
-            {
-                colorLowerLine = value;
-                //PropertyChanged(this, new PropertyChangedEventArgs("ColorLowerLine"));
-            }
+            return ConvertColorToString(StringColorUpperLine)
+                   + ConvertColorToString(StringColorLowerLine)
+                   + ConvertColorToString(StringColorBackground);
         }
 
-        public Color ColorUpperLine
+        public string ConvertColorToString(string colorName)
         {
-            get
+            string code = "";
+
+            switch (colorName)
             {
-                return colorUpperLine;
+                case "Red":
+                    code = "500";
+                    break;
+                case "Orange":
+                    code = "510";
+                    break;
+                case "Yellow":
+                    code = "420";
+                    break;
+                case "LawnGreen":
+                    code = "350";
+                    break;
+                case "SpringGreen":
+                    code = "051";
+                    break;
+                case "Cyan":
+                    code = "053";
+                    break;
+                case "DodgerBlue":
+                    code = "035";
+                    break;
+                case "Blue":
+                    code = "005";
+                    break;
+                case "BlueViolet":
+                    code = "205";
+                    break;
+                case "Magenta":
+                    code = "505";
+                    break;
+                case "Black":
+                    code = "000";
+                    break;
+                case "White":
+                    code = "555";
+                    break;
             }
-            set
-            {
-                colorUpperLine = value;
-                //PropertyChanged(this, new PropertyChangedEventArgs("ColorUpperLine"));
-            }
+
+
+            return code;
         }
 
-        public Color ColorBackground
-        {
-            get
-            {
-                return colorBackground;
-            }
-            set
-            {
-                colorBackground = value;
-              //  PropertyChanged(this, new PropertyChangedEventArgs("ColorBackground"));
-            }
-        }
- 
+        public string StringColorBackground { get; set; }
+        public string StringColorLowerLine { get; set; }
+        public string StringColorUpperLine { get; set; }
+        public int UpperLineRed { get; set; }
+        public int UpperLineGreen { get; set; }
+        public int UpperLineBlue { get; set; }
+        public int LowerLineRed { get; set; }
+        public int LowerLineGreen { get; set; }
+        public int LowerLineBlue { get; set; }
+        public int BackgroundLineRed { get; set; }
+        public int BackgroundLineGreen { get; set; }
+        public int BackgroundLineBlue { get; set; }
 
-        //public event PropertyChangedEventHandler PropertyChanged;
-
+        public string ColorCodeRgb => UpperLineRed
+                                      + UpperLineGreen.ToString()
+                                      + UpperLineBlue
+                                      + LowerLineRed
+                                      + LowerLineGreen
+                                      + LowerLineBlue
+                                      + BackgroundLineRed
+                                      + BackgroundLineGreen
+                                      + BackgroundLineBlue;
     }
 }

@@ -15,12 +15,9 @@ namespace MPS
         public MessagePage()
         {
             InitializeComponent();
+            BindingContext = new MessagePageViewModel(Navigation);
         }
-
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void buttonMessageNew_Clicked(object sender, EventArgs e)
         {

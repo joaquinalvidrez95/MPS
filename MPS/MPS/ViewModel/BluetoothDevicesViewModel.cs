@@ -93,7 +93,7 @@ namespace MPS.ViewModel
             Text = DeviceSelected.Name;
             await CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();
             await navigation.PopAsync();
-            MessagingCenter.Send(this, MessengerKeys.DEVICE_SELECTED, DeviceSelected);
+            MessagingCenter.Send(this, MessengerKeys.DeviceSelected, DeviceSelected);
         }
     }
 }

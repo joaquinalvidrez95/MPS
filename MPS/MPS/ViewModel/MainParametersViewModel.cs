@@ -13,91 +13,82 @@ namespace MPS.ViewModel
 {
     public class MainParametersViewModel : ViewModelBase
     {
-        private const double STEP_VALUE = 1.0;
-        private string currentDateTime;
-        private double speed;
-        enum TypeOfView { FIRST_VIEW = 0, SECOND_VIEW, THIRD_VIEW };
-        int currentView;
-        private string text;
-        private Color statusColor;
+        //private const double STEP_VALUE = 1.0;
+        private string _currentDateTime;
+        private double _speed;
+        enum TypeOfView { FirstView = 0, SecondView, ThirdView };
+        int _currentView;
+        private string _text;
+        private Color _statusColor;
 
         public ICommand DateTimeCommand { get; private set; }
         public ICommand ToggleViewCommand { get; private set; }
         public string CurrentDateTime
         {
-            get
-            {
-                return currentDateTime;
-            }
+            get => _currentDateTime;
             set
             {
-                currentDateTime = value;
+                _currentDateTime = value;
                 OnPropertyChanged();
             }
         }
 
         public double Speed
         {
-            get
-            {
-                return speed;
-            }
+            get => _speed;
             set
             {
                 //value = Math.Round(value / STEP_VALUE);
                 //value = value * STEP_VALUE;
                 value = Math.Round(value);
-                if (((int)value) != ((int)Speed))
+                if ((int)value != (int)_speed)
                 {
-                    speed = value;
-                    OnPropertyChanged();
-                    MessagingCenter.Send(this, MessengerKeys.SPEED, (int)Speed);
+                    MessagingCenter.Send(this, MessengerKeys.Speed, (int)value);
                 }
+                _speed = value;
+                OnPropertyChanged();
             }
         }
 
         private int CurrentView
         {
-            get => currentView;
+            get => _currentView;
             set
             {
-                currentView = value;
+                _currentView = value;
                 OnPropertyChanged();
             }
         }
 
         public string Text
         {
-            get
-            {
-                return text;
-            }
+            get => _text;
             private set
             {
-                text = value;
+                _text = value;
                 OnPropertyChanged();
             }
         }
 
-        public Color StatusColor { get => statusColor;
+        public Color StatusColor { get => _statusColor;
             set
             {
-                statusColor = value;
+                _statusColor = value;
                 OnPropertyChanged();
             }
         }
 
         public MainParametersViewModel(INavigation navigation)
         {
-            DateTimeCommand = new Command(updateDateTime);
-            ToggleViewCommand = new Command(toggleView);
+            DateTimeCommand = new Command(UpdateDateTime);
+            ToggleViewCommand = new Command(ToggleView);
             CurrentView = 0;
             Speed = 0;
-            MessagingCenter.Subscribe<MainViewModel, IDevice>(this, MessengerKeys.DEVICE_STATUS, onDeviceStatusChanged);
+            MessagingCenter.Subscribe<MainViewModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);
             StatusColor = Color.Red;          
         }
 
-        private void onDeviceStatusChanged(MainViewModel arg1, IDevice arg2)
+        private void OnDeviceStatusChanged(MainViewModel arg1, IDevice arg2)
         {
             switch (arg2.State)
             {
@@ -110,15 +101,15 @@ namespace MPS.ViewModel
             }
         }
                
-        private void toggleView()
+        private void ToggleView()
         {
             CurrentView++;
-            CurrentView = CurrentView % 4;
-            MessagingCenter.Send(this, MessengerKeys.CURRENT_VIEW, CurrentView);            
+            CurrentView = CurrentView % 3;
+            MessagingCenter.Send(this, MessengerKeys.CurrentView, CurrentView);            
 
         }
 
-        private void updateDateTime()
+        private void UpdateDateTime()
         {
             DateTime now = DateTime.Now.ToLocalTime();
             if (DateTime.Now.IsDaylightSavingTime() == true)
@@ -128,7 +119,7 @@ namespace MPS.ViewModel
             string currentTime = (string.Format("Current Time: {0}", now));
             CurrentDateTime = currentTime;
             Text = CurrentDateTime;
-            MessagingCenter.Send(this, MessengerKeys.DATE_TIME, now);
+            MessagingCenter.Send(this, MessengerKeys.DateTime, now);
         }
 
 

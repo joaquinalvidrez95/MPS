@@ -5,11 +5,15 @@
              x:Class="MPS.MessagePage">
     <ContentPage.Content>
         <StackLayout>
-            <Editor
+            <Editor Text="{Binding Message}"
                 HeightRequest="300"/>
+            <!--<Editor 
+                />-->
             <Button
                 x:Name="buttonMessageNew"
-                Clicked="buttonMessageNew_Clicked"/>
+                Image="ic_send_black_48dp.png"
+                HorizontalOptions="Center"
+                Command="{Binding SendMessageCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

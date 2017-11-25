@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MPS"
              Title="Principal"
-             x:Class="MPS.MainParameters"
-             Padding="0,10,0,0">
+             x:Class="MPS.MainParametersPage"
+             Padding="10,10,10,10">
     <ContentPage.Content>
         <StackLayout>
 
-            <Image Source="ic_access_time_black_48dp.png">
+            <!--<Image Source="ic_access_time_black_48dp.png">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding DateTimeCommand}"/>
                 </Image.GestureRecognizers>
@@ -18,37 +18,41 @@
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ToggleViewCommand}"/>
                 </Image.GestureRecognizers>
-            </Image>
+            </Image>-->
 
-            <Slider Minimum="0"
-                    x:Name="sliderSpeed"
-                    Maximum="9"            
-                    ValueChanged="sliderSpeed_ValueChanged"
-                    BackgroundColor="Red"
-                    Value="{Binding Speed}">
-             
-            </Slider>/>
+            <Button Image="ic_access_time_black_48dp.png"
+                    Text="Actualizar"                                
+                    Command="{Binding DateTimeCommand}"
+                    HorizontalOptions="Center"/>
 
-            <Label x:Name="labelParametersBrightness"
+            <Button Text="Cambiar vista"
+                    Image="ic_remove_red_eye_black_48dp.png"               
+                    Command="{Binding ToggleViewCommand}"
+                    HorizontalOptions="Center"/>
+
+            <Slider Minimum="0"                   
+                    Maximum="9"      
+                    x:Name="SliderSpeed"      
+                    WidthRequest="300"
+                    HorizontalOptions="CenterAndExpand"
+                    Value="{Binding Speed}"/>
+            <Label 
                    Text="Velocidad"
                    HorizontalOptions="CenterAndExpand"/>
 
-            <Label Text="{Binding Source={x:Reference sliderSpeed},
-                            Path=Value}"
-                   
-                   
+            <Label Text="{Binding Source={x:Reference SliderSpeed},
+                            Path=Value}"                                      
                    HorizontalOptions="CenterAndExpand"/>
             <Label Text="{Binding Text}"/>
+
             <StackLayout Orientation="Horizontal">
                 <BoxView Color="{Binding StatusColor}"/>
                 <Label Text="Conexión"
                        VerticalOptions="Center"/>
             </StackLayout>
 
-            <Button BackgroundColor="Red"
-                    Image="ic_power_settings_new_black_48dp.png"
-                    HorizontalOptions="Center"/>
-
+            <!--<Button HorizontalOptions="Center"
+                    Image="ic_power_settings_new_black_48dp.png"/>-->
 
         </StackLayout>
     </ContentPage.Content>

@@ -2,9 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Colores"
-             xmlns:local="clr-namespace:MPS"
-             x:Class="MPS.ColorsPage"
-             Padding="0,10,0,0">
+             x:Class="MPS.ColorsPage"             
+             Padding="10,10,10,10">
 
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
@@ -18,11 +17,10 @@
                        VerticalOptions="Center"/>
 
             </StackLayout>
-        
+
             <StackLayout Style="{StaticResource StackLayoutColors}">
                 <Button Style="{StaticResource ButtonColorStyle}"
-                        Command="{Binding SetLowerLineColorCommand}"
-                        
+                        Command="{Binding SetLowerLineColorCommand}"                        
                         BackgroundColor="{Binding ColorLowerLine}"
                         BorderColor="{Binding BorderColorLowerLineButton}"
                         BorderWidth="{Binding BorderWidthLowerLineButton}"/>
@@ -40,18 +38,23 @@
                        VerticalOptions="Center"/>
             </StackLayout>
 
-            <Frame OutlineColor="Black"
+            <Frame OutlineColor="Black"                   
                    VerticalOptions="Center"
                    HorizontalOptions="Center">
                 <Grid ColumnSpacing="5"                
                   HorizontalOptions="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <Button Style="{StaticResource ButtonColorStyle}"
                             Command="{Binding ColorsCommand}"
                             CommandParameter="Red"
@@ -72,7 +75,7 @@
                             Grid.Row="0"
                             BackgroundColor="Yellow"
                             CommandParameter="Yellow"/>
-                    
+
                     <Button Style="{StaticResource ButtonColorStyle}"
                             Command="{Binding ColorsCommand}"
                             Grid.Column="3"       
@@ -139,16 +142,42 @@
                 </Grid>
             </Frame>
 
-            <StackLayout>
-                <Label Text="Opacity Binding Demo"
+            <!--<Label Text="Opacity Binding Demo"
                        FontSize="Large"
                        VerticalOptions="CenterAndExpand"
                        HorizontalOptions="Center"
                        BindingContext="{x:Reference Name=slider}"
                        Opacity="{Binding Path=Value}" />
                 <Slider x:Name="slider"
-                        VerticalOptions="CenterAndExpand" />
-            </StackLayout>
+                        VerticalOptions="CenterAndExpand" />-->
+            <Picker Title="Seleccione ítem"
+                    HorizontalOptions="Start"
+                    SelectedIndex="{Binding SelectedIndex}">
+                <Picker.Items>
+                    <x:String>Línea Superior</x:String>
+                    <x:String>Línea Inferior</x:String>
+                    <x:String>Fondo</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Slider Style="{StaticResource SliderRgb}"
+                    Value="{Binding RedValue}"/>
+            <Slider                                         
+                    Style="{StaticResource SliderRgb}"
+                    Value="{Binding GreenValue}"/>
+            <Slider                                        
+                    Style="{StaticResource SliderRgb}"                              
+                    Value="{Binding BlueValue}"/>
+
+            
+            <!--<TableView>
+                <TableRoot Title="RGB">
+                    <TableSection Title="Rojo">
+                    
+                        
+                    </TableSection>
+                </TableRoot>
+            </TableView>-->
         </StackLayout>
 
     </ContentPage.Content>

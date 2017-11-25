@@ -8,11 +8,14 @@ namespace MPS.Utilities
 {
     public class MessengerKeys
     {
-        public const string DEVICE_SELECTED = "DeviceSelected";
-        public const string CURRENT_VIEW = "CurrentView";
-        public const string SPEED="Speed";
-        public const string DEVICE_STATUS="DeviceStatus";
-        public const string DATE_TIME="DateTime";
+        public const string DeviceSelected = "DeviceSelected";
+        public const string CurrentView = "CurrentView";
+        public const string Speed = "Speed";
+        public const string DeviceStatus = "DeviceStatus";
+        public const string DateTime = "DateTime";
+        public const string Message = "Message";
+        public const string ColoursRgb = "ColoursRgb";
+        public const string Colours = "Colours";
 
 
         //// Filter  

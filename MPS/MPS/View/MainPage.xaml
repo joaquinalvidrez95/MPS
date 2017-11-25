@@ -7,11 +7,11 @@
 
 
     <TabbedPage.Children>
-        <local:MainParameters></local:MainParameters>
+        <local:MainParametersPage/>
 
-        <local:MessagePage></local:MessagePage>
+        <local:MessagePage/>
 
-        <local:ColorsPage></local:ColorsPage>
+        <local:ColorsPage/>
     </TabbedPage.Children>
 
     <TabbedPage.ToolbarItems>

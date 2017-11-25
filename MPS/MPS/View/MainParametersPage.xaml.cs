@@ -11,22 +11,15 @@ using Xamarin.Forms.Xaml;
 namespace MPS
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainParameters : ContentPage
-    {
-        private const double STEP_VALUE = 1.0;
+    public partial class MainParametersPage : ContentPage
+    {      
 
-        public MainParameters()
+        public MainParametersPage()
         {
             InitializeComponent();
             BindingContext = new MainParametersViewModel(Navigation);
         }
-
-
-        private void sliderSpeed_ValueChanged(object sender, ValueChangedEventArgs e)
-        {
-            //MainParametersViewModel viewModel = BindingContext as MainParametersViewModel;
-            //viewModel.Speed = e.NewValue;
-        }
+       
 
 
     }
