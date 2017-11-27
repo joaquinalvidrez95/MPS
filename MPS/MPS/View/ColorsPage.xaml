@@ -176,8 +176,7 @@
             <Slider                                        
                     Style="{StaticResource SliderRgb}"                              
                     Value="{Binding BlueValue}"/>
-
-            <Label Text="{Binding SelectedIndex}"/>
+         
             <!--<TableView>
                 <TableRoot Title="RGB">
                     <TableSection Title="Rojo">

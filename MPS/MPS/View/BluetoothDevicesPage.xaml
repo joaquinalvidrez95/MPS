@@ -6,7 +6,6 @@
              Title="Seleccione dispositivo">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Text}"/>
 
             <ListView 
             ItemsSource="{Binding Devices}"                

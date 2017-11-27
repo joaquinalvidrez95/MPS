@@ -15,10 +15,10 @@ namespace MPS.ViewModel
 {
     public class BluetoothDevicesViewModel : ViewModelBase
     {
-        private INavigation navigation;
-        private string text;
-        private ObservableCollection<IDevice> devices;
-        private IDevice deviceSelected;       
+        private INavigation _navigation;
+        private string _text;
+        private ObservableCollection<IDevice> _devices;
+        private IDevice _deviceSelected;       
         //private IDevice connectedDevice;
         //private ICharacteristic characteristic;
 
@@ -26,38 +26,29 @@ namespace MPS.ViewModel
 
         public string Text
         {
-            get
-            {
-                return text;
-            }
+            get => _text;
             set
             {
-                text = value;
+                _text = value;
                 OnPropertyChanged();
             }
         }
 
         public ObservableCollection<IDevice> Devices
         {
-            get
-            {
-                return devices;
-            }
+            get => _devices;
             set
             {
-                devices = value;
+                _devices = value;
                 OnPropertyChanged();
             }
         }
         public IDevice DeviceSelected
         {
-            get
-            {
-                return deviceSelected;
-            }
+            get => _deviceSelected;
             set
             {
-                deviceSelected = value;
+                _deviceSelected = value;
                 OnPropertyChanged();
             }
         }
@@ -65,34 +56,30 @@ namespace MPS.ViewModel
         
         public BluetoothDevicesViewModel(INavigation navigation)
         {
-            this.navigation = navigation;
-            devices = new ObservableCollection<IDevice>();                  
-            MessagingCenter.Subscribe<MainViewModel, string>(this, "Hi", (sender, arg) => {
+            _navigation = navigation;
+            _devices = new ObservableCollection<IDevice>();                              
+            ItemTappedCommand = new Command(ChangeLabelAsync);
             
-                Text = arg;
-            });
-            ItemTappedCommand = new Command(changeLabelAsync);
-            
-            setupBluetoothAsync();
+            SetupBluetoothAsync();
             
         }
 
-        private async void setupBluetoothAsync()
+        private async void SetupBluetoothAsync()
         {
-            devices.Clear();
+            _devices.Clear();
             CrossBluetoothLE.Current.Adapter.DeviceDiscovered += (s, a) =>
             {
-                if (!devices.Contains(a.Device))
-                    devices.Add(a.Device);
+                if (!_devices.Contains(a.Device))
+                    _devices.Add(a.Device);
             };
             await CrossBluetoothLE.Current.Adapter.StartScanningForDevicesAsync();
         }
 
-        private async void changeLabelAsync()
+        private async void ChangeLabelAsync()
         {
             Text = DeviceSelected.Name;
-            await CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();
-            await navigation.PopAsync();
+            await CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();           
+            await _navigation.PopAsync();
             MessagingCenter.Send(this, MessengerKeys.DeviceSelected, DeviceSelected);
         }
     }

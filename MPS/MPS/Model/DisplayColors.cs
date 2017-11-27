@@ -10,73 +10,90 @@ namespace MPS.Model
 {
     public class DisplayColors
     {
-        public Color ColorLowerLine { get; set; }
+
+        public Color ColorLowerLine
+        {
+            get; set;
+        }
 
         public Color ColorUpperLine { get; set; }
 
         public Color ColorBackground { get; set; }
 
-        public string GetColorCode()
+        private readonly IList<DisplayColorRgb> colors = new List<DisplayColorRgb>();
+
+        public DisplayColorRgb ColorBackgroundRgb { get; set; }
+
+        public DisplayColorRgb ColorUpperLineRgb { get; set; }
+
+        public DisplayColorRgb ColorLowerLineRgb { get; set; }
+
+        public string ColorCode()
         {
-            return ConvertColorToString(StringColorUpperLine)
-                   + ConvertColorToString(StringColorLowerLine)
-                   + ConvertColorToString(StringColorBackground);
+            return ColorUpperLineRgb.ColorCode
+                   + ColorLowerLineRgb.ColorCode
+                   + ColorBackgroundRgb.ColorCode;
         }
 
-        public string ConvertColorToString(string colorName)
+        public void SetColorNameByIndex(int index, string colorName)
         {
-            switch (colorName)
-            {
-                case "Red":
-                    return "500";
-                case "Orange":
-                    return "510";
-                case "Yellow":
-                    return "420";
-                case "LawnGreen":
-                    return "350";
-                case "SpringGreen":
-                    return "051";
-                case "Cyan":
-                    return "053";
-                case "DodgerBlue":
-                    return "035";
-                case "Blue":
-                    return "005";
-                case "BlueViolet":
-                    return "205";
-                case "Magenta":
-                    return "505";
-                case "Black":
-                    return "000";
-                case "White":
-                    return "555";
-                default:
-                    return "000";
-            }
+            colors[index].ColorName = colorName;
         }
 
-        public string StringColorBackground { get; set; }
-        public string StringColorLowerLine { get; set; }
-        public string StringColorUpperLine { get; set; }
-        public int UpperLineRed { get; set; }
-        public int UpperLineGreen { get; set; }
-        public int UpperLineBlue { get; set; }
-        public int LowerLineRed { get; set; }
-        public int LowerLineGreen { get; set; }
-        public int LowerLineBlue { get; set; }
-        public int BackgroundLineRed { get; set; }
-        public int BackgroundLineGreen { get; set; }
-        public int BackgroundLineBlue { get; set; }
+        public void SetRedByIndex(int index, int value)
+        {
+            colors[index].Red = value;
+        }
 
-        public string ColorCodeRgb => UpperLineRed
-                                      + UpperLineGreen.ToString()
-                                      + UpperLineBlue
-                                      + LowerLineRed
-                                      + LowerLineGreen
-                                      + LowerLineBlue
-                                      + BackgroundLineRed
-                                      + BackgroundLineGreen
-                                      + BackgroundLineBlue;
+        public int GetRedByIndex(int index)
+        {
+            return colors[index].Red;
+        }
+
+        public void SetGreenByIndex(int index, int value)
+        {
+            colors[index].Green = value;
+        }
+
+        public int GetGreenByIndex(int index)
+        {
+            return colors[index].Green;
+        }
+
+        public void SetBlueByIndex(int index, int value)
+        {
+            colors[index].Blue = value;
+        }
+
+        public int GetBlueByIndex(int index)
+        {
+            return colors[index].Blue;
+        }
+
+        public DisplayColors()
+        {
+            ColorLowerLineRgb = new DisplayColorRgb();
+            ColorUpperLineRgb = new DisplayColorRgb();
+            ColorBackgroundRgb = new DisplayColorRgb();
+            colors.Add(ColorUpperLineRgb);
+            colors.Add(ColorLowerLineRgb);
+            colors.Add(ColorBackgroundRgb);
+        }
+
+        public string ColorBackgroundName
+        {
+            set => ColorBackgroundRgb.ColorName = value;
+        }
+
+        public string ColorLowerLineName
+        {
+            set => ColorLowerLineRgb.ColorName = value;
+        }
+
+        public string ColorUpperLineName
+        {
+            set => ColorUpperLineRgb.ColorName = value;
+        }
+
     }
 }

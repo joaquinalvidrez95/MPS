@@ -14,14 +14,8 @@ namespace MPS.Utilities
         public const string DeviceStatus = "DeviceStatus";
         public const string DateTime = "DateTime";
         public const string Message = "Message";
-        public const string ColoursRgb = "ColoursRgb";
+        //public const string ColoursRgb = "ColoursRgb";
         public const string Colours = "Colours";
-
-
-        //// Filter  
-        //public const string Filter = "Filter";
-
-        //// Change selected Tab programmatically  
-        //public const string ChangeTab = "ChangeTab";
+      
     }
 }

@@ -29,12 +29,14 @@
 
             <Button Image="ic_access_time_white_48dp.png"
                     Text="Actualizar"     
+                    TextColor="White"
                     BackgroundColor="Red"
                     Command="{Binding DateTimeCommand}"
                     HorizontalOptions="Center"/>
 
             <Button Text="Cambiar vista"
-                    Image="ic_remove_red_eye_black_48dp.png"     
+                    TextColor="White"
+                    Image="ic_remove_red_eye_white_48dp.png"     
                     BackgroundColor="Red"
                     Command="{Binding ToggleViewCommand}"
                     HorizontalOptions="Center"/>

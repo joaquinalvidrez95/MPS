@@ -27,7 +27,7 @@ namespace MPS.ViewModel
         enum ButtonSelected { None = 0, UpperLine, LowerLine, Background }
 
         public enum PickerColor { UpperLine = 0, LowerLine, Background }
-        ButtonSelected _state = ButtonSelected.None;        
+        ButtonSelected _state = ButtonSelected.None;
         private Color _borderColorBackgroundButton;
         private int _borderWidthBackgroundButton;
         private int _selectedIndex;
@@ -36,7 +36,7 @@ namespace MPS.ViewModel
         {
             get => _borderColorUpperLineButton;
             set
-            {                
+            {
                 _borderColorUpperLineButton = value;
                 OnPropertyChanged();
             }
@@ -57,152 +57,87 @@ namespace MPS.ViewModel
             set
             {
                 _selectedIndex = value;
+                UpdateRgbColors();
                 OnPropertyChanged();
             }
         }
 
+        private void UpdateRgbColors()
+        {
+            RedValue = _displayColors.GetRedByIndex(SelectedIndex);
+            GreenValue = _displayColors.GetGreenByIndex(SelectedIndex);
+            BlueValue = _displayColors.GetBlueByIndex(SelectedIndex);
+        }
 
         public ICommand ColorsCommand { get; }
         public ICommand SetUpperLineColorCommand { get; }
         public ICommand SetLowerLineColorCommand { get; }
         public ICommand SetBackgroundColorCommand { get; }
         private DisplayColors _displayColors;
-
+        
         public double RedValue
         {
             get
-            {                
-                switch ((PickerColor)SelectedIndex)
-                {
-                    case PickerColor.UpperLine:
-                        return _displayColors.UpperLineRed;
-                    case PickerColor.LowerLine:
-                        return _displayColors.LowerLineRed;
-                    case PickerColor.Background:
-                        return _displayColors.BackgroundLineRed;
-                    default:
-                        return _displayColors.UpperLineRed;
-                }
+            {
+                //switch ((PickerColor)SelectedIndex)
+                //{
+                //    case PickerColor.UpperLine:
+                //        return _displayColors.ColorUpperLineRgb.Red;
+                //    case PickerColor.LowerLine:
+                //        return _displayColors.ColorLowerLineRgb.Red;
+                //    case PickerColor.Background:
+                //        return _displayColors.ColorBackgroundRgb.Red;
+                //    default:
+                //        return _displayColors.ColorUpperLineRgb.Red;
+                //}
+               return _displayColors.GetRedByIndex(SelectedIndex);
             }
             set
-            {
+            {            
                 value = Math.Round(value);
-                var colorValue = 0;
-                switch ((PickerColor)SelectedIndex)
-                {
-                    case PickerColor.UpperLine:
-                        colorValue = _displayColors.UpperLineRed;
-                        _displayColors.UpperLineRed = (int)value;
-                        break;
-                    case PickerColor.LowerLine:
-                        colorValue = _displayColors.LowerLineRed;
-                        _displayColors.LowerLineRed = (int)value;
-                        break;
-                    case PickerColor.Background:
-                        colorValue = _displayColors.BackgroundLineRed;
-                        _displayColors.BackgroundLineRed = (int)value;
-                        break;                
-                }
+                var colorValue = _displayColors.GetRedByIndex(SelectedIndex);
+                _displayColors.SetRedByIndex(SelectedIndex, (int)value);              
 
                 if ((int)value != colorValue)
                 {
-                    MessagingCenter.Send(this, MessengerKeys.ColoursRgb, _displayColors);
+                    MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
+                }
+                OnPropertyChanged();
+
+            }
+        }
+
+        public double GreenValue
+        {
+            get => _displayColors.GetGreenByIndex(SelectedIndex);
+            set
+            {
+                value = Math.Round(value);
+                var colorValue = _displayColors.GetGreenByIndex(SelectedIndex);
+                _displayColors.SetGreenByIndex(SelectedIndex, (int)value);
+
+                if ((int)value != colorValue)
+                {
+                    MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
                 }
                 OnPropertyChanged();
             }
         }
 
-        public double GreenValue
-        {           
-            get
-            {
-                switch ((PickerColor)SelectedIndex)
-                {
-                    case PickerColor.UpperLine:
-                        return _displayColors.UpperLineGreen;                  
-                    case PickerColor.LowerLine:
-                        return _displayColors.LowerLineGreen;
-                    case PickerColor.Background:
-                        return _displayColors.BackgroundLineGreen;
-                    default:
-                        return _displayColors.UpperLineGreen;
-                }
-            }
-            set
-            {
-                value = Math.Round(value);
-                int colorValue = 0;
-                switch ((PickerColor)SelectedIndex)
-                {
-                    case PickerColor.UpperLine:
-                        colorValue = _displayColors.UpperLineGreen;
-                        _displayColors.UpperLineGreen = (int)value;
-                        break;
-                    case PickerColor.LowerLine:
-                        colorValue = _displayColors.LowerLineGreen;
-                        _displayColors.LowerLineGreen = (int)value;
-                        break;
-                    case PickerColor.Background:
-                        colorValue = _displayColors.BackgroundLineGreen;
-                        _displayColors.BackgroundLineGreen = (int)value;
-                        break;
-                }
-               
-                if ((int)value != colorValue)
-                {
-                    MessagingCenter.Send(this, MessengerKeys.ColoursRgb, _displayColors);
-                }
-                else
-                {
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public double BlueValue
-        {           
-            get
-            {
-                switch ((PickerColor)SelectedIndex)
-                {
-                    case PickerColor.UpperLine:
-                        return _displayColors.UpperLineBlue;
-                    case PickerColor.LowerLine:
-                        return _displayColors.LowerLineBlue;
-                    case PickerColor.Background:
-                        return _displayColors.BackgroundLineBlue;
-                    default:
-                        return _displayColors.UpperLineBlue;
-                }
-            }
+        {
+            get => _displayColors.GetBlueByIndex(SelectedIndex);
             set
             {
                 value = Math.Round(value);
-                int colorValue = 0;               
-                switch ((PickerColor)SelectedIndex)
-                {
-                    case PickerColor.UpperLine:
-                        colorValue = _displayColors.UpperLineBlue;
-                        _displayColors.UpperLineBlue = (int)value;
-                        break;
-                    case PickerColor.LowerLine:
-                        colorValue = _displayColors.LowerLineBlue;
-                        _displayColors.LowerLineBlue = (int)value;
-                        break;
-                    case PickerColor.Background:
-                        colorValue = _displayColors.BackgroundLineBlue;
-                        _displayColors.BackgroundLineBlue = (int)value;
-                        break;
-                }
+                var colorValue = _displayColors.GetBlueByIndex(SelectedIndex);
+                _displayColors.SetBlueByIndex(SelectedIndex, (int)value);
 
                 if ((int)value != colorValue)
                 {
-                    MessagingCenter.Send(this, MessengerKeys.ColoursRgb, _displayColors);
+                    MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
                 }
-                else
-                {
-                    OnPropertyChanged();
-                }
+                OnPropertyChanged();
             }
         }
 
@@ -330,33 +265,35 @@ namespace MPS.ViewModel
                     break;
                 case ButtonSelected.UpperLine:
                     ColorUpperLine = color;
-                    _displayColors.StringColorUpperLine = colorName;
+                    _displayColors.ColorUpperLineName = colorName;
                     BorderColorUpperLineButton = _borderColorDefault;
                     BorderWidthUpperLineButton = BorderWithDefault;
                     MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
+                    UpdateRgbColors();
                     break;
                 case ButtonSelected.LowerLine:
                     ColorLowerLine = color;
-                    _displayColors.StringColorLowerLine = colorName;
+                    _displayColors.ColorLowerLineName = colorName;
                     BorderColorLowerLineButton = _borderColorDefault;
                     BorderWidthLowerLineButton = BorderWithDefault;
                     MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
+                    UpdateRgbColors();
                     break;
                 case ButtonSelected.Background:
                     ColorBackground = color;
-                    _displayColors.StringColorBackground = colorName;
+                    _displayColors.ColorBackgroundName = colorName;
                     BorderColorBackgroundButton = _borderColorDefault;
                     BorderWidthBackgroundButton = BorderWithDefault;
                     MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
+                    UpdateRgbColors();
                     break;
             }
             _state = ButtonSelected.None;
-            //MessagingCenter.Send(this, MessengerKeys.Colours, DisplayColors);
         }
 
         private void HighlightUpperLineButton()
         {
-            ClearButtons();            
+            ClearButtons();
             _state = ButtonSelected.UpperLine;
             BorderWidthUpperLineButton = BorderWithHighlight;
             BorderColorUpperLineButton = _borderColorHighlight;
