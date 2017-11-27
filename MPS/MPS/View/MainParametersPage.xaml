@@ -1,12 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:MPS"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"         
+             xmlns:viewmodel="clr-namespace:MPS.ViewModel;assembly=MPS"
              Title="Principal"
              x:Class="MPS.MainParametersPage"
              Padding="10,10,10,10">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <viewmodel:MainParametersViewModel x:Key="ViewModel" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout BindingContext="{StaticResource ViewModel}">
 
             <!--<Image Source="ic_access_time_black_48dp.png">
                 <Image.GestureRecognizers>
@@ -20,13 +27,15 @@
                 </Image.GestureRecognizers>
             </Image>-->
 
-            <Button Image="ic_access_time_black_48dp.png"
-                    Text="Actualizar"                                
+            <Button Image="ic_access_time_white_48dp.png"
+                    Text="Actualizar"     
+                    BackgroundColor="Red"
                     Command="{Binding DateTimeCommand}"
                     HorizontalOptions="Center"/>
 
             <Button Text="Cambiar vista"
-                    Image="ic_remove_red_eye_black_48dp.png"               
+                    Image="ic_remove_red_eye_black_48dp.png"     
+                    BackgroundColor="Red"
                     Command="{Binding ToggleViewCommand}"
                     HorizontalOptions="Center"/>
 

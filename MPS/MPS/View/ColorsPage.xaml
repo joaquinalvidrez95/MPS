@@ -1,12 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"                    
+             xmlns:viewmodel="clr-namespace:MPS.ViewModel;assembly=MPS"
              Title="Colores"
-             x:Class="MPS.ColorsPage"             
+             x:Class="MPS.ColorsPage"                   
              Padding="10,10,10,10">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <viewmodel:ColorsPageViewModel x:Key="ViewModel" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Vertical"
+                     BindingContext="{StaticResource ViewModel}">
             <StackLayout Style="{StaticResource StackLayoutColors}">
                 <Button Style="{StaticResource ButtonColorStyle}"
                         Command="{Binding SetUpperLineColorCommand}"
@@ -169,7 +177,7 @@
                     Style="{StaticResource SliderRgb}"                              
                     Value="{Binding BlueValue}"/>
 
-            
+            <Label Text="{Binding SelectedIndex}"/>
             <!--<TableView>
                 <TableRoot Title="RGB">
                     <TableSection Title="Rojo">

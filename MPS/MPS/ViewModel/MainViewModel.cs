@@ -42,7 +42,7 @@ namespace MPS.ViewModel
                     _connectedDevice = arg;
                     await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_connectedDevice);
                 }
-                catch (DeviceConnectionException d)
+                catch (DeviceConnectionException)
                 {
 
                 }

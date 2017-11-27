@@ -77,15 +77,15 @@ namespace MPS.ViewModel
                 OnPropertyChanged();
             }
         }
-
-        public MainParametersViewModel(INavigation navigation)
+           
+        public MainParametersViewModel()
         {
             DateTimeCommand = new Command(UpdateDateTime);
             ToggleViewCommand = new Command(ToggleView);
             CurrentView = 0;
             Speed = 0;
             MessagingCenter.Subscribe<MainViewModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);
-            StatusColor = Color.Red;          
+            StatusColor = Color.Red;
         }
 
         private void OnDeviceStatusChanged(MainViewModel arg1, IDevice arg2)

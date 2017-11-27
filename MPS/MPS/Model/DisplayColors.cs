@@ -25,50 +25,37 @@ namespace MPS.Model
 
         public string ConvertColorToString(string colorName)
         {
-            string code = "";
+            //string code = "";
 
             switch (colorName)
             {
                 case "Red":
-                    code = "500";
-                    break;
+                    return "500";
                 case "Orange":
-                    code = "510";
-                    break;
+                    return "510";
                 case "Yellow":
-                    code = "420";
-                    break;
+                    return "420";
                 case "LawnGreen":
-                    code = "350";
-                    break;
+                    return "350";
                 case "SpringGreen":
-                    code = "051";
-                    break;
+                    return "051";
                 case "Cyan":
-                    code = "053";
-                    break;
+                    return "053";
                 case "DodgerBlue":
-                    code = "035";
-                    break;
+                    return "035";
                 case "Blue":
-                    code = "005";
-                    break;
+                    return "005";
                 case "BlueViolet":
-                    code = "205";
-                    break;
+                    return "205";
                 case "Magenta":
-                    code = "505";
-                    break;
+                    return "505";
                 case "Black":
-                    code = "000";
-                    break;
+                    return "000";
                 case "White":
-                    code = "555";
-                    break;
+                    return "555";
+                default:
+                    return "000";
             }
-
-
-            return code;
         }
 
         public string StringColorBackground { get; set; }

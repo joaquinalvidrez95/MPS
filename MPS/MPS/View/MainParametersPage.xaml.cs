@@ -16,8 +16,7 @@ namespace MPS
 
         public MainParametersPage()
         {
-            InitializeComponent();
-            BindingContext = new MainParametersViewModel(Navigation);
+            InitializeComponent();            
         }
        
 
