@@ -5,13 +5,13 @@
              Title="Principal"
              x:Class="MPS.MainParametersPage"
              Padding="10,10,10,10">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewmodel:MainParametersViewModel x:Key="ViewModel" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <StackLayout BindingContext="{StaticResource ViewModel}">
 

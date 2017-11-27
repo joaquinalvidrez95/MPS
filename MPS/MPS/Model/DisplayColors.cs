@@ -25,8 +25,6 @@ namespace MPS.Model
 
         public string ConvertColorToString(string colorName)
         {
-            //string code = "";
-
             switch (colorName)
             {
                 case "Red":
