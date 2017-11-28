@@ -124,7 +124,7 @@
                             Grid.Column="0"       
                             Grid.Row="2"
                             BackgroundColor="DarkViolet"
-                            CommandParameter="BlueViolet"/>
+                            CommandParameter="DarkViolet"/>
 
                     <Button Style="{StaticResource ButtonColorStyle}"
                             Command="{Binding ColorsCommand}"
@@ -158,7 +158,7 @@
                        Opacity="{Binding Path=Value}" />
                 <Slider x:Name="slider"
                         VerticalOptions="CenterAndExpand" />-->
-            <Picker Title="Seleccione ítem"
+            <!--<Picker Title="Seleccione ítem"
                     HorizontalOptions="Start"
                     SelectedIndex="{Binding SelectedIndex}">
                 <Picker.Items>
@@ -166,7 +166,7 @@
                     <x:String>Línea Inferior</x:String>
                     <x:String>Fondo</x:String>
                 </Picker.Items>
-            </Picker>
+            </Picker>-->
 
             <Slider Style="{StaticResource SliderRgb}"
                     Value="{Binding RedValue}"/>

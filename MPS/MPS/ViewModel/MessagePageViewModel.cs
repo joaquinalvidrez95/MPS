@@ -6,30 +6,31 @@ using MPS.Utilities;
 
 namespace MPS
 {
-    internal class MessagePageViewModel:ViewModelBase
+    internal class MessagePageViewModel : ViewModelBase
     {
-        private string message;
+        private string _message;
 
-        public ICommand SendMessageCommand { get; private set; }
-        public string Message {
-            get => message;
+        public ICommand SendMessageCommand { get; }
+        public string Message
+        {
+            get => _message;
             set
             {
-                message = value;
-                OnPropertyChanged();           
+                _message = value;
+                OnPropertyChanged();
             }
         }
 
-        public MessagePageViewModel(INavigation navigation)
+        public MessagePageViewModel()
         {
             SendMessageCommand = new Command(SendMessage);
             Message = "";
         }
 
         private void SendMessage()
-        {           
+        {
             MessagingCenter.Send(this, MessengerKeys.Message, Message);
-           
+
         }
     }
 }

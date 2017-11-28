@@ -14,8 +14,7 @@ namespace MPS
     {
         public MessagePage()
         {
-            InitializeComponent();
-            BindingContext = new MessagePageViewModel(Navigation);
+            InitializeComponent();         
         }
        
 
