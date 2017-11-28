@@ -13,13 +13,18 @@
     <ContentPage.Content>
         <StackLayout BindingContext="{StaticResource ViewModel}">
             <Editor Text="{Binding Message}"
-                HeightRequest="300"/>
-            <!--<Editor 
-                />-->
+                HeightRequest="100"/>
             <Button
-                Image="ic_send_black_48dp.png"
+                Image="ic_send_white_48dp.png"
                 HorizontalOptions="Center"
+                BackgroundColor="Red"
                 Command="{Binding SendMessageCommand}"/>
+            <Button
+                Command="{Binding MessagePopupCommand}"
+                HorizontalOptions="Center"
+                BackgroundColor="Red"
+                Image="ic_add_white_48dp.png"/>
+            <ListView ItemsSource="{Binding Messages}"></ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

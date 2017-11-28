@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace MPS.ViewModel
 {
-    public class ColorsPageViewModel : ViewModelBase
+    public class ColorsPageViewModel : BaseViewModel
     {
         private readonly Color _borderColorDefault = Color.Black;
         private readonly Color _borderColorHighlight = Color.Gray;

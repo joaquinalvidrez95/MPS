@@ -8,7 +8,7 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <viewmodel:MainParametersViewModel x:Key="ViewModel" />
+            <viewmodel:MainParametersBaseViewModel x:Key="ViewModel" />
         </ResourceDictionary>
     </ContentPage.Resources>
 

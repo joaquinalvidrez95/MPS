@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             xmlns:viewmodel="clr-namespace:MPS;assembly=MPS"
+             x:Class="MPS.MessagePopup">
+
+    <pages:PopupPage.Resources>
+        <ResourceDictionary>
+            <viewmodel:MessagePopupViewModel x:Key="ViewModel" />
+        </ResourceDictionary>
+    </pages:PopupPage.Resources>
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation 
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8"
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"/>
+    </pages:PopupPage.Animation>
+    <StackLayout VerticalOptions="Center"
+                 BackgroundColor="White"
+                 BindingContext="{StaticResource ViewModel}">
+        <TableView Intent="Form"
+                   HasUnevenRows="True"
+                   VerticalOptions="Start">
+
+            <TableSection Title="Nuevo mensaje">
+                <EntryCell Label="Título"
+                               Text="{Binding Title}"/>
+                <ViewCell>
+                    <ViewCell.View>
+                        <StackLayout>
+                            <Editor HeightRequest="200"
+                                        Text="{Binding Text}"/>
+                            <StackLayout Orientation="Horizontal">
+                                <Button Text="Aceptar"  
+                                        HorizontalOptions="FillAndExpand"
+                                        Command="{Binding DoneCommand}"/>
+                                <Button Text="Cancelar"           
+                                        HorizontalOptions="FillAndExpand"
+                                        Command="{Binding CancelCommand}"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell.View>
+                </ViewCell>
+            </TableSection>
+        </TableView>
+    </StackLayout>
+
+</pages:PopupPage>

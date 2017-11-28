@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Rg.Plugins.Popup.Extensions;
+using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,24 +17,16 @@ namespace MPS
         {
             InitializeComponent();         
         }
-       
-
-        private void buttonMessageNew_Clicked(object sender, EventArgs e)
+             
+        private async void OnOpenPupup(object sender, EventArgs e)
         {
-            
-            
-            //var promptConfig = new PromptConfig();
-            //promptConfig.InputType = InputType.Name;
-            //promptConfig.IsCancellable = true;
-            
-            //promptConfig.Message = "Write your name";
-            //var result = await UserDialogs.Instance.PromptAsync(promptConfig);
-            //if (result.Ok)
-            //{
-            //    PromptedTextLabel.Text = result.Text;
-            //}
+            var page = new MessagePopup();
+
+            //await Navigation.PushPopupAsync(page);
+
+            await PopupNavigation.PushAsync(page);
         }
 
-        
+
     }
 }

@@ -10,8 +10,7 @@
             <ListView 
             ItemsSource="{Binding Devices}"                
                 local:ItemTappedAttached.Command="{Binding ItemTappedCommand}"
-                SelectedItem="{Binding DeviceSelected}"
-               
+                SelectedItem="{Binding DeviceSelected}"               
                 ></ListView>
         </StackLayout>
     </ContentPage.Content>

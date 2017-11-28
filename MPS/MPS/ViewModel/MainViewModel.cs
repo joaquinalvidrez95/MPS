@@ -17,11 +17,11 @@ using MPS.Model;
 
 namespace MPS.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : BaseViewModel
     {
         private IDevice _connectedDevice;
         public ICommand BluetoothConnectionCommand { get; private set; }
-        public INavigation Navigation { get; }
+        private INavigation Navigation { get; }
 
         public MainViewModel(INavigation navigation)
         {
@@ -61,14 +61,13 @@ namespace MPS.ViewModel
 
                 //await characteristic.StartUpdatesAsync();
             });
-            MessagingCenter.Subscribe<MainParametersViewModel, int>(this, MessengerKeys.CurrentView, SendViewAsync);
-            MessagingCenter.Subscribe<MainParametersViewModel, int>(this, MessengerKeys.Speed, SendSpeedAsync);
-            MessagingCenter.Subscribe<MainParametersViewModel, DateTime>(this, MessengerKeys.DateTime, SendDateTime);
+            MessagingCenter.Subscribe<MainParametersBaseViewModel, int>(this, MessengerKeys.CurrentView, SendViewAsync);
+            MessagingCenter.Subscribe<MainParametersBaseViewModel, int>(this, MessengerKeys.Speed, SendSpeedAsync);
+            MessagingCenter.Subscribe<MainParametersBaseViewModel, DateTime>(this, MessengerKeys.DateTime, SendDateTime);
             MessagingCenter.Subscribe<MessagePageViewModel, string>(this, MessengerKeys.Message, SendMessage);
-            MessagingCenter.Subscribe<ColorsPageViewModel, DisplayColors>(this, MessengerKeys.Colours, SendColours);        
-
-        }       
-
+            MessagingCenter.Subscribe<ColorsPageViewModel, DisplayColors>(this, MessengerKeys.Colours, SendColours);                   
+        }
+      
         private void SendColours(ColorsPageViewModel arg1, DisplayColors arg2)
         {
             string data = BluetoothHelper.BluetoothContract.COLOURS + arg2.ColorCode() + '\n';
@@ -81,7 +80,7 @@ namespace MPS.ViewModel
             WriteData(data);
         }
 
-        private void SendDateTime(MainParametersViewModel arg1, DateTime arg2)
+        private void SendDateTime(MainParametersBaseViewModel arg1, DateTime arg2)
         {
 
             string data =
@@ -96,13 +95,13 @@ namespace MPS.ViewModel
             MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
         }
 
-        private void SendSpeedAsync(MainParametersViewModel arg1, int arg2)
+        private void SendSpeedAsync(MainParametersBaseViewModel arg1, int arg2)
         {
             string data = BluetoothHelper.BluetoothContract.SPEED + arg2 + '\n';
             WriteData(data);
         }
 
-        private void SendViewAsync(MainParametersViewModel arg1, int arg2)
+        private void SendViewAsync(MainParametersBaseViewModel arg1, int arg2)
         {
             string data = BluetoothHelper.BluetoothContract.VIEW + arg2 + '\n';
             WriteData(data);
