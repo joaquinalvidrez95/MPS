@@ -123,7 +123,7 @@
                             Command="{Binding ColorsCommand}"
                             Grid.Column="0"       
                             Grid.Row="2"
-                            BackgroundColor="BlueViolet"
+                            BackgroundColor="DarkViolet"
                             CommandParameter="BlueViolet"/>
 
                     <Button Style="{StaticResource ButtonColorStyle}"

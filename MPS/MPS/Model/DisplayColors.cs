@@ -11,10 +11,7 @@ namespace MPS.Model
     public class DisplayColors
     {
 
-        public Color ColorLowerLine
-        {
-            get; set;
-        }
+        public Color ColorLowerLine { get; set; }        
 
         public Color ColorUpperLine { get; set; }
 
@@ -34,7 +31,10 @@ namespace MPS.Model
                    + ColorLowerLineRgb.ColorCode
                    + ColorBackgroundRgb.ColorCode;
         }
-
+        public void SetColorByIndex(int index, Color color)
+        {
+            colors[index].Color = color;
+        }
         public void SetColorNameByIndex(int index, string colorName)
         {
             colors[index].ColorName = colorName;

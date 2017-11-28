@@ -24,9 +24,8 @@ namespace MPS.ViewModel
         private int _borderWidthLowerLineButton;
         private Color _borderColorUpperLineButton;
         private int _borderWidthUpperLineButton;
-        enum ButtonSelected { None = 0, UpperLine, LowerLine, Background }
+        enum ButtonSelected { UpperLine = 0, LowerLine, Background, None }
 
-        public enum PickerColor { UpperLine = 0, LowerLine, Background }
         ButtonSelected _state = ButtonSelected.None;
         private Color _borderColorBackgroundButton;
         private int _borderWidthBackgroundButton;
@@ -74,29 +73,15 @@ namespace MPS.ViewModel
         public ICommand SetLowerLineColorCommand { get; }
         public ICommand SetBackgroundColorCommand { get; }
         private DisplayColors _displayColors;
-        
+
         public double RedValue
         {
-            get
-            {
-                //switch ((PickerColor)SelectedIndex)
-                //{
-                //    case PickerColor.UpperLine:
-                //        return _displayColors.ColorUpperLineRgb.Red;
-                //    case PickerColor.LowerLine:
-                //        return _displayColors.ColorLowerLineRgb.Red;
-                //    case PickerColor.Background:
-                //        return _displayColors.ColorBackgroundRgb.Red;
-                //    default:
-                //        return _displayColors.ColorUpperLineRgb.Red;
-                //}
-               return _displayColors.GetRedByIndex(SelectedIndex);
-            }
+            get => _displayColors.GetRedByIndex(SelectedIndex);
             set
-            {            
+            {
                 value = Math.Round(value);
                 var colorValue = _displayColors.GetRedByIndex(SelectedIndex);
-                _displayColors.SetRedByIndex(SelectedIndex, (int)value);              
+                _displayColors.SetRedByIndex(SelectedIndex, (int)value);
 
                 if ((int)value != colorValue)
                 {
@@ -233,6 +218,7 @@ namespace MPS.ViewModel
         {
             ClearButtons();
             _state = ButtonSelected.Background;
+            SelectedIndex = (int)_state;
             BorderWidthBackgroundButton = BorderWithHighlight;
             BorderColorBackgroundButton = _borderColorHighlight;
         }
@@ -241,6 +227,7 @@ namespace MPS.ViewModel
         {
             ClearButtons();
             _state = ButtonSelected.LowerLine;
+            SelectedIndex = (int)_state;
             BorderWidthLowerLineButton = BorderWithHighlight;
             BorderColorLowerLineButton = _borderColorHighlight;
 
@@ -295,6 +282,7 @@ namespace MPS.ViewModel
         {
             ClearButtons();
             _state = ButtonSelected.UpperLine;
+            SelectedIndex = (int)_state;
             BorderWidthUpperLineButton = BorderWithHighlight;
             BorderColorUpperLineButton = _borderColorHighlight;
         }
