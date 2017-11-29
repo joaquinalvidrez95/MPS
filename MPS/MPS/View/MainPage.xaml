@@ -15,7 +15,7 @@
     </TabbedPage.Children>
 
     <TabbedPage.ToolbarItems>
-        <ToolbarItem Name="MenuItem1"
+        <ToolbarItem 
                      Order="Primary"
                      Icon="ic_bluetooth_searching_white_48dp.png"
                      Text="Item 1"

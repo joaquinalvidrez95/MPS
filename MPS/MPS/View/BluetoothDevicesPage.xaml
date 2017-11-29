@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MPS.Behaviour"
              x:Class="MPS.View.BluetoothDevicesPage"
+             Style="{StaticResource PaddingContentPage}"
              Title="Seleccione dispositivo">
     <ContentPage.Content>
         <StackLayout>

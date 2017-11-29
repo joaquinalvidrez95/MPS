@@ -35,6 +35,9 @@
                 <Setter Property="WidthRequest" Value="300"/>
                 <Setter Property="HorizontalOptions" Value="Center"/>
             </Style>
+            <Style x:Key="PaddingContentPage" TargetType="ContentPage">
+                <Setter Property="Padding" Value="10,10,10,10"/>
+            </Style>
         </ResourceDictionary>
 
     </Application.Resources>
