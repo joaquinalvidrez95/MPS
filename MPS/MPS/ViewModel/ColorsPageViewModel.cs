@@ -72,7 +72,7 @@ namespace MPS.ViewModel
         public ICommand SetUpperLineColorCommand { get; }
         public ICommand SetLowerLineColorCommand { get; }
         public ICommand SetBackgroundColorCommand { get; }
-        private DisplayColors _displayColors;
+        private readonly DisplayColors _displayColors;
 
         public double RedValue
         {

@@ -18,9 +18,7 @@ namespace MPS.ViewModel
         private readonly INavigation _navigation;
         private string _text;
         private ObservableCollection<IDevice> _devices;
-        private IDevice _deviceSelected;       
-        //private IDevice connectedDevice;
-        //private ICharacteristic characteristic;
+        private IDevice _deviceSelected;              
 
         public ICommand ItemTappedCommand { get; set; }
 
@@ -52,13 +50,12 @@ namespace MPS.ViewModel
                 OnPropertyChanged();
             }
         }
-
         
         public BluetoothDevicesViewModel(INavigation navigation)
         {
             _navigation = navigation;
             _devices = new ObservableCollection<IDevice>();                              
-            ItemTappedCommand = new Command(ChangeLabelAsync);
+            ItemTappedCommand = new Command(SelectDeviceAsync);
             
             SetupBluetoothAsync();
             
@@ -75,7 +72,7 @@ namespace MPS.ViewModel
             await CrossBluetoothLE.Current.Adapter.StartScanningForDevicesAsync();
         }
 
-        private async void ChangeLabelAsync()
+        private async void SelectDeviceAsync()
         {
             Text = DeviceSelected.Name;
             await CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();           

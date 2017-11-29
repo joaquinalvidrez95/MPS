@@ -41,8 +41,8 @@ namespace MPS
 
         public ICommand SendCommand { get; }
         public MessagePageViewModel()
-        {
-            Messages = new ObservableCollection<Message>();
+        {            
+            Messages = new ObservableCollection<Message>(new MessagesRepository().Messages.ToList());
             DeleteCommand = new Command<string>(DeleteMessage);
             SendCommand = new Command<string>(Send);
             SendMessageCommand = new Command(SendMessage);
@@ -62,20 +62,27 @@ namespace MPS
             }
         }
 
-        private void DeleteMessage(string obj)
-        {
+        private async void DeleteMessage(string obj)
+        {            
+            var x = await Application.Current.MainPage.DisplayAlert(
+                title: "Confirmación",
+                message: "¿Estás seguro de eliminar el mensaje?",
+                accept: "Sí",
+                cancel: "No");
+      
+            if (!x) return;
             foreach (var message in Messages.ToList())
             {
-                if (message.Title.Equals(obj))
-                {
-                    Messages.Remove(message);
-                }
+                if (!message.Title.Equals(obj)) continue;
+                Messages.Remove(message);
+                new MessagesRepository().DeleteMessage(message);
             }
         }
 
         private void OnMessageAdded(MessagePopupViewModel arg1, Message arg2)
         {
             Messages.Add(arg2);
+            new MessagesRepository().AddMessage(arg2);
         }
 
         private async void OpenPopupMessage()

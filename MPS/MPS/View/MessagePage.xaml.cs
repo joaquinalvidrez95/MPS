@@ -15,17 +15,10 @@ namespace MPS
     {
         public MessagePage()
         {
-            InitializeComponent();         
+            InitializeComponent();      
+            
         }
-             
-        private async void OnOpenPupup(object sender, EventArgs e)
-        {
-            var page = new MessagePopup();
-
-            //await Navigation.PushPopupAsync(page);
-
-            await PopupNavigation.PushAsync(page);
-        }
+                    
 
 
     }

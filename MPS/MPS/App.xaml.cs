@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using MPS.Data;
+using MPS.Services;
 using Xamarin.Forms;
 
 namespace MPS
 {
     public partial class App : Application
     {
+        private static MessageDatabase _database;
+
+        public static MessageDatabase Database => _database ?? (_database = new MessageDatabase(
+                                                      DependencyService.Get<IFileHelper>().LocalFilePath("Messages.db")));
+
         public App()
         {
             InitializeComponent();
 
             MainPage = new NavigationPage(new MainPage());
-                      
+
         }
 
         protected override void OnStart()
