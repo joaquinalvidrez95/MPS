@@ -7,30 +7,14 @@ using Xamarin.Forms;
 
 namespace MPS
 {
-    public class MessagePopupViewModel : BaseViewModel
-    {
-
-        public ICommand DoneCommand { get; }
-
-        public string Title
-        {
-            get;
-            set;
-        }
-
-        public string Text
-        {
-            get;
-            set;
-        }
-
-        public ICommand CancelCommand { get; }
-
+    public class MessagePopupViewModel : IMessagePopupVideModel
+    {        
 
         public MessagePopupViewModel()
         {
             DoneCommand = new Command(FinishMessage);
             CancelCommand = new Command(CancelMessage);
+            PopupTitle = "Agregar Mensaje";
         }
 
         private async void CancelMessage()

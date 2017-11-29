@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"         
              xmlns:viewmodel="clr-namespace:MPS;assembly=MPS"
+             xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
              Title="Mensajes"
              Style="{StaticResource PaddingContentPage}"
              x:Class="MPS.MessagePage">
@@ -30,6 +31,7 @@
                 Image="ic_add_white_48dp.png"/>
             <ListView ItemsSource="{Binding Messages}"
                       SelectedItem="{Binding SelectedItem}"
+                      behaviour:ItemTappedAttached.Command="{Binding ItemTappedCommand}"
                       Header="Mensajes"
                       HasUnevenRows="True">
                 <ListView.ItemTemplate>

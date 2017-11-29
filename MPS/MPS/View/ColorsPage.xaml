@@ -11,7 +11,7 @@
             <viewmodel:ColorsPageViewModel x:Key="ViewModel" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <StackLayout Orientation="Vertical"
                      BindingContext="{StaticResource ViewModel}">
@@ -21,7 +21,7 @@
                         BackgroundColor="{Binding ColorUpperLine}"
                         BorderColor="{Binding BorderColorUpperLineButton}"
                         BorderWidth="{Binding BorderWidthUpperLineButton}"/>
-                <Label Text="Línea superior"                                
+                <Label Text="Texto superior"                                
                        VerticalOptions="Center"/>
 
             </StackLayout>
@@ -32,7 +32,7 @@
                         BackgroundColor="{Binding ColorLowerLine}"
                         BorderColor="{Binding BorderColorLowerLineButton}"
                         BorderWidth="{Binding BorderWidthLowerLineButton}"/>
-                <Label Text="Línea inferior"                  
+                <Label Text="Texto inferior"                  
                        VerticalOptions="Center"/>
             </StackLayout>
 
@@ -48,19 +48,22 @@
 
             <Frame OutlineColor="Black"                   
                    VerticalOptions="Center"
-                   HorizontalOptions="Center">
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,30"
+                   >
                 <Grid ColumnSpacing="5"                
                       HorizontalOptions="Center">
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/> 
                     </Grid.ColumnDefinitions>
 
                     <Button Style="{StaticResource ButtonColorStyle}"
@@ -93,71 +96,63 @@
 
                     <Button Style="{StaticResource ButtonColorStyle}"
                             Command="{Binding ColorsCommand}"
-                            Grid.Column="0"       
-                            Grid.Row="1"
+                            Grid.Column="4"       
+                            Grid.Row="0"
                             BackgroundColor="SpringGreen"
                             CommandParameter="SpringGreen"/>
 
                     <Button Style="{StaticResource ButtonColorStyle}"
                             Command="{Binding ColorsCommand}"
-                            Grid.Column="1"       
-                            Grid.Row="1"
+                            Grid.Column="5"       
+                            Grid.Row="0"
                             BackgroundColor="Cyan"
                             CommandParameter="Cyan"/>
 
                     <Button Style="{StaticResource ButtonColorStyle}"
                             Command="{Binding ColorsCommand}"
-                            Grid.Column="2"       
+                            Grid.Column="0"       
                             Grid.Row="1"
                             BackgroundColor="DodgerBlue"
                             CommandParameter="DodgerBlue"/>
 
                     <Button Style="{StaticResource ButtonColorStyle}"
                             Command="{Binding ColorsCommand}"
-                            Grid.Column="3"       
+                            Grid.Column="1"       
                             Grid.Row="1"
                             BackgroundColor="Blue"
                             CommandParameter="Blue"/>
 
                     <Button Style="{StaticResource ButtonColorStyle}"
                             Command="{Binding ColorsCommand}"
-                            Grid.Column="0"       
-                            Grid.Row="2"
+                            Grid.Column="2"       
+                            Grid.Row="1"
                             BackgroundColor="DarkViolet"
                             CommandParameter="DarkViolet"/>
 
                     <Button Style="{StaticResource ButtonColorStyle}"
                             Command="{Binding ColorsCommand}"
-                            Grid.Column="1"       
-                            Grid.Row="2"
+                            Grid.Column="3"       
+                            Grid.Row="1"
                             BackgroundColor="Magenta"
                             CommandParameter="Magenta"/>
 
                     <Button Style="{StaticResource ButtonColorStyle}"
                             Command="{Binding ColorsCommand}"
-                            Grid.Column="2"       
-                            Grid.Row="2"
+                            Grid.Column="4"       
+                            Grid.Row="1"
                             BackgroundColor="Black"
                             CommandParameter="Black"/>
 
                     <Button Style="{StaticResource ButtonColorStyle}"
                             Command="{Binding ColorsCommand}"
-                            Grid.Column="3"       
-                            Grid.Row="2"
+                            Grid.Column="5"       
+                            Grid.Row="1"
                             BackgroundColor="White"
                             CommandParameter="White"/>
 
                 </Grid>
             </Frame>
 
-            <!--<Label Text="Opacity Binding Demo"
-                       FontSize="Large"
-                       VerticalOptions="CenterAndExpand"
-                       HorizontalOptions="Center"
-                       BindingContext="{x:Reference Name=slider}"
-                       Opacity="{Binding Path=Value}" />
-                <Slider x:Name="slider"
-                        VerticalOptions="CenterAndExpand" />-->
             <!--<Picker Title="Seleccione ítem"
                     HorizontalOptions="Start"
                     SelectedIndex="{Binding SelectedIndex}">
@@ -168,23 +163,41 @@
                 </Picker.Items>
             </Picker>-->
 
-            <Slider Style="{StaticResource SliderRgb}"                   
-                    Value="{Binding RedValue}"/>
-            <Slider                                         
-                    Style="{StaticResource SliderRgb}"
-                    Value="{Binding GreenValue}"/>
-            <Slider                                        
-                    Style="{StaticResource SliderRgb}"                              
-                    Value="{Binding BlueValue}"/>
-         
-            <!--<TableView>
-                <TableRoot Title="RGB">
-                    <TableSection Title="Rojo">
-                    
-                        
+            <TableView Intent="Form"
+                       HasUnevenRows="True"         
+                       VerticalOptions="End">
+                <TableRoot>
+                    <TableSection>
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical">
+                                <Label Text="Rojo"
+                                       TextColor="Red"/>
+                                <Slider Style="{StaticResource SliderRgb}"                   
+                                        Value="{Binding RedValue}"
+                                        Margin="0,0,0,10"/>
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label Text="Verde"
+                                       TextColor="Green"/>
+                                <Slider Style="{StaticResource SliderRgb}"        
+                                        Margin="0,0,0,10"
+                                        Value="{Binding GreenValue}"/>
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label Text="Azul"
+                                       TextColor="Blue"/>
+                                <Slider Style="{StaticResource SliderRgb}"       
+                                        Margin="0,0,0,10"
+                                        Value="{Binding BlueValue}"/>
+                            </StackLayout>
+                        </ViewCell>
                     </TableSection>
                 </TableRoot>
-            </TableView>-->
+            </TableView>
         </StackLayout>
 
     </ContentPage.Content>

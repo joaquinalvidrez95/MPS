@@ -43,7 +43,7 @@ namespace MPS
         public ICommand SendCommand { get; }
         public MessagePageViewModel()
         {
-            ItemTappedCommand=new Command(EditMessage);
+            ItemTappedCommand = new Command(EditMessage);
             Messages = new ObservableCollection<Message>(new MessagesRepository().Messages.ToList());
             DeleteCommand = new Command<string>(DeleteMessage);
             SendCommand = new Command<string>(Send);
@@ -53,9 +53,9 @@ namespace MPS
             Message = "";
         }
 
-        private void EditMessage()
+        private async void EditMessage()
         {
-            
+            await PopupNavigation.PushAsync(new MessagePopup(new EditableMessagePopupViewModel(SelectedItem)));
         }
 
         private void Send(string obj)
@@ -93,7 +93,7 @@ namespace MPS
 
         private async void OpenPopupMessage()
         {
-            await PopupNavigation.PushAsync(new MessagePopup());
+            await PopupNavigation.PushAsync(new MessagePopup(new MessagePopupViewModel()));
         }
 
         private void SendMessage()

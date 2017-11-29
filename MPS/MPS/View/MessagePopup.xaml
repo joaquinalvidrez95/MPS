@@ -6,11 +6,11 @@
              xmlns:viewmodel="clr-namespace:MPS;assembly=MPS"
              x:Class="MPS.MessagePopup">
 
-    <pages:PopupPage.Resources>
+    <!--<pages:PopupPage.Resources>
         <ResourceDictionary>
             <viewmodel:MessagePopupViewModel x:Key="ViewModel" />
         </ResourceDictionary>
-    </pages:PopupPage.Resources>
+    </pages:PopupPage.Resources>-->
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation 
             PositionIn="Center"
@@ -24,13 +24,16 @@
             HasBackgroundAnimation="True"/>
     </pages:PopupPage.Animation>
     <StackLayout VerticalOptions="CenterAndExpand"
+                 HorizontalOptions="Center"
                  BackgroundColor="White"
-                 BindingContext="{StaticResource ViewModel}">
+                 Padding="10,0,10,10"
+                 >
         <TableView Intent="Form"
-                   HasUnevenRows="True"
-                   VerticalOptions="CenterAndExpand">
+                   HasUnevenRows="True"                  
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
 
-            <TableSection Title="Nuevo mensaje">
+            <TableSection Title="{Binding PopupTitle}">
                 <EntryCell Label="Título"
                                Text="{Binding Title}"/>
                 <ViewCell>
