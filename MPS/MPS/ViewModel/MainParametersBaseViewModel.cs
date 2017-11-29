@@ -16,13 +16,13 @@ namespace MPS.ViewModel
         //private const double STEP_VALUE = 1.0;
         private string _currentDateTime;
         private double _speed;
-        enum TypeOfView { FirstView = 0, SecondView, ThirdView };
+        //enum TypeOfView { FirstView = 0, SecondView, ThirdView };
         int _currentView;
         private string _text;
         private Color _statusColor;
 
-        public ICommand DateTimeCommand { get; private set; }
-        public ICommand ToggleViewCommand { get; private set; }
+        public ICommand DateTimeCommand { get; }
+        public ICommand ToggleViewCommand { get; }
         public string CurrentDateTime
         {
             get => _currentDateTime;
@@ -112,11 +112,11 @@ namespace MPS.ViewModel
         private void UpdateDateTime()
         {
             DateTime now = DateTime.Now.ToLocalTime();
-            if (DateTime.Now.IsDaylightSavingTime() == true)
+            if (DateTime.Now.IsDaylightSavingTime())
             {
                 now = now.AddHours(1);
             }
-            string currentTime = (string.Format("Current Time: {0}", now));
+            string currentTime = $"Current Time: {now}";
             CurrentDateTime = currentTime;
             Text = CurrentDateTime;
             MessagingCenter.Send(this, MessengerKeys.DateTime, now);

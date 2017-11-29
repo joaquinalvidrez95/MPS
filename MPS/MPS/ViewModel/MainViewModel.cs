@@ -20,7 +20,7 @@ namespace MPS.ViewModel
     public class MainViewModel : BaseViewModel
     {
         private IDevice _connectedDevice;
-        public ICommand BluetoothConnectionCommand { get; private set; }
+        public ICommand BluetoothConnectionCommand { get; }
         private INavigation Navigation { get; }
 
         public MainViewModel(INavigation navigation)
@@ -31,7 +31,6 @@ namespace MPS.ViewModel
             CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
             MessagingCenter.Subscribe<BluetoothDevicesViewModel, IDevice>(this, MessengerKeys.DeviceSelected, async (sender, arg) =>
             {
-
                 if (arg == null)
                 {
                     return;
@@ -70,13 +69,13 @@ namespace MPS.ViewModel
       
         private void SendColours(ColorsPageViewModel arg1, DisplayColors arg2)
         {
-            string data = BluetoothHelper.BluetoothContract.COLOURS + arg2.ColorCode() + '\n';
+            string data = BluetoothHelper.BluetoothContract.Colours + arg2.ColorCode() + '\n';
             WriteData(data);
         }
 
         private void SendMessage(MessagePageViewModel arg1, string arg2)
         {
-            string data = BluetoothHelper.BluetoothContract.MESSAGE + "  " + arg2 + '\n';
+            string data = BluetoothHelper.BluetoothContract.Message + "  " + arg2 + '\n';
             WriteData(data);
         }
 
@@ -84,7 +83,7 @@ namespace MPS.ViewModel
         {
 
             string data =
-                BluetoothHelper.BluetoothContract.DATE_TIME
+                BluetoothHelper.BluetoothContract.DateTime
                 + arg2.ToString("HHmmssddMMyy")
                 + '\n';
             WriteData(data);
@@ -94,24 +93,24 @@ namespace MPS.ViewModel
         {
             MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
         }
-
+       
         private void SendSpeedAsync(MainParametersBaseViewModel arg1, int arg2)
         {
-            string data = BluetoothHelper.BluetoothContract.SPEED + arg2 + '\n';
+            string data = BluetoothHelper.BluetoothContract.Speed + arg2 + '\n';
             WriteData(data);
         }
 
         private void SendViewAsync(MainParametersBaseViewModel arg1, int arg2)
         {
-            string data = BluetoothHelper.BluetoothContract.VIEW + arg2 + '\n';
+            string data = BluetoothHelper.BluetoothContract.View + arg2 + '\n';
             WriteData(data);
         }
 
         private async void WriteData(string data)
         {
             if (_connectedDevice?.State != DeviceState.Connected) return;
-            var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUUID.SERVICE_UUID));
-            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUUID.CHARACTERISTIC_UUID));
+            var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
             byte[] array = Encoding.UTF8.GetBytes(data);
             await characteristic.WriteAsync(array);
         }

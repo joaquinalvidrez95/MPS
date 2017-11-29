@@ -47,13 +47,13 @@
                     WidthRequest="300"
                     HorizontalOptions="CenterAndExpand"
                     Value="{Binding Speed}"/>
-            <Label 
+            <!--<Label 
                    Text="Velocidad"
-                   HorizontalOptions="CenterAndExpand"/>
+                   HorizontalOptions="CenterAndExpand"/>-->
 
-            <Label Text="{Binding Source={x:Reference SliderSpeed},
+            <!--<Label Text="{Binding Source={x:Reference SliderSpeed},
                             Path=Value}"                                      
-                   HorizontalOptions="CenterAndExpand"/>
+                   HorizontalOptions="CenterAndExpand"/>-->
             <Label Text="{Binding Text}"/>
 
             <StackLayout Orientation="Horizontal">

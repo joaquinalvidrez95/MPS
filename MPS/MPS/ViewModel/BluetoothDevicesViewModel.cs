@@ -15,7 +15,7 @@ namespace MPS.ViewModel
 {
     public class BluetoothDevicesViewModel : BaseViewModel
     {
-        private INavigation _navigation;
+        private readonly INavigation _navigation;
         private string _text;
         private ObservableCollection<IDevice> _devices;
         private IDevice _deviceSelected;       
