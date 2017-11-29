@@ -30,12 +30,13 @@
                 Image="ic_add_white_48dp.png"/>
             <ListView ItemsSource="{Binding Messages}"
                       SelectedItem="{Binding SelectedItem}"
+                      Header="Mensajes"
                       HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <Grid>
+                                <!--<Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition />
@@ -43,11 +44,14 @@
                                     </Grid.ColumnDefinitions>
                                     <Label Text="{Binding Title}"
                                            VerticalOptions="Center"
+                                           HorizontalOptions="StartAndExpand"
                                            Grid.Column="0"/>
-                                    <!--<Button Command="{Binding Source={StaticResource ViewModel}, Path=DeleteCommand}"
+                                    -->
+                                <!--<Button Command="{Binding Source={StaticResource ViewModel}, Path=DeleteCommand}"
                                             CommandParameter="{Binding Title}"                                         
                                             Image="ic_delete_forever_white_48dp.png"
                                             Grid.Column="1"/>-->
+                                <!--
                                     <Image Source="ic_delete_forever_black_48dp.png"
                                            HorizontalOptions="End"
                                            Grid.Column="1">
@@ -56,10 +60,12 @@
                                                                   CommandParameter="{Binding Title}"/>
                                         </Image.GestureRecognizers>
                                     </Image>
-                                    <!--<Button Command="{Binding Source={StaticResource ViewModel}, Path=SendCommand}"
+                                    -->
+                                <!--<Button Command="{Binding Source={StaticResource ViewModel}, Path=SendCommand}"
                                             CommandParameter="{Binding Title}"
                                             Image="ic_send_white_48dp.png"                                       
                                             Grid.Column="2"/>-->
+                                <!--
                                     <Image Source="ic_send_black_48dp.png"
                                            HorizontalOptions="End"
                                            Grid.Column="2">
@@ -68,7 +74,31 @@
                                                                   CommandParameter="{Binding Title}"/>
                                         </Image.GestureRecognizers>
                                     </Image>
-                                </Grid>
+                                </Grid>-->
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Title}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="StartAndExpand" />
+                                    <Image Source="ic_delete_forever_black_48dp.png"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="End">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={StaticResource ViewModel}, Path=DeleteCommand}"
+                                                                  CommandParameter="{Binding Title}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+
+                                    <Image Source="ic_send_envelope.png"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="End">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={StaticResource ViewModel}, Path=SendCommand}"
+                                                                  CommandParameter="{Binding Title}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                                             
+                                </StackLayout>
+
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>

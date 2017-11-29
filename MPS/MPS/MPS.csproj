@@ -53,7 +53,7 @@
     <Compile Include="Utilities\MessengerKeys.cs" />
     <Compile Include="ViewModel\BluetoothDevicesViewModel.cs" />
     <Compile Include="ViewModel\ColorsPageViewModel.cs" />
-    <Compile Include="ViewModel\MainParametersBaseViewModel.cs" />
+    <Compile Include="ViewModel\MainParametersViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="View\BluetoothDevicesPage.xaml.cs">

@@ -20,7 +20,7 @@ namespace MPS.ViewModel
         private ObservableCollection<IDevice> _devices;
         private IDevice _deviceSelected;              
 
-        public ICommand ItemTappedCommand { get; set; }
+        public ICommand ItemTappedCommand { get; }
 
         public string Text
         {

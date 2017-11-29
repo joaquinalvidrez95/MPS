@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace MPS.ViewModel
 {
-    public class MainParametersBaseViewModel : BaseViewModel
+    public class MainParametersViewModel : BaseViewModel
     {
         //private const double STEP_VALUE = 1.0;
         private string _currentDateTime;
@@ -78,7 +78,7 @@ namespace MPS.ViewModel
             }
         }
            
-        public MainParametersBaseViewModel()
+        public MainParametersViewModel()
         {
             DateTimeCommand = new Command(UpdateDateTime);
             ToggleViewCommand = new Command(ToggleView);

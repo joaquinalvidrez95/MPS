@@ -8,7 +8,7 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <viewmodel:MainParametersBaseViewModel x:Key="ViewModel" />
+            <viewmodel:MainParametersViewModel x:Key="ViewModel" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -47,10 +47,7 @@
                     WidthRequest="300"
                     HorizontalOptions="CenterAndExpand"
                     Value="{Binding Speed}"/>
-            <!--<Label 
-                   Text="Velocidad"
-                   HorizontalOptions="CenterAndExpand"/>-->
-
+   
             <!--<Label Text="{Binding Source={x:Reference SliderSpeed},
                             Path=Value}"                                      
                    HorizontalOptions="CenterAndExpand"/>-->
@@ -62,8 +59,7 @@
                        VerticalOptions="Center"/>
             </StackLayout>
 
-            <!--<Button HorizontalOptions="Center"
-                    Image="ic_power_settings_new_black_48dp.png"/>-->
+            <Image Source="all_citsalogo.png"/>
 
         </StackLayout>
     </ContentPage.Content>

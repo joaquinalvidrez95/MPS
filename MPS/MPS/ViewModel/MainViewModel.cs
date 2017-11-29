@@ -60,9 +60,9 @@ namespace MPS.ViewModel
 
                 //await characteristic.StartUpdatesAsync();
             });
-            MessagingCenter.Subscribe<MainParametersBaseViewModel, int>(this, MessengerKeys.CurrentView, SendViewAsync);
-            MessagingCenter.Subscribe<MainParametersBaseViewModel, int>(this, MessengerKeys.Speed, SendSpeedAsync);
-            MessagingCenter.Subscribe<MainParametersBaseViewModel, DateTime>(this, MessengerKeys.DateTime, SendDateTime);
+            MessagingCenter.Subscribe<MainParametersViewModel, int>(this, MessengerKeys.CurrentView, SendViewAsync);
+            MessagingCenter.Subscribe<MainParametersViewModel, int>(this, MessengerKeys.Speed, SendSpeedAsync);
+            MessagingCenter.Subscribe<MainParametersViewModel, DateTime>(this, MessengerKeys.DateTime, SendDateTime);
             MessagingCenter.Subscribe<MessagePageViewModel, string>(this, MessengerKeys.Message, SendMessage);
             MessagingCenter.Subscribe<ColorsPageViewModel, DisplayColors>(this, MessengerKeys.Colours, SendColours);                   
         }
@@ -79,7 +79,7 @@ namespace MPS.ViewModel
             WriteData(data);
         }
 
-        private void SendDateTime(MainParametersBaseViewModel arg1, DateTime arg2)
+        private void SendDateTime(MainParametersViewModel arg1, DateTime arg2)
         {
 
             string data =
@@ -94,13 +94,13 @@ namespace MPS.ViewModel
             MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
         }
        
-        private void SendSpeedAsync(MainParametersBaseViewModel arg1, int arg2)
+        private void SendSpeedAsync(MainParametersViewModel arg1, int arg2)
         {
             string data = BluetoothHelper.BluetoothContract.Speed + arg2 + '\n';
             WriteData(data);
         }
 
-        private void SendViewAsync(MainParametersBaseViewModel arg1, int arg2)
+        private void SendViewAsync(MainParametersViewModel arg1, int arg2)
         {
             string data = BluetoothHelper.BluetoothContract.View + arg2 + '\n';
             WriteData(data);

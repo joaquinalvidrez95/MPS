@@ -17,6 +17,7 @@ namespace MPS
         private ObservableCollection<Message> _messages;
 
         public ICommand SendMessageCommand { get; }
+        public ICommand ItemTappedCommand { get; }
         public string Message
         {
             get => _message;
@@ -41,7 +42,8 @@ namespace MPS
 
         public ICommand SendCommand { get; }
         public MessagePageViewModel()
-        {            
+        {
+            ItemTappedCommand=new Command(EditMessage);
             Messages = new ObservableCollection<Message>(new MessagesRepository().Messages.ToList());
             DeleteCommand = new Command<string>(DeleteMessage);
             SendCommand = new Command<string>(Send);
@@ -49,6 +51,11 @@ namespace MPS
             MessagePopupCommand = new Command(OpenPopupMessage);
             MessagingCenter.Subscribe<MessagePopupViewModel, Message>(this, MessengerKeys.Message2, OnMessageAdded);
             Message = "";
+        }
+
+        private void EditMessage()
+        {
+            
         }
 
         private void Send(string obj)
@@ -63,14 +70,13 @@ namespace MPS
         }
 
         private async void DeleteMessage(string obj)
-        {            
-            var x = await Application.Current.MainPage.DisplayAlert(
+        {
+
+            if (!await Application.Current.MainPage.DisplayAlert(
                 title: "Confirmación",
                 message: "¿Estás seguro de eliminar el mensaje?",
                 accept: "Sí",
-                cancel: "No");
-      
-            if (!x) return;
+                cancel: "No")) return;
             foreach (var message in Messages.ToList())
             {
                 if (!message.Title.Equals(obj)) continue;
