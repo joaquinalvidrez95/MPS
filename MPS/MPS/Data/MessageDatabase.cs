@@ -32,7 +32,8 @@ namespace MPS.Data
 
         public Task<int> SaveMessageAsync(Message message)
         {
-            return message.Id != 0 ? _database.UpdateAsync(message) :
+            return message.Id != 0 ? 
+                _database.UpdateAsync(message) :
                 _database.InsertAsync(message);
         }
 

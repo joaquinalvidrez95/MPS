@@ -47,7 +47,7 @@
             </StackLayout>
 
             <Frame OutlineColor="Black"                   
-                   VerticalOptions="Center"
+                   VerticalOptions="CenterAndExpand"
                    HorizontalOptions="Center"
                    Margin="0,0,0,30"
                    >
@@ -165,7 +165,7 @@
 
             <TableView Intent="Form"
                        HasUnevenRows="True"         
-                       VerticalOptions="End">
+                       VerticalOptions="EndAndExpand">
                 <TableRoot>
                     <TableSection>
                         <ViewCell>

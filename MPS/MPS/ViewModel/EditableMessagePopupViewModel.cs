@@ -7,11 +7,12 @@ using MPS.Model;
 
 namespace MPS.ViewModel
 {
-    public class EditableMessagePopupViewModel : IMessagePopupVideModel
+    public class EditableMessagePopupViewModel : MessagePopupViewModel
     {
         public EditableMessagePopupViewModel(Message message)
         {
-            
+            PopupTitle = "Editar mensaje";
+            Message = message;            
         }
     }
 }

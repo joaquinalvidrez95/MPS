@@ -14,7 +14,7 @@ namespace MPS
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MessagePopup : PopupPage
 	{
-		public MessagePopup (IMessagePopupVideModel viewModel)
+		public MessagePopup (MessagePopupViewModel viewModel)
 		{
 			InitializeComponent ();
 		    BindingContext = viewModel;

@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"         
-             xmlns:viewmodel="clr-namespace:MPS;assembly=MPS"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"                    
              xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
+             xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
              Title="Mensajes"
              Style="{StaticResource PaddingContentPage}"
              x:Class="MPS.MessagePage">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <viewmodel:MessagePageViewModel x:Key="ViewModel" />
+            <viewModel:MessagePageViewModel x:Key="ViewModel" />
             <Style TargetType="Button">
                 <Setter Property="BackgroundColor"
                         Value="Red"/>

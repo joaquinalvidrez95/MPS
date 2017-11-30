@@ -1,15 +1,12 @@
-﻿using MPS.ViewModel;
-using System.Windows.Input;
-using Xamarin.Forms;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using MPS.Model;
 using MPS.Utilities;
 using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
 
-namespace MPS
+namespace MPS.ViewModel
 {
     public class MessagePageViewModel : BaseViewModel
     {
@@ -49,7 +46,7 @@ namespace MPS
             SendCommand = new Command<string>(Send);
             SendMessageCommand = new Command(SendMessage);
             MessagePopupCommand = new Command(OpenPopupMessage);
-            MessagingCenter.Subscribe<MessagePopupViewModel, Message>(this, MessengerKeys.Message2, OnMessageAdded);
+            MessagingCenter.Subscribe<MessagePopupViewModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
             Message = "";
         }
 
@@ -71,7 +68,6 @@ namespace MPS
 
         private async void DeleteMessage(string obj)
         {
-
             if (!await Application.Current.MainPage.DisplayAlert(
                 title: "Confirmación",
                 message: "¿Estás seguro de eliminar el mensaje?",
@@ -85,15 +81,18 @@ namespace MPS
             }
         }
 
-        private void OnMessageAdded(MessagePopupViewModel arg1, Message arg2)
+        private void OnMessageAdded(MessagePopupViewModel arg1, Message message)
         {
-            Messages.Add(arg2);
-            new MessagesRepository().AddMessage(arg2);
+            if (Messages.Contains(message))
+                Messages = new ObservableCollection<Message>(Messages.ToList());
+            else
+                Messages.Add(message);
+            new MessagesRepository().AddMessage(message);
         }
 
         private async void OpenPopupMessage()
         {
-            await PopupNavigation.PushAsync(new MessagePopup(new MessagePopupViewModel()));
+            await PopupNavigation.PushAsync(new MessagePopup(new NewMessagePopupViewModel()));
         }
 
         private void SendMessage()

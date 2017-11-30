@@ -15,6 +15,6 @@ namespace MPS.Utilities
         public const string DateTime = "DateTime";
         public const string Message = "Message";
         public const string Colours = "Colours";
-        public const string Message2 = "Message2";
+        public const string NewMessage = "NewMessage";
     }
 }

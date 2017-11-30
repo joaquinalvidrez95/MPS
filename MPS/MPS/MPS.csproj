@@ -44,11 +44,11 @@
     <Compile Include="Model\MessagesRepository.cs" />
     <Compile Include="Services\IFileHelper.cs" />
     <Compile Include="ViewModel\EditableMessagePopupViewModel.cs" />
-    <Compile Include="ViewModel\MessagePopupViewModel.cs" />
+    <Compile Include="ViewModel\NewMessagePopupViewModel.cs" />
     <Compile Include="Model\DisplayColorRGB.cs" />
     <Compile Include="Model\DisplayColors.cs" />
     <Compile Include="Model\Message.cs" />
-    <Compile Include="ViewModel\IMessagePopupVideModel.cs" />
+    <Compile Include="ViewModel\MessagePopupViewModel.cs" />
     <Compile Include="View\MessagePopup.xaml.cs">
       <DependentUpon>MessagePopup.xaml</DependentUpon>
     </Compile>
