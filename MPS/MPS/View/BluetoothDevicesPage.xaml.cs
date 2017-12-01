@@ -17,7 +17,7 @@ namespace MPS.View
 		public BluetoothDevicesPage ()
 		{
 			InitializeComponent ();
-            BindingContext = new BluetoothDevicesViewModel(Navigation);
+            BindingContext = new BluetoothDevicesPageModel(Navigation);
             
         }
 	}

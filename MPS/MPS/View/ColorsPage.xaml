@@ -8,7 +8,7 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <viewmodel:ColorsPageViewModel x:Key="ViewModel" />
+            <viewmodel:ColorsPageModel x:Key="ViewModel" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -63,7 +63,7 @@
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/> 
+                        <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
 
                     <Button Style="{StaticResource ButtonColorStyle}"
@@ -153,16 +153,6 @@
                 </Grid>
             </Frame>
 
-            <!--<Picker Title="Seleccione ítem"
-                    HorizontalOptions="Start"
-                    SelectedIndex="{Binding SelectedIndex}">
-                <Picker.Items>
-                    <x:String>Línea Superior</x:String>
-                    <x:String>Línea Inferior</x:String>
-                    <x:String>Fondo</x:String>
-                </Picker.Items>
-            </Picker>-->
-
             <TableView Intent="Form"
                        HasUnevenRows="True"         
                        VerticalOptions="EndAndExpand">
@@ -173,16 +163,14 @@
                                 <Label Text="Rojo"
                                        TextColor="Red"/>
                                 <Slider Style="{StaticResource SliderRgb}"                   
-                                        Value="{Binding RedValue}"
-                                        Margin="0,0,0,10"/>
+                                        Value="{Binding RedValue}"/>
                             </StackLayout>
                         </ViewCell>
                         <ViewCell>
                             <StackLayout>
                                 <Label Text="Verde"
                                        TextColor="Green"/>
-                                <Slider Style="{StaticResource SliderRgb}"        
-                                        Margin="0,0,0,10"
+                                <Slider Style="{StaticResource SliderRgb}"                                            
                                         Value="{Binding GreenValue}"/>
                             </StackLayout>
                         </ViewCell>
@@ -190,8 +178,7 @@
                             <StackLayout>
                                 <Label Text="Azul"
                                        TextColor="Blue"/>
-                                <Slider Style="{StaticResource SliderRgb}"       
-                                        Margin="0,0,0,10"
+                                <Slider Style="{StaticResource SliderRgb}"                                            
                                         Value="{Binding BlueValue}"/>
                             </StackLayout>
                         </ViewCell>

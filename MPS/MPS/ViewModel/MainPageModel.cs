@@ -17,19 +17,19 @@ using MPS.Model;
 
 namespace MPS.ViewModel
 {
-    public class MainViewModel : BaseViewModel
+    public class MainPageModel : BaseViewModel
     {
         private IDevice _connectedDevice;
         public ICommand BluetoothConnectionCommand { get; }
         private INavigation Navigation { get; }
 
-        public MainViewModel(INavigation navigation)
+        public MainPageModel(INavigation navigation)
         {
             BluetoothConnectionCommand = new Command(GoToBluetoothDevicesPageAsync);
             Navigation = navigation;
             CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
             CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
-            MessagingCenter.Subscribe<BluetoothDevicesViewModel, IDevice>(this, MessengerKeys.DeviceSelected, async (sender, arg) =>
+            MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, async (sender, arg) =>
             {
                 if (arg == null)
                 {
@@ -60,34 +60,34 @@ namespace MPS.ViewModel
 
                 //await characteristic.StartUpdatesAsync();
             });
-            MessagingCenter.Subscribe<MainParametersViewModel, int>(this, MessengerKeys.CurrentView, SendViewAsync);
-            MessagingCenter.Subscribe<MainParametersViewModel, int>(this, MessengerKeys.Speed, SendSpeedAsync);
-            MessagingCenter.Subscribe<MainParametersViewModel, DateTime>(this, MessengerKeys.DateTime, SendDateTime);
-            MessagingCenter.Subscribe<MainParametersViewModel, string>(this, MessengerKeys.QuickMessage, SendQuickMessage);
-            MessagingCenter.Subscribe<MessagePageViewModel, string>(this, MessengerKeys.Message, SendMessage);
-            MessagingCenter.Subscribe<ColorsPageViewModel, DisplayColors>(this, MessengerKeys.Colours, SendColours);                   
+            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, SendViewAsync);
+            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.Speed, SendSpeedAsync);
+            MessagingCenter.Subscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime, SendDateTime);
+            MessagingCenter.Subscribe<MainParametersPageModel, string>(this, MessengerKeys.QuickMessage, SendQuickMessage);
+            MessagingCenter.Subscribe<MessagePageModel, string>(this, MessengerKeys.Message, SendMessage);
+            MessagingCenter.Subscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours, SendColours);                   
             
         }
 
-        private void SendQuickMessage(MainParametersViewModel arg1, string arg2)
+        private void SendQuickMessage(MainParametersPageModel arg1, string arg2)
         {
             string data = BluetoothHelper.BluetoothContract.Message + "  " + arg2 + '\n';
             WriteData(data);
         }
 
-        private void SendColours(ColorsPageViewModel arg1, DisplayColors arg2)
+        private void SendColours(ColorsPageModel arg1, DisplayColors arg2)
         {
             string data = BluetoothHelper.BluetoothContract.Colours + arg2.ColorCode() + '\n';
             WriteData(data);
         }
 
-        private void SendMessage(MessagePageViewModel arg1, string arg2)
+        private void SendMessage(MessagePageModel arg1, string arg2)
         {
             string data = BluetoothHelper.BluetoothContract.Message + "  " + arg2 + '\n';
             WriteData(data);
         }
 
-        private void SendDateTime(MainParametersViewModel arg1, DateTime arg2)
+        private void SendDateTime(MainParametersPageModel arg1, DateTime arg2)
         {
 
             string data =
@@ -102,13 +102,13 @@ namespace MPS.ViewModel
             MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
         }
        
-        private void SendSpeedAsync(MainParametersViewModel arg1, int arg2)
+        private void SendSpeedAsync(MainParametersPageModel arg1, int arg2)
         {
             string data = BluetoothHelper.BluetoothContract.Speed + arg2 + '\n';
             WriteData(data);
         }
 
-        private void SendViewAsync(MainParametersViewModel arg1, int arg2)
+        private void SendViewAsync(MainParametersPageModel arg1, int arg2)
         {
             string data = BluetoothHelper.BluetoothContract.View + arg2 + '\n';
             WriteData(data);

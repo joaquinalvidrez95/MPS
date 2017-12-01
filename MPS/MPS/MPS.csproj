@@ -38,26 +38,27 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviour\EditorLengthValidatorBehavior.cs" />
     <Compile Include="Behaviour\ItemTappedAttached.cs" />
     <Compile Include="Bluetooth\BluetoothHelper.cs" />
     <Compile Include="Data\MessageDatabase.cs" />
     <Compile Include="Model\MessagesRepository.cs" />
     <Compile Include="Services\IFileHelper.cs" />
-    <Compile Include="ViewModel\EditableMessagePopupViewModel.cs" />
-    <Compile Include="ViewModel\NewMessagePopupViewModel.cs" />
+    <Compile Include="ViewModel\EditableMessagePopupModel.cs" />
+    <Compile Include="ViewModel\NewMessagePopupModel.cs" />
     <Compile Include="Model\DisplayColorRGB.cs" />
     <Compile Include="Model\DisplayColors.cs" />
     <Compile Include="Model\Message.cs" />
-    <Compile Include="ViewModel\MessagePopupViewModel.cs" />
+    <Compile Include="ViewModel\MessagePopupModel.cs" />
     <Compile Include="ViewModel\QuickMessagePopupModel.cs" />
     <Compile Include="View\MessagePopup.xaml.cs">
       <DependentUpon>MessagePopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\MessengerKeys.cs" />
-    <Compile Include="ViewModel\BluetoothDevicesViewModel.cs" />
-    <Compile Include="ViewModel\ColorsPageViewModel.cs" />
+    <Compile Include="ViewModel\BluetoothDevicesPageModel.cs" />
+    <Compile Include="ViewModel\ColorsPageModel.cs" />
     <Compile Include="ViewModel\MainParametersViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\MainPageModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="View\BluetoothDevicesPage.xaml.cs">
       <DependentUpon>BluetoothDevicesPage.xaml</DependentUpon>
@@ -79,7 +80,7 @@
       <DependentUpon>MessagePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\MessagePageViewModel.cs" />
+    <Compile Include="ViewModel\MessagePageModel.cs" />
     <Compile Include="View\QuickMessagePopup.xaml.cs">
       <DependentUpon>QuickMessagePopup.xaml</DependentUpon>
     </Compile>

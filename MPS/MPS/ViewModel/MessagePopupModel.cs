@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace MPS.ViewModel
 {
-    public abstract class MessagePopupViewModel : BaseViewModel
+    public abstract class MessagePopupModel : BaseViewModel
     {
         private string _popupTitle;
         protected Message Message;
@@ -37,7 +37,7 @@ namespace MPS.ViewModel
 
         public ICommand CancelCommand { get; protected set; }
 
-        protected MessagePopupViewModel()
+        protected MessagePopupModel()
         {
             DoneCommand = new Command(FinishMessage);
             CancelCommand = new Command(CancelMessage);

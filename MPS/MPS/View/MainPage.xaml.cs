@@ -13,7 +13,7 @@ namespace MPS
         public MainPage()
         {
             InitializeComponent();
-            BindingContext = new MainViewModel(Navigation);
+            BindingContext = new MainPageModel(Navigation);
         }
 
        

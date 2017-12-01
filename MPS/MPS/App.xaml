@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"         
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              x:Class="MPS.App">
     <Application.Resources>
 
@@ -8,18 +9,17 @@
             <Color x:Key="PageBackgroundColor">Yellow</Color>
             <Color x:Key="HeadingTextColor">Black</Color>
             <Color x:Key="NormalTextColor">Blue</Color>
-            <x:String x:Key="ButtonAccept">Aceptar</x:String>
-            <x:String x:Key="ButtonCancel">Cancelar</x:String>/>
+            <Color x:Key="ButtonColor">Red</Color>
+            <Color x:Key="ColorButtonText" >White</Color>
+            <x:Double x:Key="EditorHeight">180</x:Double>
 
-            <Style x:Key="LabelPageHeadingStyle" TargetType="Label">
-                <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="HorizontalOptions" Value="Center" />
-                <Setter Property="TextColor" Value="{StaticResource HeadingTextColor}" />
-                <Setter Property="WidthRequest" Value="30"/>
-                <Setter Property="HeightRequest" Value="30"/>
-            </Style>
+            <x:String x:Key="ButtonAccept">Aceptar</x:String>
+            <x:String x:Key="ButtonCancel">Cancelar</x:String>
+
+            <x:Int32 x:Key="MaxMessageLength">198</x:Int32>
+          
             <Style x:Key="ButtonColorStyle" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="Red"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"/>
                 <Setter Property="WidthRequest" Value="40"/>
                 <Setter Property="HeightRequest" Value="40"/>
                 <Setter Property="BorderColor" Value="Black"/>
@@ -33,15 +33,21 @@
                 <Setter Property="Margin" Value="0,0,0,20"/>
             </Style>
             <Style x:Key="SliderRgb" TargetType="Slider">
-                <Setter Property="Minimum" Value="0"/>
-                <Setter Property="Maximum" Value="5"/>
-                <Setter Property="WidthRequest" Value="300"/>
-                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="Minimum" 
+                        Value="0"/>
+                <Setter Property="Maximum" 
+                        Value="5"/>
+                <Setter Property="WidthRequest" 
+                        Value="300"/>
+                <Setter Property="HorizontalOptions" 
+                        Value="Center"/>
+                <Setter Property="Margin"
+                        Value="0,0,0,20"/>
             </Style>
             <Style x:Key="PaddingContentPage" TargetType="ContentPage">
                 <Setter Property="Padding" Value="20,10,20,10"/>
             </Style>
-          
+
         </ResourceDictionary>
 
     </Application.Resources>

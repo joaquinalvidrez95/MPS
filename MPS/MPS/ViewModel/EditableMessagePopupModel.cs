@@ -7,9 +7,9 @@ using MPS.Model;
 
 namespace MPS.ViewModel
 {
-    public class EditableMessagePopupViewModel : MessagePopupViewModel
+    public class EditableMessagePopupModel : MessagePopupModel
     {
-        public EditableMessagePopupViewModel(Message message)
+        public EditableMessagePopupModel(Message message)
         {
             PopupTitle = "Editar mensaje";
             Message = message;            

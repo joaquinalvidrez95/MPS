@@ -1,9 +1,9 @@
 namespace MPS.ViewModel
 {
-    public class NewMessagePopupViewModel : MessagePopupViewModel
+    public class NewMessagePopupModel : MessagePopupModel
     {        
 
-        public NewMessagePopupViewModel()
+        public NewMessagePopupModel()
         {            
             PopupTitle = "Agregar Mensaje";
         }

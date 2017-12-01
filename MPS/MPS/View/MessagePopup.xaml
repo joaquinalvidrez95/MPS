@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"                 
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
              x:Class="MPS.MessagePopup">
    
     <!--<pages:PopupPage.Animation>
@@ -16,10 +17,21 @@
             EasingOut="SinIn"
             HasBackgroundAnimation="True"/>
     </pages:PopupPage.Animation>-->
+
+    <pages:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor"
+                        Value="{StaticResource ButtonColor}"/>
+                <Setter Property="TextColor"
+                        Value="{StaticResource ColorButtonText}"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </pages:PopupPage.Resources>
     <StackLayout VerticalOptions="CenterAndExpand"
                  HorizontalOptions="Center"
                  BackgroundColor="White"
-                 Padding="10,0,10,10"
+                 Padding="10,0,10,0"
                  >
         <TableView Intent="Form"
                    HasUnevenRows="True"                  
@@ -28,12 +40,16 @@
 
             <TableSection Title="{Binding PopupTitle}">
                 <EntryCell Label="Título"
-                               Text="{Binding Title}"/>
+                           Text="{Binding Title}"/>
                 <ViewCell>
                     <ViewCell.View>
                         <StackLayout>
-                            <Editor HeightRequest="200"
-                                        Text="{Binding Text}"/>
+                            <Editor HeightRequest="{StaticResource EditorHeight}"
+                                    Text="{Binding Text}">
+                                <Editor.Behaviors>
+                                    <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
+                                </Editor.Behaviors>
+                            </Editor>
                             <StackLayout Orientation="Horizontal">
                                 <Button Text="{StaticResource ButtonAccept}"  
                                         HorizontalOptions="FillAndExpand"

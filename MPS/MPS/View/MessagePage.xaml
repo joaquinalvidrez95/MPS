@@ -9,7 +9,7 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <viewModel:MessagePageViewModel x:Key="ViewModel" />
+            <viewModel:MessagePageModel x:Key="ViewModel" />
             <Style TargetType="Button">
                 <Setter Property="BackgroundColor"
                         Value="Red"/>

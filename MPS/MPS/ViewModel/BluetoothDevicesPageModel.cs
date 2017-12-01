@@ -13,7 +13,7 @@ using Xamarin.Forms;
 
 namespace MPS.ViewModel
 {
-    public class BluetoothDevicesViewModel : BaseViewModel
+    public class BluetoothDevicesPageModel : BaseViewModel
     {
         private readonly INavigation _navigation;
         private string _text;
@@ -51,7 +51,7 @@ namespace MPS.ViewModel
             }
         }
         
-        public BluetoothDevicesViewModel(INavigation navigation)
+        public BluetoothDevicesPageModel(INavigation navigation)
         {
             _navigation = navigation;
             _devices = new ObservableCollection<IDevice>();                              

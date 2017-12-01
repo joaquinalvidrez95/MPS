@@ -26,13 +26,22 @@ namespace MPS.ViewModel
         public string Text
         {
             get => _text;
-            set { _text = value; OnPropertyChanged(); }
+            set
+            {                
+                _text = value;
+                OnPropertyChanged();
+            }
         }
 
         public QuickMessagePopupModel()
         {
             DoneCommand = new Command(FinishMessage);
             CancelCommand = new Command(CancelMessage);
+            _text = "";
+            for (int i = 0; i < 195; i++)
+            {
+                Text += "9";
+            }
         }
 
         private async void CancelMessage()

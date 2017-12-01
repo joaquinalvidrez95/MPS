@@ -15,7 +15,7 @@ using Xamarin.Forms;
 
 namespace MPS.ViewModel
 {
-    public class MainParametersViewModel : BaseViewModel
+    public class MainParametersPageModel : BaseViewModel
     {
         //private const double STEP_VALUE = 1.0;
         private string _currentDateTime;
@@ -100,13 +100,13 @@ namespace MPS.ViewModel
 
 
 
-        public MainParametersViewModel()
+        public MainParametersPageModel()
         {
             DateTimeCommand = new Command(UpdateDateTime);
             ToggleViewCommand = new Command(ToggleView);
             CurrentView = 0;
             Speed = 0;
-            MessagingCenter.Subscribe<MainViewModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);
+            MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);
             StatusColor = Color.Red;
             QuickMessageCommand = new Command(SendQuickMessage);
             MessagingCenter.Subscribe<QuickMessagePopupModel, string>(this, MessengerKeys.QuickMessage, OnQuickMessageAdded);
@@ -117,7 +117,7 @@ namespace MPS.ViewModel
             MessagingCenter.Send(this, MessengerKeys.QuickMessage, text);
         }
 
-        private void OnDeviceStatusChanged(MainViewModel arg1, IDevice arg2)
+        private void OnDeviceStatusChanged(MainPageModel arg1, IDevice arg2)
         {
             switch (arg2.State)
             {

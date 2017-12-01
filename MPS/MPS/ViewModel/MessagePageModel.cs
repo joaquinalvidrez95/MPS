@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace MPS.ViewModel
 {
-    public class MessagePageViewModel : BaseViewModel
+    public class MessagePageModel : BaseViewModel
     {
         private string _message;
         private ObservableCollection<Message> _messages;
@@ -38,7 +38,7 @@ namespace MPS.ViewModel
         public Message SelectedItem { get; set; }
 
         public ICommand SendCommand { get; }
-        public MessagePageViewModel()
+        public MessagePageModel()
         {
             ItemTappedCommand = new Command(EditMessage);
             Messages = new ObservableCollection<Message>(new MessagesRepository().Messages.ToList());
@@ -46,13 +46,13 @@ namespace MPS.ViewModel
             SendCommand = new Command<string>(Send);
             SendMessageCommand = new Command(SendMessage);
             MessagePopupCommand = new Command(OpenPopupMessage);
-            MessagingCenter.Subscribe<MessagePopupViewModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
+            MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
             Message = "";
         }
 
         private async void EditMessage()
         {
-            await PopupNavigation.PushAsync(new MessagePopup(new EditableMessagePopupViewModel(SelectedItem)));
+            await PopupNavigation.PushAsync(new MessagePopup(new EditableMessagePopupModel(SelectedItem)));
         }
 
         private void Send(string obj)
@@ -81,7 +81,7 @@ namespace MPS.ViewModel
             }
         }
 
-        private void OnMessageAdded(MessagePopupViewModel arg1, Message message)
+        private void OnMessageAdded(MessagePopupModel arg1, Message message)
         {
             if (Messages.Contains(message))
                 Messages = new ObservableCollection<Message>(Messages.ToList());
@@ -92,7 +92,7 @@ namespace MPS.ViewModel
 
         private async void OpenPopupMessage()
         {
-            await PopupNavigation.PushAsync(new MessagePopup(new NewMessagePopupViewModel()));
+            await PopupNavigation.PushAsync(new MessagePopup(new NewMessagePopupModel()));
         }
 
         private void SendMessage()

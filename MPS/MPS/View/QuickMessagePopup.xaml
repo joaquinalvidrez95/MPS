@@ -3,18 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
+             xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
              x:Class="MPS.View.QuickMessagePopup">
     
     <pages:PopupPage.Resources>
         <ResourceDictionary>
             <viewModel:QuickMessagePopupModel x:Key="ViewModel" />
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor"
+                        Value="{StaticResource ButtonColor}"/>
+                <Setter Property="TextColor"
+                        Value="{StaticResource ColorButtonText}"></Setter>
+            </Style>
         </ResourceDictionary>
     </pages:PopupPage.Resources>
 
     <StackLayout BindingContext="{StaticResource ViewModel}"
                  VerticalOptions="Center"
                  BackgroundColor="White"
-                 >
+                 Padding="10,0,10,0">
         <TableView Intent="Form"
                    HasUnevenRows="True"                  
                    HorizontalOptions="Center"
@@ -23,12 +30,16 @@
             <TableSection Title="Mensaje instantáneo">
                 <ViewCell>
                     <ViewCell.View>
-                        <StackLayout>
-                            <Editor HeightRequest="200"
-                                    Text="{Binding Text}"/>
+                        <StackLayout Orientation="Vertical">
+                            <Editor HeightRequest="{StaticResource EditorHeight}"
+                                    Text="{Binding Text}">
+                                <Editor.Behaviors>
+                                    <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
+                                </Editor.Behaviors>
+                            </Editor>
                             <StackLayout Orientation="Horizontal">
-                                <Button Text="{StaticResource ButtonAccept}"  
-                                        HorizontalOptions="FillAndExpand"
+                                <Button Text="Enviar"  
+                                        HorizontalOptions="FillAndExpand"                                        
                                         Command="{Binding DoneCommand}"/>
                                 <Button Text="{StaticResource ButtonCancel}"    
                                         HorizontalOptions="FillAndExpand"
