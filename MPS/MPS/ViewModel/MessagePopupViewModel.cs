@@ -51,7 +51,7 @@ namespace MPS.ViewModel
 
         private async void FinishMessage()
         {
-            if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Text) || Title.Length >= 199) return;
+            if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Text) || Text.Length >= 199) return;
             await PopupNavigation.PopAsync();
             MessagingCenter.Send(this, MessengerKeys.NewMessage, Message);
         }

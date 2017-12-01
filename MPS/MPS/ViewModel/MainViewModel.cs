@@ -63,10 +63,18 @@ namespace MPS.ViewModel
             MessagingCenter.Subscribe<MainParametersViewModel, int>(this, MessengerKeys.CurrentView, SendViewAsync);
             MessagingCenter.Subscribe<MainParametersViewModel, int>(this, MessengerKeys.Speed, SendSpeedAsync);
             MessagingCenter.Subscribe<MainParametersViewModel, DateTime>(this, MessengerKeys.DateTime, SendDateTime);
+            MessagingCenter.Subscribe<MainParametersViewModel, string>(this, MessengerKeys.QuickMessage, SendQuickMessage);
             MessagingCenter.Subscribe<MessagePageViewModel, string>(this, MessengerKeys.Message, SendMessage);
             MessagingCenter.Subscribe<ColorsPageViewModel, DisplayColors>(this, MessengerKeys.Colours, SendColours);                   
+            
         }
-      
+
+        private void SendQuickMessage(MainParametersViewModel arg1, string arg2)
+        {
+            string data = BluetoothHelper.BluetoothContract.Message + "  " + arg2 + '\n';
+            WriteData(data);
+        }
+
         private void SendColours(ColorsPageViewModel arg1, DisplayColors arg2)
         {
             string data = BluetoothHelper.BluetoothContract.Colours + arg2.ColorCode() + '\n';

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"         
              x:Class="MPS.App">
     <Application.Resources>
 
@@ -8,6 +8,9 @@
             <Color x:Key="PageBackgroundColor">Yellow</Color>
             <Color x:Key="HeadingTextColor">Black</Color>
             <Color x:Key="NormalTextColor">Blue</Color>
+            <x:String x:Key="ButtonAccept">Aceptar</x:String>
+            <x:String x:Key="ButtonCancel">Cancelar</x:String>/>
+
             <Style x:Key="LabelPageHeadingStyle" TargetType="Label">
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="HorizontalOptions" Value="Center" />
@@ -38,6 +41,7 @@
             <Style x:Key="PaddingContentPage" TargetType="ContentPage">
                 <Setter Property="Padding" Value="20,10,20,10"/>
             </Style>
+          
         </ResourceDictionary>
 
     </Application.Resources>

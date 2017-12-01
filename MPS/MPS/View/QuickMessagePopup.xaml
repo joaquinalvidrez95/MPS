@@ -1,44 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"                 
-             x:Class="MPS.MessagePopup">
-   
-    <!--<pages:PopupPage.Animation>
-        <animations:ScaleAnimation 
-            PositionIn="Center"
-            PositionOut="Center"
-            ScaleIn="1.2"
-            ScaleOut="0.8"
-            DurationIn="400"
-            DurationOut="300"
-            EasingIn="SinOut"
-            EasingOut="SinIn"
-            HasBackgroundAnimation="True"/>
-    </pages:PopupPage.Animation>-->
-    <StackLayout VerticalOptions="CenterAndExpand"
-                 HorizontalOptions="Center"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
+             x:Class="MPS.View.QuickMessagePopup">
+    
+    <pages:PopupPage.Resources>
+        <ResourceDictionary>
+            <viewModel:QuickMessagePopupModel x:Key="ViewModel" />
+        </ResourceDictionary>
+    </pages:PopupPage.Resources>
+
+    <StackLayout BindingContext="{StaticResource ViewModel}"
+                 VerticalOptions="Center"
                  BackgroundColor="White"
-                 Padding="10,0,10,10"
                  >
         <TableView Intent="Form"
                    HasUnevenRows="True"                  
                    HorizontalOptions="Center"
                    VerticalOptions="Center">
 
-            <TableSection Title="{Binding PopupTitle}">
-                <EntryCell Label="Título"
-                               Text="{Binding Title}"/>
+            <TableSection Title="Mensaje instantáneo">
                 <ViewCell>
                     <ViewCell.View>
                         <StackLayout>
                             <Editor HeightRequest="200"
-                                        Text="{Binding Text}"/>
+                                    Text="{Binding Text}"/>
                             <StackLayout Orientation="Horizontal">
                                 <Button Text="{StaticResource ButtonAccept}"  
                                         HorizontalOptions="FillAndExpand"
                                         Command="{Binding DoneCommand}"/>
-                                <Button Text="{StaticResource ButtonCancel}"           
+                                <Button Text="{StaticResource ButtonCancel}"    
                                         HorizontalOptions="FillAndExpand"
                                         Command="{Binding CancelCommand}"/>
                             </StackLayout>
@@ -47,6 +39,6 @@
                 </ViewCell>
             </TableSection>
         </TableView>
-    </StackLayout>
 
+    </StackLayout>
 </pages:PopupPage>

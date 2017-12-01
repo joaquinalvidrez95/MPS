@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MPS.Model;
+using MPS.View;
+using Rg.Plugins.Popup.IOS;
+using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 
 namespace MPS.ViewModel
@@ -20,9 +24,23 @@ namespace MPS.ViewModel
         int _currentView;
         private string _text;
         private Color _statusColor;
+        private string _message;
 
         public ICommand DateTimeCommand { get; }
         public ICommand ToggleViewCommand { get; }
+
+        public ICommand QuickMessageCommand { get; }
+
+        public string Message
+        {
+            get => _message;
+            set
+            {
+                _message = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string CurrentDateTime
         {
             get => _currentDateTime;
@@ -70,14 +88,18 @@ namespace MPS.ViewModel
             }
         }
 
-        public Color StatusColor { get => _statusColor;
+        public Color StatusColor
+        {
+            get => _statusColor;
             set
             {
                 _statusColor = value;
                 OnPropertyChanged();
             }
         }
-           
+
+
+
         public MainParametersViewModel()
         {
             DateTimeCommand = new Command(UpdateDateTime);
@@ -86,6 +108,13 @@ namespace MPS.ViewModel
             Speed = 0;
             MessagingCenter.Subscribe<MainViewModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);
             StatusColor = Color.Red;
+            QuickMessageCommand = new Command(SendQuickMessage);
+            MessagingCenter.Subscribe<QuickMessagePopupModel, string>(this, MessengerKeys.QuickMessage, OnQuickMessageAdded);
+        }
+
+        private void OnQuickMessageAdded(QuickMessagePopupModel arg1, string text)
+        {
+            MessagingCenter.Send(this, MessengerKeys.QuickMessage, text);
         }
 
         private void OnDeviceStatusChanged(MainViewModel arg1, IDevice arg2)
@@ -97,15 +126,15 @@ namespace MPS.ViewModel
                     break;
                 case DeviceState.Disconnected:
                     StatusColor = Color.Red;
-                    break;                     
+                    break;
             }
         }
-               
+
         private void ToggleView()
         {
             CurrentView++;
             CurrentView = CurrentView % 3;
-            MessagingCenter.Send(this, MessengerKeys.CurrentView, CurrentView);            
+            MessagingCenter.Send(this, MessengerKeys.CurrentView, CurrentView);
 
         }
 
@@ -122,7 +151,11 @@ namespace MPS.ViewModel
             MessagingCenter.Send(this, MessengerKeys.DateTime, now);
         }
 
-
+        private async void SendQuickMessage()
+        {
+            MessagingCenter.Send(this, MessengerKeys.Message, Message);
+            await PopupNavigation.PushAsync(new QuickMessagePopup());
+        }
 
     }
 }
