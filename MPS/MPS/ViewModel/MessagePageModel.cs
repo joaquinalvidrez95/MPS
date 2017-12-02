@@ -59,10 +59,9 @@ namespace MPS.ViewModel
         {
             foreach (var message in Messages.ToList())
             {
-                if (message.Title.Equals(obj))
-                {
-                    MessagingCenter.Send(this, MessengerKeys.Message, message.Text);
-                }
+                if (!message.Title.Equals(obj)) continue;
+                MessagingCenter.Send(this, MessengerKeys.Message, message.Text);
+                break;
             }
         }
 

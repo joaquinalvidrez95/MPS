@@ -37,11 +37,11 @@ namespace MPS.ViewModel
         {
             DoneCommand = new Command(FinishMessage);
             CancelCommand = new Command(CancelMessage);
-            _text = "";
-            for (int i = 0; i < 195; i++)
-            {
-                Text += "9";
-            }
+            //_text = "";
+            //for (int i = 0; i < 195; i++)
+            //{
+            //    Text += "9";
+            //}
         }
 
         private async void CancelMessage()

@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
+             Style="{StaticResource PaddingPopup}"
              x:Class="MPS.MessagePopup">
-   
+
     <!--<pages:PopupPage.Animation>
         <animations:ScaleAnimation 
             PositionIn="Center"
@@ -22,18 +23,19 @@
         <ResourceDictionary>
             <Style TargetType="Button">
                 <Setter Property="BackgroundColor"
-                        Value="{StaticResource ButtonColor}"/>
+                        Value="{StaticResource ColorPrimary}"/>
                 <Setter Property="TextColor"
-                        Value="{StaticResource ColorButtonText}"></Setter>
+                        Value="{StaticResource ColorButtonText}"/>
+                <Setter Property="HorizontalOptions"
+                        Value="FillAndExpand"/>
             </Style>
         </ResourceDictionary>
     </pages:PopupPage.Resources>
-    <StackLayout VerticalOptions="CenterAndExpand"
-                 HorizontalOptions="Center"
+    <StackLayout VerticalOptions="Center"                
+                 Orientation="Vertical"
                  BackgroundColor="White"
-                 Padding="10,0,10,0"
-                 >
-        <TableView Intent="Form"
+                 Padding="10,20,10,20">
+        <!--<TableView Intent="Form"
                    HasUnevenRows="True"                  
                    HorizontalOptions="Center"
                    VerticalOptions="Center">
@@ -41,28 +43,52 @@
             <TableSection Title="{Binding PopupTitle}">
                 <EntryCell Label="Título"
                            Text="{Binding Title}"/>
-                <ViewCell>
-                    <ViewCell.View>
-                        <StackLayout>
-                            <Editor HeightRequest="{StaticResource EditorHeight}"
+                <ViewCell  Height="250">
+                    <StackLayout Orientation="Vertical">
+                        <Editor HeightRequest="{StaticResource EditorHeight}"
                                     Text="{Binding Text}">
-                                <Editor.Behaviors>
-                                    <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
-                                </Editor.Behaviors>
-                            </Editor>
-                            <StackLayout Orientation="Horizontal">
-                                <Button Text="{StaticResource ButtonAccept}"  
-                                        HorizontalOptions="FillAndExpand"
-                                        Command="{Binding DoneCommand}"/>
-                                <Button Text="{StaticResource ButtonCancel}"           
-                                        HorizontalOptions="FillAndExpand"
-                                        Command="{Binding CancelCommand}"/>
-                            </StackLayout>
+                            <Editor.Behaviors>
+                                <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
+                            </Editor.Behaviors>
+                        </Editor>
+                        <StackLayout Orientation="Horizontal">
+                            <Button Text="Guardar"        
+                                    Image="ic_save_white_48dp.png"                              
+                                    Command="{Binding DoneCommand}"/>
+                            <Button Text="{StaticResource ButtonCancel}"       
+                                    Image="ic_cancel_white_48dp.png"
+                                    Command="{Binding CancelCommand}"/>
+
                         </StackLayout>
-                    </ViewCell.View>
+                    </StackLayout>
                 </ViewCell>
             </TableSection>
-        </TableView>
+        </TableView>-->
+        <Label Text="{Binding PopupTitle}"
+               TextColor="{StaticResource ColorAccent}"/>
+        <BoxView Color="{StaticResource ColorAccent}"
+                 HeightRequest="1"/>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Título: "/>
+            <Entry Text="{Binding Title}"
+                   HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+        
+        <Editor HeightRequest="{StaticResource EditorHeight}"
+                Text="{Binding Text}">
+            <Editor.Behaviors>
+                <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
+            </Editor.Behaviors>
+        </Editor>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Guardar"        
+                    Image="ic_save_white_48dp.png"                              
+                    Command="{Binding DoneCommand}"/>
+            <Button Text="{StaticResource ButtonCancel}"       
+                    Image="ic_cancel_white_48dp.png"
+                    Command="{Binding CancelCommand}"/>
+
+        </StackLayout>
     </StackLayout>
 
 </pages:PopupPage>
