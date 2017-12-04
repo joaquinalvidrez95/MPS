@@ -69,8 +69,10 @@
         <BoxView Color="{StaticResource ColorAccent}"
                  HeightRequest="1"/>
         <StackLayout Orientation="Horizontal">
-            <Label Text="Título: "/>
+            <Label Text="Título: "
+                   VerticalOptions="Center"/>
             <Entry Text="{Binding Title}"
+                   VerticalOptions="Center"
                    HorizontalOptions="FillAndExpand"/>
         </StackLayout>
         

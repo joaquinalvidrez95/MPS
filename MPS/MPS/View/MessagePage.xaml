@@ -16,7 +16,7 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-
+    
     <ContentPage.Content>
         <StackLayout BindingContext="{StaticResource ViewModel}">
             <Button
@@ -24,8 +24,8 @@
                 HorizontalOptions="Center"           
                 Image="ic_add_white_48dp.png"/>
             <ListView ItemsSource="{Binding Messages}"
-                      SelectedItem="{Binding SelectedItem}"
-                      behaviour:ItemTappedAttached.Command="{Binding ItemTappedCommand}"                     
+                      SelectedItem="{Binding SelectedItem}"              
+                      behaviour:ItemTappedAttached.Command="{Binding ItemTappedCommand}"
                       Header="sds"
                       HasUnevenRows="True">
                 <ListView.HeaderTemplate>
@@ -43,14 +43,14 @@
                         <ViewCell>
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="{Binding Title}"
-                                           VerticalOptions="Center"
+                                           VerticalOptions="Center"                                       
                                            HorizontalOptions="StartAndExpand" />
                                 <Image Source="ic_delete_forever_black_48dp.png"
-                                           VerticalOptions="Center"
-                                           HorizontalOptions="End">
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="End">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={StaticResource ViewModel}, Path=DeleteCommand}"
-                                                                  CommandParameter="{Binding Title}"/>
+                                                                  CommandParameter="{Binding .}"/>
                                     </Image.GestureRecognizers>
                                 </Image>
 
@@ -59,7 +59,7 @@
                                                HorizontalOptions="End">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={StaticResource ViewModel}, Path=SendCommand}"
-                                                                  CommandParameter="{Binding Title}"/>
+                                                                  CommandParameter="{Binding .}"/>
                                     </Image.GestureRecognizers>
                                 </Image>
                             </StackLayout>

@@ -13,7 +13,6 @@ namespace MPS.ViewModel
         private string _message;
         private ObservableCollection<Message> _messages;
 
-        public ICommand SendMessageCommand { get; }
         public ICommand ItemTappedCommand { get; }
         public string Message
         {
@@ -42,12 +41,29 @@ namespace MPS.ViewModel
         {
             ItemTappedCommand = new Command(EditMessage);
             Messages = new ObservableCollection<Message>(new MessagesRepository().Messages.ToList());
-            DeleteCommand = new Command<string>(DeleteMessage);
-            SendCommand = new Command<string>(Send);
-            SendMessageCommand = new Command(SendMessage);
+            DeleteCommand = new Command<Message>(DeleteMessage);
+            SendCommand = new Command<Message>(SendMessage);
             MessagePopupCommand = new Command(OpenPopupMessage);
             MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
             Message = "";
+        }
+
+        private void SendMessage(Message selectedMessage)
+        {
+            MessagingCenter.Send(this, MessengerKeys.Message, selectedMessage.Text);
+        }
+
+        private async void DeleteMessage(Message messageSelected)
+        {
+            if (!await Application.Current.MainPage.DisplayAlert(
+                title: "Confirmación",
+                message: "¿Estás seguro de eliminar el mensaje?",
+                accept: "Sí",
+                cancel: "No")) return;
+
+            new MessagesRepository().DeleteMessage(messageSelected);
+            Messages = new ObservableCollection<Message>(new MessagesRepository().Messages);
+
         }
 
         private async void EditMessage()
@@ -55,30 +71,31 @@ namespace MPS.ViewModel
             await PopupNavigation.PushAsync(new MessagePopup(new EditableMessagePopupModel(SelectedItem)));
         }
 
-        private void Send(string obj)
-        {
-            foreach (var message in Messages.ToList())
-            {
-                if (!message.Title.Equals(obj)) continue;
-                MessagingCenter.Send(this, MessengerKeys.Message, message.Text);
-                break;
-            }
-        }
+        //private void SendMessage(int id)
+        //{
+        //    foreach (var message in Messages.ToList())
+        //    {
+        //        if (!message.Id.Equals(id)) continue;
+        //        MessagingCenter.Send(this, MessengerKeys.Message, message.Text);
+        //        break;
+        //    }
+        //}
 
-        private async void DeleteMessage(string obj)
-        {
-            if (!await Application.Current.MainPage.DisplayAlert(
-                title: "Confirmación",
-                message: "¿Estás seguro de eliminar el mensaje?",
-                accept: "Sí",
-                cancel: "No")) return;
-            foreach (var message in Messages.ToList())
-            {
-                if (!message.Title.Equals(obj)) continue;
-                Messages.Remove(message);
-                new MessagesRepository().DeleteMessage(message);
-            }
-        }
+        //private async void DeleteMessage(int id)
+        //{
+        //    if (!await Application.Current.MainPage.DisplayAlert(
+        //        title: "Confirmación",
+        //        message: "¿Estás seguro de eliminar el mensaje?",
+        //        accept: "Sí",
+        //        cancel: "No")) return;
+        //    foreach (var message in Messages.ToList())
+        //    {
+        //        if (!message.Id.Equals(id)) continue;
+        //        //Messages.Remove(message);
+        //        new MessagesRepository().DeleteMessage(message);
+        //        Messages=new ObservableCollection<Message>(new MessagesRepository().Messages);
+        //    }
+        //}
 
         private void OnMessageAdded(MessagePopupModel arg1, Message message)
         {
@@ -94,9 +111,6 @@ namespace MPS.ViewModel
             await PopupNavigation.PushAsync(new MessagePopup(new NewMessagePopupModel()));
         }
 
-        private void SendMessage()
-        {
-            MessagingCenter.Send(this, MessengerKeys.Message, Message);
-        }
+
     }
 }
