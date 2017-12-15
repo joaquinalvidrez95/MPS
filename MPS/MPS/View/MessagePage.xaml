@@ -23,43 +23,54 @@
                 Command="{Binding MessagePopupCommand}"
                 HorizontalOptions="Center"           
                 Image="ic_add_white_48dp.png"/>
-            <ListView ItemsSource="{Binding Messages}"
-                      SelectedItem="{Binding SelectedItem}"              
-                      behaviour:ItemTappedAttached.Command="{Binding ItemTappedCommand}"
-                      Header="sds"
-                      HasUnevenRows="True">
+            <ListView 
+                ItemsSource="{Binding Messages}"
+                SelectedItem="{Binding SelectedItem}"                      
+                behaviour:ItemTappedAttached.Command="{Binding ItemTappedCommand}"
+                Header="sds"
+                HasUnevenRows="True">
                 <ListView.HeaderTemplate>
                     <DataTemplate>
                         <StackLayout Orientation="Vertical">
-                            <Label Text="Lista Mensajes"
-                                       TextColor="Red"/>
-                            <BoxView HeightRequest="1"
-                                         Color="{StaticResource ColorAccent}"/>
+                            <Label 
+                                Text="Lista Mensajes"
+                                TextColor="Red"/>
+                            <BoxView 
+                                HeightRequest="1"
+                                Color="{StaticResource ColorAccent}"/>
                         </StackLayout>
                     </DataTemplate>
                 </ListView.HeaderTemplate>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding Title}"
-                                           VerticalOptions="Center"                                       
-                                           HorizontalOptions="StartAndExpand" />
-                                <Image Source="ic_delete_forever_black_48dp.png"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="End">
+                            <StackLayout 
+                                Orientation="Horizontal">
+                                <Label 
+                                    Text="{Binding Title}"
+                                    VerticalOptions="Center"                                       
+                                    HorizontalOptions="StartAndExpand" />
+                                
+                                <Image 
+                                    Source="ic_delete_forever_black_48dp.png"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End">
                                     <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={StaticResource ViewModel}, Path=DeleteCommand}"
-                                                                  CommandParameter="{Binding .}"/>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={StaticResource ViewModel}, Path=DeleteCommand}"
+                                            CommandParameter="{Binding .}"/>
                                     </Image.GestureRecognizers>
                                 </Image>
 
-                                <Image Source="ic_send_envelope.png"
-                                               VerticalOptions="Center"
-                                               HorizontalOptions="End">
+                                <Image 
+                                    Margin="20,0,0,0"
+                                    Source="ic_send_envelope.png"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End">
                                     <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={StaticResource ViewModel}, Path=SendCommand}"
-                                                                  CommandParameter="{Binding .}"/>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={StaticResource ViewModel}, Path=SendCommand}"
+                                            CommandParameter="{Binding .}"/>
                                     </Image.GestureRecognizers>
                                 </Image>
                             </StackLayout>

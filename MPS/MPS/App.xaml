@@ -17,7 +17,7 @@
             <x:String x:Key="ButtonAccept">Aceptar</x:String>
             <x:String x:Key="ButtonCancel">Cancelar</x:String>
 
-            <x:Int32 x:Key="MaxMessageLength">198</x:Int32>
+            <x:Int32 x:Key="MaxMessageLength">197</x:Int32>
           
             <Style x:Key="ButtonColorStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource ColorAccent}"/>
