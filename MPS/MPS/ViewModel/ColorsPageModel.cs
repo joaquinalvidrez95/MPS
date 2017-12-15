@@ -17,7 +17,7 @@ namespace MPS.ViewModel
         private readonly Color _borderColorDefault = Color.Black;
         private readonly Color _borderColorHighlight = Color.Gray;
         private const int BorderWithDefault = 1;
-        private const int BorderWithHighlight = 3;
+        private const int BorderWithHighlight = 5;
 
         private readonly ColorTypeConverter _colorTypeConv = new ColorTypeConverter();
         private Color _borderColorLowerLine;
