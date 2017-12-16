@@ -136,6 +136,7 @@ namespace MPS.ViewModel
             CurrentView = CurrentView % 3;
             MessagingCenter.Send(this, MessengerKeys.CurrentView, CurrentView);
 
+
         }
 
         private void UpdateDateTime()
