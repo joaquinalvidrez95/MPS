@@ -12,6 +12,7 @@ namespace MPS.ViewModel
     {
         private string _message;
         private ObservableCollection<Message> _messages;
+     
 
         public ICommand ItemTappedCommand { get; }
         public string Message
@@ -23,6 +24,8 @@ namespace MPS.ViewModel
                 OnPropertyChanged();
             }
         }
+
+       
 
         public ICommand MessagePopupCommand { get; }
 
@@ -43,7 +46,7 @@ namespace MPS.ViewModel
             Messages = new ObservableCollection<Message>(new MessagesRepository().Messages.ToList());
             DeleteCommand = new Command<Message>(DeleteMessage);
             SendCommand = new Command<Message>(SendMessage);
-            MessagePopupCommand = new Command(OpenPopupMessage);
+            MessagePopupCommand = new Command(OpenNewPopupMessage);
             MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
             Message = "";
         }
@@ -68,7 +71,7 @@ namespace MPS.ViewModel
 
         private async void EditMessage()
         {
-            await PopupNavigation.PushAsync(new MessagePopup(new EditableMessagePopupModel(SelectedItem)));
+            await PopupNavigation.PushAsync(new MessagePopup(new EditableMessagePopupModel(SelectedItem, Messages)));
         }      
 
         private void OnMessageAdded(MessagePopupModel arg1, Message message)
@@ -84,9 +87,9 @@ namespace MPS.ViewModel
             new MessagesRepository().AddMessage(message);
         }
 
-        private async void OpenPopupMessage()
+        private async void OpenNewPopupMessage()
         {
-            await PopupNavigation.PushAsync(new MessagePopup(new NewMessagePopupModel()));
+            await PopupNavigation.PushAsync(new MessagePopup(new NewMessagePopupModel(Messages)));
         }
 
 

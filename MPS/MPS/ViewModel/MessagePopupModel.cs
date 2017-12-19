@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Windows.Input;
 using MPS.Model;
 using MPS.Utilities;
 using Rg.Plugins.Popup.Services;
@@ -10,11 +11,18 @@ namespace MPS.ViewModel
     {
         private string _popupTitle;
         protected Message Message;
+        private bool _isErrorMessageVisible;
 
         public string Title
         {
             get => Message.Title;
             set => Message.Title = value;
+        }
+
+        public bool IsErrorMessageVisible
+        {
+            get => _isErrorMessageVisible;
+            set { _isErrorMessageVisible = value; OnPropertyChanged(); }
         }
 
         public string Text
@@ -36,13 +44,15 @@ namespace MPS.ViewModel
 
 
         public ICommand CancelCommand { get; protected set; }
+        public ICollection<Message> Messages { get; }
 
-        protected MessagePopupModel()
+        protected MessagePopupModel(ICollection<Message> messages)
         {
             DoneCommand = new Command(FinishMessage);
             CancelCommand = new Command(CancelMessage);
             Message = new Message();
-        }        
+            Messages = messages;
+        }
 
         private async void CancelMessage()
         {
@@ -51,7 +61,14 @@ namespace MPS.ViewModel
 
         private async void FinishMessage()
         {
-            if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Text) || Text.Length >= 199) return;
+            IsErrorMessageVisible = false;
+            foreach (var message in Messages)
+            {
+                if (message.Title != Title) continue;
+                IsErrorMessageVisible = true;
+                break;
+            }           
+            if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Text) || IsErrorMessageVisible) return;
             await PopupNavigation.PopAsync();
             MessagingCenter.Send(this, MessengerKeys.NewMessage, Message);
         }

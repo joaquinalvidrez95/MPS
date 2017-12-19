@@ -1,18 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using MPS.Model;
+
 namespace MPS.ViewModel
 {
     public class NewMessagePopupModel : MessagePopupModel
     {        
 
-        public NewMessagePopupModel()
+        public NewMessagePopupModel(ICollection<Message> messages) : base(messages)
         {            
             PopupTitle = "Agregar Mensaje";
-            //for (int i = 0; i < 195; i++)
-            //{
-            //    Text += "9";
-            //}
+           
         }
 
-       
-
+  
     }
 }

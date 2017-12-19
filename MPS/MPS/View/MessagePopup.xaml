@@ -31,54 +31,31 @@
             </Style>
         </ResourceDictionary>
     </pages:PopupPage.Resources>
-    <StackLayout VerticalOptions="Center"                
-                 Orientation="Vertical"
-                 BackgroundColor="White"
-                 Padding="10,20,10,20">
-        <!--<TableView Intent="Form"
-                   HasUnevenRows="True"                  
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center">
-
-            <TableSection Title="{Binding PopupTitle}">
-                <EntryCell Label="Título"
-                           Text="{Binding Title}"/>
-                <ViewCell  Height="250">
-                    <StackLayout Orientation="Vertical">
-                        <Editor HeightRequest="{StaticResource EditorHeight}"
-                                    Text="{Binding Text}">
-                            <Editor.Behaviors>
-                                <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
-                            </Editor.Behaviors>
-                        </Editor>
-                        <StackLayout Orientation="Horizontal">
-                            <Button Text="Guardar"        
-                                    Image="ic_save_white_48dp.png"                              
-                                    Command="{Binding DoneCommand}"/>
-                            <Button Text="{StaticResource ButtonCancel}"       
-                                    Image="ic_cancel_white_48dp.png"
-                                    Command="{Binding CancelCommand}"/>
-
-                        </StackLayout>
-                    </StackLayout>
-                </ViewCell>
-            </TableSection>
-        </TableView>-->
+    <StackLayout 
+        VerticalOptions="Center"                
+        Orientation="Vertical"
+        BackgroundColor="White"
+        Padding="10,20,10,20">
         <Label 
-            Text="{Binding PopupTitle}"
+            Text="{Binding PopupTitle}"           
             TextColor="{StaticResource ColorAccent}"/>
         <BoxView 
             Color="{StaticResource ColorAccent}"
             HeightRequest="1"/>
+        <Label 
+            Text="Título repetido"
+            IsVisible="{Binding IsErrorMessageVisible}"
+            HorizontalOptions="End"
+            TextColor="{StaticResource ColorAccent}"/>
         <StackLayout 
             Orientation="Horizontal">
             <Label Text="Título: "
                    VerticalOptions="Center"/>
-            <Entry Text="{Binding Title}"
+            <Entry Text="{Binding Title}"                   
                    VerticalOptions="Center"
                    HorizontalOptions="FillAndExpand"/>
         </StackLayout>
-        
+
         <Editor HeightRequest="{StaticResource EditorHeight}"
                 Text="{Binding Text}">
             <Editor.Behaviors>
