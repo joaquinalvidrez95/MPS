@@ -162,7 +162,7 @@
                             <StackLayout Orientation="Vertical">
                                 <Label Text="Rojo"
                                        TextColor="Red"/>
-                                <Slider Style="{StaticResource SliderRgb}"                   
+                                <Slider Style="{StaticResource SliderRgb}"                                               
                                         Value="{Binding RedValue}"/>
                             </StackLayout>
                         </ViewCell>

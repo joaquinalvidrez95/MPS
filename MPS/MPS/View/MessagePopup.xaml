@@ -64,11 +64,14 @@
                 </ViewCell>
             </TableSection>
         </TableView>-->
-        <Label Text="{Binding PopupTitle}"
-               TextColor="{StaticResource ColorAccent}"/>
-        <BoxView Color="{StaticResource ColorAccent}"
-                 HeightRequest="1"/>
-        <StackLayout Orientation="Horizontal">
+        <Label 
+            Text="{Binding PopupTitle}"
+            TextColor="{StaticResource ColorAccent}"/>
+        <BoxView 
+            Color="{StaticResource ColorAccent}"
+            HeightRequest="1"/>
+        <StackLayout 
+            Orientation="Horizontal">
             <Label Text="Título: "
                    VerticalOptions="Center"/>
             <Entry Text="{Binding Title}"
