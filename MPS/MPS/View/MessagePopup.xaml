@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
-             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
-             Style="{StaticResource PaddingPopup}"
+                 Style="{StaticResource PaddingPopup}"
              x:Class="MPS.MessagePopup">
 
     <!--<pages:PopupPage.Animation>
@@ -50,28 +49,16 @@
             TextColor="{StaticResource ColorAccent}"/>
         <StackLayout 
             Orientation="Horizontal">
-            <Label Text="Título: "
-                   VerticalOptions="Center"/>
-            <!--Text="{Binding Title}"-->
-            <Entry 
-                           
-                VerticalOptions="Center"                                     
+            <Label 
+                Text="Título: "
+                VerticalOptions="Center"/>
+            <Entry                            
+                VerticalOptions="Center"             
+                Text="{Binding Title}"
                 HorizontalOptions="FillAndExpand">
-            
-                <behaviors:Interaction.Behaviors>
-                    <behaviors:BehaviorCollection>
-                        <behaviors:EventToCommand 
-                            EventName="TextChanged"               
-                       
-                            Command="{Binding TextChangedCommand}">
-                        </behaviors:EventToCommand>
-                        <behaviors:TextChangedBehavior 
-                            Text="{Binding Title, Mode=TwoWay}"/>
-                    </behaviors:BehaviorCollection>
-                </behaviors:Interaction.Behaviors>
             </Entry>
         </StackLayout>
-        
+
         <Editor 
             HeightRequest="{StaticResource EditorHeight}"
             Text="{Binding Text}">
@@ -79,6 +66,9 @@
                 <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
             </Editor.Behaviors>
         </Editor>
+        <Label
+            Text="{Binding LeftCharacters}"
+            HorizontalOptions="End"/>
         <StackLayout
             Orientation="Horizontal">
             <Button 
