@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
+             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
              Style="{StaticResource PaddingPopup}"
              x:Class="MPS.MessagePopup">
 
@@ -51,24 +52,43 @@
             Orientation="Horizontal">
             <Label Text="Título: "
                    VerticalOptions="Center"/>
-            <Entry Text="{Binding Title}"                   
-                   VerticalOptions="Center"
-                   HorizontalOptions="FillAndExpand"/>
+            <!--Text="{Binding Title}"-->
+            <Entry 
+                           
+                VerticalOptions="Center"                                     
+                HorizontalOptions="FillAndExpand">
+            
+                <behaviors:Interaction.Behaviors>
+                    <behaviors:BehaviorCollection>
+                        <behaviors:EventToCommand 
+                            EventName="TextChanged"               
+                       
+                            Command="{Binding TextChangedCommand}">
+                        </behaviors:EventToCommand>
+                        <behaviors:TextChangedBehavior 
+                            Text="{Binding Title, Mode=TwoWay}"/>
+                    </behaviors:BehaviorCollection>
+                </behaviors:Interaction.Behaviors>
+            </Entry>
         </StackLayout>
-
-        <Editor HeightRequest="{StaticResource EditorHeight}"
-                Text="{Binding Text}">
+        
+        <Editor 
+            HeightRequest="{StaticResource EditorHeight}"
+            Text="{Binding Text}">
             <Editor.Behaviors>
                 <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
             </Editor.Behaviors>
         </Editor>
-        <StackLayout Orientation="Horizontal">
-            <Button Text="Guardar"        
-                    Image="ic_save_white_48dp.png"                              
-                    Command="{Binding DoneCommand}"/>
-            <Button Text="{StaticResource ButtonCancel}"       
-                    Image="ic_cancel_white_48dp.png"
-                    Command="{Binding CancelCommand}"/>
+        <StackLayout
+            Orientation="Horizontal">
+            <Button 
+                Text="Guardar"        
+                Image="ic_save_white_48dp.png"                              
+                Command="{Binding DoneCommand}"/>
+            <Button 
+                Text="{StaticResource ButtonCancel}"       
+                Image="ic_cancel_white_48dp.png"
+                Command="{Binding CancelCommand}"/>
 
         </StackLayout>
     </StackLayout>

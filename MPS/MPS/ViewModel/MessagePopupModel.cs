@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using MPS.Model;
 using MPS.Utilities;
@@ -9,15 +10,37 @@ namespace MPS.ViewModel
 {
     public abstract class MessagePopupModel : BaseViewModel
     {
-        private string _popupTitle;
-        protected Message Message;
+        //protected Message Message;
         private bool _isErrorMessageVisible;
 
+        //private ICommand _textChangedCommand;
+
+        //private string _title;
+
+        public Message Message { get; set; }
         public string Title
         {
             get => Message.Title;
-            set => Message.Title = value;
+            set
+            {
+                //TextChangedCommand = null;
+                Message.Title = value;
+                //TextChangedCommand = new Command(OnTextChanged);
+            }
         }
+
+        public string Text
+        {
+            get => Message.Text;
+            set
+            {
+              
+                Message.Text = value;
+            
+            }
+        }
+
+        public ICommand TextChangedCommand { get; private set; }
 
         public bool IsErrorMessageVisible
         {
@@ -25,33 +48,30 @@ namespace MPS.ViewModel
             set { _isErrorMessageVisible = value; OnPropertyChanged(); }
         }
 
-        public string Text
-        {
-            get => Message.Text;
-            set => Message.Text = value;
-        }
-        public string PopupTitle
-        {
-            get => _popupTitle;
-            protected set
-            {
-                _popupTitle = value;
-                OnPropertyChanged();
-            }
-        }
+        public string PopupTitle { get; protected set; }
 
         public ICommand DoneCommand { get; protected set; }
 
 
         public ICommand CancelCommand { get; protected set; }
-        public ICollection<Message> Messages { get; }
+        private ICollection<Message> Messages { get; }
 
         protected MessagePopupModel(ICollection<Message> messages)
         {
-            DoneCommand = new Command(FinishMessage);
-            CancelCommand = new Command(CancelMessage);
             Message = new Message();
             Messages = messages;
+            DoneCommand = new Command(FinishMessage);
+            CancelCommand = new Command(CancelMessage);
+            TextChangedCommand = new Command(OnTextChanged);
+        }
+
+        protected MessagePopupModel(ICollection<Message> messages, Message message)
+        {
+            Messages = messages;
+            Message = message;
+            DoneCommand = new Command(FinishMessage);
+            CancelCommand = new Command(CancelMessage);
+            TextChangedCommand = new Command(OnTextChanged);
         }
 
         private async void CancelMessage()
@@ -61,16 +81,23 @@ namespace MPS.ViewModel
 
         private async void FinishMessage()
         {
-            IsErrorMessageVisible = false;
-            foreach (var message in Messages)
-            {
-                if (message.Title != Title) continue;
-                IsErrorMessageVisible = true;
-                break;
-            }           
             if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Text) || IsErrorMessageVisible) return;
             await PopupNavigation.PopAsync();
             MessagingCenter.Send(this, MessengerKeys.NewMessage, Message);
+        }
+
+        private void OnTextChanged()
+        {
+            foreach (var message in Messages)
+            {
+                if (message.Title == Title)
+                {
+                    IsErrorMessageVisible = true;
+                    break;
+                }
+                IsErrorMessageVisible = false;
+            }
+
         }
     }
 }

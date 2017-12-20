@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"                    
              xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
+             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
              Title="Mensajes"
              Style="{StaticResource PaddingContentPage}"
              x:Class="MPS.MessagePage">
@@ -16,7 +17,8 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+    <!--behaviour:ItemTappedAttached.Command="{Binding ItemTappedCommand}"-->
+
     <ContentPage.Content>
         <StackLayout BindingContext="{StaticResource ViewModel}">
             <Button
@@ -24,11 +26,20 @@
                 HorizontalOptions="Center"           
                 Image="ic_add_white_48dp.png"/>
             <ListView 
-                ItemsSource="{Binding Messages}"
+                ItemsSource="{Binding Messages}"              
                 SelectedItem="{Binding SelectedItem}"                      
-                behaviour:ItemTappedAttached.Command="{Binding ItemTappedCommand}"
                 Header="sds"
                 HasUnevenRows="True">
+                
+                <behaviors:Interaction.Behaviors>
+                    <behaviors:BehaviorCollection>
+                        <behaviors:EventToCommand 
+                            EventName="ItemTapped"                       
+                            Command="{Binding ItemTappedCommand}">
+                        </behaviors:EventToCommand>
+                    </behaviors:BehaviorCollection>
+                </behaviors:Interaction.Behaviors>
+                
                 <ListView.HeaderTemplate>
                     <DataTemplate>
                         <StackLayout Orientation="Vertical">

@@ -26,12 +26,7 @@ namespace MPS.Behaviour
             if (bindable is ListView control)
             {
                 control.ItemTapped += OnItemTapped;
-            }
-            //var control = bindable as ListView;
-            //if (control != null)
-            //{
-            //    control.ItemTapped += OnItemTapped;
-            //}
+            }            
         }
 
         private static void OnItemTapped(object sender, ItemTappedEventArgs e)

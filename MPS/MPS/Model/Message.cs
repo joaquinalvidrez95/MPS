@@ -18,8 +18,7 @@ namespace MPS.Model
         }
 
         public Message()
-        {
-            
+        {           
         }
 
         public string Text { set; get; }
