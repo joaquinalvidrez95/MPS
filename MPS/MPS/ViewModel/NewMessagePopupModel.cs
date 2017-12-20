@@ -13,6 +13,18 @@ namespace MPS.ViewModel
             PopupTitle = "Agregar Mensaje";            
         }
 
-  
+        protected override void ValidateTitle(string value)
+        {
+            foreach (var message in Messages)
+            {
+                if (message.Title == value)
+                {
+                    IsErrorMessageVisible = true;
+                    break;
+                }
+                IsErrorMessageVisible = false;
+            }
+        }
+
     }
 }

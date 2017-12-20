@@ -33,7 +33,7 @@
                 
                 <behaviors:Interaction.Behaviors>
                     <behaviors:BehaviorCollection>
-                        <behaviors:EventToCommand 
+                        <behaviors:EventToCommand                             
                             EventName="ItemTapped"                       
                             Command="{Binding ItemTappedCommand}">
                         </behaviors:EventToCommand>

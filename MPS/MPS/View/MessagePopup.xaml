@@ -51,11 +51,15 @@
             Orientation="Horizontal">
             <Label 
                 Text="Título: "
+                HorizontalOptions="Start"
                 VerticalOptions="Center"/>
             <Entry                            
                 VerticalOptions="Center"             
                 Text="{Binding Title}"
                 HorizontalOptions="FillAndExpand">
+                <Entry.Behaviors>
+                    <behaviour:EntryLengthValidatorBehavior MaxLength="{StaticResource MaxTitleLength}" />
+                </Entry.Behaviors>
             </Entry>
         </StackLayout>
 

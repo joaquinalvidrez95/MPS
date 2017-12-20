@@ -14,5 +14,19 @@ namespace MPS.ViewModel
             PopupTitle = "Editar mensaje";
             //Message = message;            
         }
+
+
+        protected override void ValidateTitle(string value)
+        {
+            foreach (var message in Messages)
+            {
+                if (message.Title == value && message.Title != MessageToSent.Title)
+                {
+                    IsErrorMessageVisible = true;
+                    break;
+                }
+                IsErrorMessageVisible = false;
+            }
+        }
     }
 }

@@ -39,6 +39,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviour\EditorLengthValidatorBehavior.cs" />
+    <Compile Include="Behaviour\EntryLengthValidatorBehavior.cs" />
     <Compile Include="Behaviour\ItemTappedAttached.cs" />
     <Compile Include="Bluetooth\BluetoothHelper.cs" />
     <Compile Include="Data\MessageDatabase.cs" />

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MPS.Model;
@@ -11,14 +12,14 @@ namespace MPS.ViewModel
     public abstract class MessagePopupModel : BaseViewModel
     {
         private bool _isErrorMessageVisible;
-        private readonly Message _messageToSent;
+        protected readonly Message MessageToSent;
         private string _title;
         private int _leftCharacters;
         private string _text;
 
         public int LeftCharacters
         {
-            get => _leftCharacters;
+            get => _text == null ? (int)Application.Current.Resources["MaxMessageLength"] : _leftCharacters;
             set { _leftCharacters = value; OnPropertyChanged(); }
         }
 
@@ -28,25 +29,19 @@ namespace MPS.ViewModel
             set
             {
                 _title = value;
-                foreach (var message in Messages)
-                {
-                    if (message.Title == value)
-                    {
-                        IsErrorMessageVisible = true;
-                        break;
-                    }
-                    IsErrorMessageVisible = false;
-                }
+                ValidateTitle(value);
             }
         }
+
 
         public string Text
         {
             get => _text;
             set
-            {
+            {            
                 _text = value;
                 LeftCharacters = (int)Application.Current.Resources["MaxMessageLength"] - Text.Length;
+                OnPropertyChanged();
             }
         }
 
@@ -61,12 +56,11 @@ namespace MPS.ViewModel
         public ICommand DoneCommand { get; protected set; }
 
         public ICommand CancelCommand { get; protected set; }
-        private ICollection<Message> Messages { get; }
+        protected ICollection<Message> Messages { get; }
 
         protected MessagePopupModel(ICollection<Message> messages)
         {
-            _messageToSent = new Message();
-            Text = "";
+            MessageToSent = new Message();
             Messages = messages;
             DoneCommand = new Command(FinishMessage);
             CancelCommand = new Command(CancelMessage);
@@ -75,10 +69,9 @@ namespace MPS.ViewModel
         protected MessagePopupModel(ICollection<Message> messages, Message message)
         {
             Messages = messages;
-            _messageToSent = message;
+            MessageToSent = message;
             Title = message.Title;
             Text = message.Text;
-            Messages.Remove(message);
             DoneCommand = new Command(FinishMessage);
             CancelCommand = new Command(CancelMessage);
         }
@@ -92,10 +85,11 @@ namespace MPS.ViewModel
         {
             if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Text) || IsErrorMessageVisible) return;
             await PopupNavigation.PopAsync();
-            _messageToSent.Text = Text;
-            _messageToSent.Title = Title;
-            MessagingCenter.Send(this, MessengerKeys.NewMessage, _messageToSent);
+            MessageToSent.Text = Text;
+            MessageToSent.Title = Title;
+            MessagingCenter.Send(this, MessengerKeys.NewMessage, MessageToSent);
         }
 
+        protected abstract void ValidateTitle(string value);
     }
 }

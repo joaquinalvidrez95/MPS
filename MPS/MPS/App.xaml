@@ -2,6 +2,7 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"            
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              x:Class="MPS.App">
     <Application.Resources>
 
@@ -18,7 +19,8 @@
             <x:String x:Key="ButtonCancel">Cancelar</x:String>
 
             <x:Int32 x:Key="MaxMessageLength">180</x:Int32>
-          
+            <x:Int32 x:Key="MaxTitleLength">35</x:Int32>
+
             <Style x:Key="ButtonColorStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource ColorAccent}"/>
                 <Setter Property="WidthRequest" Value="40"/>
@@ -52,6 +54,7 @@
             <Style x:Key="PaddingPopup" TargetType="pages:PopupPage">
                 <Setter Property="Padding" Value="30,0,30,0"/>
             </Style>
+          
 
         </ResourceDictionary>
 
