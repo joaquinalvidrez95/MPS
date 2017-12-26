@@ -21,12 +21,17 @@
             <x:Int32 x:Key="MaxMessageLength">180</x:Int32>
             <x:Int32 x:Key="MaxTitleLength">35</x:Int32>
 
+            <x:Int32 x:Key="BorderWidthDefault">1</x:Int32>
+            <x:Int32 x:Key="DimensionButtonColor">40</x:Int32>
+
+            <GridLength x:Key="GridLengthColorButtons">40</GridLength>
+
             <Style x:Key="ButtonColorStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource ColorAccent}"/>
-                <Setter Property="WidthRequest" Value="40"/>
-                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="WidthRequest" Value="{StaticResource DimensionButtonColor}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource DimensionButtonColor}"/>
                 <Setter Property="BorderColor" Value="Black"/>
-                <Setter Property="BorderWidth" Value="1"/>
+                <Setter Property="BorderWidth" Value="{StaticResource BorderWidthDefault}"/>
             </Style>
             
             <Style x:Key="StackLayoutColors" TargetType="StackLayout">
@@ -54,7 +59,8 @@
             <Style x:Key="PaddingPopup" TargetType="pages:PopupPage">
                 <Setter Property="Padding" Value="30,0,30,0"/>
             </Style>
-          
+        
+
 
         </ResourceDictionary>
 

@@ -13,9 +13,22 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical"
-                     BindingContext="{StaticResource ViewModel}">
-            <StackLayout Style="{StaticResource StackLayoutColors}">
+        <StackLayout 
+            Orientation="Vertical"        
+            BindingContext="{StaticResource ViewModel}">
+            <Picker
+                HorizontalOptions="Fill"
+                Title="Seleccione"                
+                SelectedIndex="{Binding SelectedIndex}">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Texto superior</x:String>
+                        <x:String>Texto inferior</x:String>
+                        <x:String>Fondo</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <!--<StackLayout Style="{StaticResource StackLayoutColors}">
                 <Button Style="{StaticResource ButtonColorStyle}"
                         Command="{Binding SetUpperLineColorCommand}"
                         BackgroundColor="{Binding ColorUpperLine}"
@@ -44,111 +57,121 @@
                         BorderWidth="{Binding BorderWidthBackgroundButton}"/>
                 <Label Text="Fondo"                                  
                        VerticalOptions="Center"/>
-            </StackLayout>
+            </StackLayout>-->
 
-            <Frame OutlineColor="Black"                   
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="Center"
-                   Margin="0,0,0,30"
-                   >
+            <Frame 
+                OutlineColor="Black"                   
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                Margin="0,0,0,30">
+
                 <Grid ColumnSpacing="5"                
                       HorizontalOptions="Center">
+
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <Style TargetType="Button" BasedOn="{StaticResource ButtonColorStyle}">
+                                <Setter Property="Command" Value="{Binding ColorsCommand}"></Setter>
+                            </Style>
+                        </ResourceDictionary>
+                    </Grid.Resources>
+
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="{StaticResource GridLengthColorButtons}"/>
+                        <RowDefinition Height="{StaticResource GridLengthColorButtons}"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="{StaticResource GridLengthColorButtons}"/>
+                        <ColumnDefinition Width="{StaticResource GridLengthColorButtons}"/>
+                        <ColumnDefinition Width="{StaticResource GridLengthColorButtons}"/>
+                        <ColumnDefinition Width="{StaticResource GridLengthColorButtons}"/>
+                        <ColumnDefinition Width="{StaticResource GridLengthColorButtons}"/>
+                        <ColumnDefinition Width="{StaticResource GridLengthColorButtons}"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
-                            CommandParameter="Red"
-                            Grid.Column="0"       
-                            Grid.Row="0"
-                            BackgroundColor="Red"/>
+                    <Button 
+                        x:Name="Red"                                               
+                        Grid.Column="0"       
+                        Grid.Row="0"
+                        BackgroundColor="Red"
+                        CommandParameter="{Binding Source={x:Reference Red}, Path=BackgroundColor}"/>
 
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
-                            Grid.Column="1"       
-                            Grid.Row="0"
-                            BackgroundColor="Orange"
-                            CommandParameter="Orange"/>
+                    <Button                             
+                        x:Name="Orange"
+                        Grid.Column="1"       
+                        Grid.Row="0"
+                        BackgroundColor="Orange"
+                        CommandParameter="{Binding Source={x:Reference Orange}, Path=BackgroundColor}"/>
 
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
-                            Grid.Column="2"       
-                            Grid.Row="0"
-                            BackgroundColor="Yellow"
-                            CommandParameter="Yellow"/>
+                    <Button                           
+                        x:Name="Yellow"
+                        Grid.Column="2"       
+                        Grid.Row="0"
+                        BackgroundColor="Yellow"
+                        CommandParameter="{Binding Source={x:Reference Yellow}, Path=BackgroundColor}"/>
 
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
-                            Grid.Column="3"       
-                            Grid.Row="0"
-                            BackgroundColor="LawnGreen"
-                            CommandParameter="LawnGreen"/>
+                    <Button 
+                        x:Name="LawnGreen"                            
+                        Grid.Column="3"       
+                        Grid.Row="0"
+                        BackgroundColor="LawnGreen"
+                        CommandParameter="{Binding Source={x:Reference LawnGreen}, Path=BackgroundColor}"/>
+                    
+                    <Button 
+                        x:Name="SpringGreen"                            
+                        Grid.Column="4"       
+                        Grid.Row="0"
+                        BackgroundColor="SpringGreen"
+                        CommandParameter="{Binding Source={x:Reference SpringGreen}, Path=BackgroundColor}"/>
 
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
-                            Grid.Column="4"       
-                            Grid.Row="0"
-                            BackgroundColor="SpringGreen"
-                            CommandParameter="SpringGreen"/>
-
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
+                    <Button 
+                        x:Name="Cyan"
                             Grid.Column="5"       
                             Grid.Row="0"
                             BackgroundColor="Cyan"
-                            CommandParameter="Cyan"/>
+                        CommandParameter="{Binding Source={x:Reference Cyan}, Path=BackgroundColor}"/>
 
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
+                    <Button 
+                        x:Name="DodgerBlue"                            
                             Grid.Column="0"       
                             Grid.Row="1"
                             BackgroundColor="DodgerBlue"
-                            CommandParameter="DodgerBlue"/>
+                        CommandParameter="{Binding Source={x:Reference DodgerBlue}, Path=BackgroundColor}"/>
 
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
+                    <Button 
+                        x:Name="Blue"
                             Grid.Column="1"       
                             Grid.Row="1"
                             BackgroundColor="Blue"
-                            CommandParameter="Blue"/>
+                        CommandParameter="{Binding Source={x:Reference Blue}, Path=BackgroundColor}"/>
 
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
-                            Grid.Column="2"       
-                            Grid.Row="1"
-                            BackgroundColor="DarkViolet"
-                            CommandParameter="DarkViolet"/>
+                    <Button 
+                        x:Name="DarkViolet"                            
+                        Grid.Column="2"       
+                        Grid.Row="1"
+                        BackgroundColor="DarkViolet"
+                        CommandParameter="{Binding Source={x:Reference DarkViolet}, Path=BackgroundColor}"/>
 
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
+                    <Button 
+                           x:Name="Magenta"
                             Grid.Column="3"       
                             Grid.Row="1"
                             BackgroundColor="Magenta"
-                            CommandParameter="Magenta"/>
+                        CommandParameter="{Binding Source={x:Reference Magenta}, Path=BackgroundColor}"/>
 
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
+                    <Button 
+                        x:Name="Black"
                             Grid.Column="4"       
                             Grid.Row="1"
                             BackgroundColor="Black"
-                            CommandParameter="Black"/>
+                        CommandParameter="{Binding Source={x:Reference Black}, Path=BackgroundColor}"/>
 
-                    <Button Style="{StaticResource ButtonColorStyle}"
-                            Command="{Binding ColorsCommand}"
-                            Grid.Column="5"       
-                            Grid.Row="1"
-                            BackgroundColor="White"
-                            CommandParameter="White"/>
+                    <Button
+                        x:Name="White"                            
+                        Grid.Column="5"       
+                        Grid.Row="1"
+                        BackgroundColor="White"
+                        CommandParameter="{Binding Source={x:Reference White}, Path=BackgroundColor}"/>
 
                 </Grid>
             </Frame>

@@ -1,9 +1,12 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace MPS.Model
 {
     public class DisplayColorRgb
-    {
+    {      
+
         public int Red { get; set; }
         public int Green { get; set; }
         public int Blue { get; set; }
@@ -38,11 +41,10 @@ namespace MPS.Model
                     case "Blue":
                         SetColorByCode(0, 0, 5);
                         break;
-                    case "DarkViolet":                       
+                    case "DarkViolet":
                         SetColorByCode(3, 0, 4);
                         break;
                     case "Magenta":
-                        //SetColorByCode(5, 0, 5);
                         SetColorByCode(5, 0, 2);
                         break;
                     case "Black":
@@ -61,7 +63,7 @@ namespace MPS.Model
         public string ColorCode => Red.ToString() + Green + Blue;
 
         public Color Color
-        {            
+        {
             set
             {
                 if (value == Color.Red)
@@ -96,13 +98,13 @@ namespace MPS.Model
                 {
                     SetColorByCode(0, 0, 5);
                 }
-                else if (value == Color.BlueViolet)
+                else if (value == Color.DarkViolet)
                 {
-                    SetColorByCode(2, 0, 5);
+                    SetColorByCode(3, 0, 4);
                 }
                 else if (value == Color.Magenta)
                 {
-                    SetColorByCode(5, 0, 5);
+                    SetColorByCode(5, 0, 2);
                 }
                 else if (value == Color.Black)
                 {

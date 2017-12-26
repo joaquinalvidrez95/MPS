@@ -11,11 +11,11 @@ namespace MPS.Model
     public class DisplayColors
     {
 
-        public Color ColorLowerLine { get; set; }        
+        //public Color ColorLowerLine { get; set; }        
 
-        public Color ColorUpperLine { get; set; }
+        //public Color ColorUpperLine { get; set; }
 
-        public Color ColorBackground { get; set; }
+        //public Color ColorBackground { get; set; }
 
         private readonly IList<DisplayColorRgb> colors = new List<DisplayColorRgb>();
 
@@ -35,10 +35,10 @@ namespace MPS.Model
         {
             colors[index].Color = color;
         }
-        public void SetColorNameByIndex(int index, string colorName)
-        {
-            colors[index].ColorName = colorName;
-        }
+        //public void SetColorNameByIndex(int index, string colorName)
+        //{
+        //    colors[index].ColorName = colorName;
+        //}
 
         public void SetRedByIndex(int index, int value)
         {
@@ -80,20 +80,20 @@ namespace MPS.Model
             colors.Add(ColorBackgroundRgb);
         }
 
-        public string ColorBackgroundName
-        {
-            set => ColorBackgroundRgb.ColorName = value;
-        }
+        //public string ColorBackgroundName
+        //{
+        //    set => ColorBackgroundRgb.ColorName = value;
+        //}
 
-        public string ColorLowerLineName
-        {
-            set => ColorLowerLineRgb.ColorName = value;
-        }
+        //public string ColorLowerLineName
+        //{
+        //    set => ColorLowerLineRgb.ColorName = value;
+        //}
 
-        public string ColorUpperLineName
-        {
-            set => ColorUpperLineRgb.ColorName = value;
-        }
+        //public string ColorUpperLineName
+        //{
+        //    set => ColorUpperLineRgb.ColorName = value;
+        //}
 
     }
 }
