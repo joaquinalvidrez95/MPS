@@ -23,7 +23,7 @@ namespace MPS.ViewModel
         private bool _hasFeedback;
         public ICommand BluetoothConnectionCommand { get; }
         private INavigation Navigation { get; }
-        private const int Timeout=500;
+        private const int Timeout = 500;
 
         public MainPageModel(INavigation navigation)
         {
@@ -58,6 +58,7 @@ namespace MPS.ViewModel
                 var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
                 characteristic.ValueUpdated += (o, args) =>
                 {
+                    _hasFeedback = true;
                     var bytes = args.Characteristic.Value;
                     //Device.BeginInvokeOnMainThread(() =>
                     //{
@@ -102,20 +103,8 @@ namespace MPS.ViewModel
                     {
                         RequestParameters();
                     }
+                    return !_hasFeedback;
                 });
-                Task t = Task.Run(() => {
-                    if (!_hasFeedback)
-                    {
-                        RequestParameters();
-                        
-                    }
-                });
-                t.Wait(Timeout);
-
-
-
-
-
             }
             catch (DeviceConnectionException)
             {

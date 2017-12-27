@@ -2,21 +2,23 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"            
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              x:Class="MPS.App">
     <Application.Resources>
 
         <ResourceDictionary>
-            <Color x:Key="PageBackgroundColor">Yellow</Color>
-            <Color x:Key="HeadingTextColor">Black</Color>
-            <Color x:Key="NormalTextColor">Blue</Color>
+           
             <Color x:Key="ColorButtonText" >White</Color>
             <Color x:Key="ColorAccent">Red</Color>
             <Color x:Key="ColorPrimary">#3F51B5</Color>
+            <Color x:Key="ColorBluetoothConnected">Lime</Color>
+            <Color x:Key="ColorBluetoothDisconnected">Red</Color>
+            <Color x:Key="ColorBackgroundPopup">White</Color>
+            <Color x:Key="ColorDisplayDisabled">#BDBDBD</Color>
+            
             <x:Double x:Key="EditorHeight">220</x:Double>
 
-            <x:String x:Key="ButtonAccept">Aceptar</x:String>
-            <x:String x:Key="ButtonCancel">Cancelar</x:String>
+            <x:String x:Key="ButtonTextAccept">Aceptar</x:String>
+            <x:String x:Key="ButtonTextCancel">Cancelar</x:String>
 
             <x:Int32 x:Key="MaxMessageLength">180</x:Int32>
             <x:Int32 x:Key="MaxTitleLength">35</x:Int32>
@@ -24,23 +26,33 @@
             <x:Int32 x:Key="BorderWidthDefault">1</x:Int32>
             <x:Int32 x:Key="DimensionButtonColor">40</x:Int32>
 
+            <x:Int32 x:Key="PasswordLength">4</x:Int32>
+            <x:Double x:Key="HeightBoxViewDivider">1</x:Double>
+
             <GridLength x:Key="GridLengthColorButtons">40</GridLength>
 
-            <Style x:Key="ButtonColorStyle" TargetType="Button">
+            <Style x:Key="StyleButtonColor" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource ColorAccent}"/>
                 <Setter Property="WidthRequest" Value="{StaticResource DimensionButtonColor}"/>
                 <Setter Property="HeightRequest" Value="{StaticResource DimensionButtonColor}"/>
                 <Setter Property="BorderColor" Value="Black"/>
                 <Setter Property="BorderWidth" Value="{StaticResource BorderWidthDefault}"/>
             </Style>
-            
-            <Style x:Key="StackLayoutColors" TargetType="StackLayout">
+
+            <Style 
+                x:Key="StyleBoxViewDivider"
+                TargetType="BoxView">
+                <Setter Property="Color" Value="{StaticResource ColorAccent}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource HeightBoxViewDivider}"/>
+            </Style>
+
+            <Style x:Key="StyleStackLayoutColors" TargetType="StackLayout">
                 <Setter Property="Orientation" Value="Horizontal"/>
                 <Setter Property="HorizontalOptions" Value="Center"/>
                 <Setter Property="WidthRequest" Value="150"/>
                 <Setter Property="Margin" Value="0,0,0,20"/>
             </Style>
-            <Style x:Key="SliderRgb" TargetType="Slider">
+            <Style x:Key="StyleSliderRgb" TargetType="Slider">
                 <Setter Property="Minimum" 
                         Value="0"/>
                 <Setter Property="Maximum" 
@@ -52,14 +64,24 @@
                 <Setter Property="Margin"
                         Value="0,0,0,20"/>
             </Style>
-            <Style x:Key="PaddingContentPage" TargetType="ContentPage">
+            <Style x:Key="StylePaddingContentPage" TargetType="ContentPage">
                 <Setter Property="Padding" Value="20,20,20,20"/>
             </Style>
 
-            <Style x:Key="PaddingPopup" TargetType="pages:PopupPage">
+            <Style x:Key="StylePaddingPopup" TargetType="pages:PopupPage">
                 <Setter Property="Padding" Value="30,0,30,0"/>
             </Style>
-        
+
+            <Style x:Key="StyleButtonPopup"  TargetType="Button">
+                <Setter Property="BackgroundColor"
+                        Value="{StaticResource ColorPrimary}"/>
+                <Setter Property="TextColor"
+                        Value="{StaticResource ColorButtonText}"/>
+                <Setter Property="HorizontalOptions"
+                        Value="FillAndExpand"/>
+            </Style>
+            
+            <Thickness x:Key="PaddingPopupStackLayout">10,20,10,20</Thickness>
 
 
         </ResourceDictionary>

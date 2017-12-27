@@ -5,7 +5,7 @@
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
              xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
              Title="Mensajes"
-             Style="{StaticResource PaddingContentPage}"
+             Style="{StaticResource StylePaddingContentPage}"
              x:Class="MPS.MessagePage">
 
     <ContentPage.Resources>
@@ -13,7 +13,7 @@
             <viewModel:MessagePageModel x:Key="ViewModel" />
             <Style TargetType="Button">
                 <Setter Property="BackgroundColor"
-                        Value="Red"/>
+                        Value="{StaticResource ColorAccent}"/>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -22,7 +22,7 @@
     <ContentPage.Content>
         <StackLayout BindingContext="{StaticResource ViewModel}">
             <Button
-                Command="{Binding MessagePopupCommand}"
+                Command="{Binding AddMessageCommand}"
                 HorizontalOptions="Center"           
                 Image="ic_add_white_48dp.png"/>
             <ListView 
@@ -44,11 +44,10 @@
                     <DataTemplate>
                         <StackLayout Orientation="Vertical">
                             <Label 
-                                Text="Lista Mensajes"
-                                TextColor="Red"/>
+                                Text="Lista de mensajes"
+                                TextColor="{StaticResource ColorAccent}"/>
                             <BoxView 
-                                HeightRequest="1"
-                                Color="{StaticResource ColorAccent}"/>
+                                Style="{StaticResource StyleBoxViewDivider}"/>
                         </StackLayout>
                     </DataTemplate>
                 </ListView.HeaderTemplate>

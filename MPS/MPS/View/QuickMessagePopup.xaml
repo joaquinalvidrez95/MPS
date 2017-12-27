@@ -5,32 +5,28 @@
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
              xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"             
              x:Class="MPS.View.QuickMessagePopup"
-             Style="{StaticResource PaddingPopup}">
+             Style="{StaticResource StylePaddingPopup}">
 
     <pages:PopupPage.Resources>
         <ResourceDictionary>
             <viewModel:QuickMessagePopupModel x:Key="ViewModel" />
-            <Style TargetType="Button">
-                <Setter Property="BackgroundColor"
-                        Value="{StaticResource ColorPrimary}"/>
-                <Setter Property="TextColor"
-                        Value="{StaticResource ColorButtonText}"/>
-                <Setter Property="HorizontalOptions"
-                        Value="FillAndExpand"/>
+            <Style 
+                TargetType="Button"
+                BasedOn="{StaticResource StyleButtonPopup}"
+            >
             </Style>
         </ResourceDictionary>
     </pages:PopupPage.Resources>
 
     <StackLayout BindingContext="{StaticResource ViewModel}"        
                  Orientation="Vertical"
-                 BackgroundColor="White"               
+                 BackgroundColor="{StaticResource ColorBackgroundPopup}"               
                  VerticalOptions="Center"                 
-                 Padding="10,20,10,20">
+                 Padding="{StaticResource PaddingPopupStackLayout}">
 
         <Label Text="Mensaje instantáneo"
                TextColor="{StaticResource ColorAccent}"/>
-        <BoxView Color="{StaticResource ColorAccent}"
-                 HeightRequest="1"/>
+        <BoxView Style="{StaticResource StyleBoxViewDivider}"/>
         <Editor HeightRequest="{StaticResource EditorHeight}"
                 Text="{Binding Text}">
             <Editor.Behaviors>
@@ -41,7 +37,7 @@
             <Button Text="Enviar"                                             
                     Image="ic_send_white_48.png"
                     Command="{Binding DoneCommand}"/>
-            <Button Text="{StaticResource ButtonCancel}"         
+            <Button Text="{StaticResource ButtonTextCancel}"         
                     Image="ic_cancel_white_48dp.png"                    
                     Command="{Binding CancelCommand}"/>
         </StackLayout>

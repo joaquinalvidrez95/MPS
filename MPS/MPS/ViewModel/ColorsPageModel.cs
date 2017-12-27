@@ -24,30 +24,8 @@ namespace MPS.ViewModel
         //private Color _borderColorUpperLineButton;
         //private int _borderWidthUpperLineButton;
         //enum ButtonSelected { UpperLine = 0, LowerLine, Background, None }
-
-        //ButtonSelected _state = ButtonSelected.None;
-        //private Color _borderColorBackgroundButton;
-        //private int _borderWidthBackgroundButton;
-        private int _selectedIndex;
-
-        //public Color BorderColorUpperLineButton
-        //{
-        //    get => _borderColorUpperLineButton;
-        //    set
-        //    {
-        //        _borderColorUpperLineButton = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        //public int BorderWidthUpperLineButton
-        //{
-        //    get => _borderWidthUpperLineButton;
-        //    set
-        //    {
-        //        _borderWidthUpperLineButton = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
+    
+        private int _selectedIndex;       
 
         public int SelectedIndex
         {
@@ -148,46 +126,7 @@ namespace MPS.ViewModel
         //        _displayColors.ColorBackground = value;
         //        OnPropertyChanged();
         //    }
-        //}
-
-        //public Color BorderColorLowerLineButton
-        //{
-        //    get => _borderColorLowerLine;
-        //    set
-        //    {
-        //        _borderColorLowerLine = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //public int BorderWidthLowerLineButton
-        //{
-        //    get => _borderWidthLowerLineButton;
-        //    set
-        //    {
-        //        _borderWidthLowerLineButton = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //public Color BorderColorBackgroundButton
-        //{
-        //    get => _borderColorBackgroundButton;
-        //    set
-        //    {
-        //        _borderColorBackgroundButton = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        //public int BorderWidthBackgroundButton
-        //{
-        //    get => _borderWidthBackgroundButton;
-        //    set
-        //    {
-        //        _borderWidthBackgroundButton = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
+        //}    
 
         public ColorsPageModel()
         {
@@ -196,13 +135,7 @@ namespace MPS.ViewModel
             //SetUpperLineColorCommand = new Command(HighlightUpperLineButton);
             //SetLowerLineColorCommand = new Command(HighlightLowerLineButton);
             //SetBackgroundColorCommand = new Command(HighlightBackgroundButton);
-
-            //BorderColorLowerLineButton = _borderColorDefault;
-            //BorderColorUpperLineButton = _borderColorDefault;
-            //BorderColorBackgroundButton = _borderColorDefault;
-            //BorderWidthLowerLineButton = (int)Application.Current.Resources["BorderWidthDefault"];
-            //BorderWidthBackgroundButton = (int)Application.Current.Resources["BorderWidthDefault"];
-            //BorderWidthUpperLineButton = (int)Application.Current.Resources["BorderWidthDefault"];
+       
             MessagingCenter.Subscribe<MainPageModel, DisplayColors>(this, MessengerKeys.Message, UpdateColorFromFeedback);
 
         }

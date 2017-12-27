@@ -5,7 +5,8 @@
              xmlns:converters="clr-namespace:MPS.Converters;assembly=MPS"
              Title="Principal"
              x:Class="MPS.MainParametersPage"
-             Style="{StaticResource PaddingContentPage}">
+             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
+             Style="{StaticResource StylePaddingContentPage}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -21,8 +22,9 @@
                         Value="80,10,80,5"/>
 
             </Style>
-            <converters:BoolToPowerImage x:Key="BoolToPowerImage" />
+            <!--<converters:BoolToPowerImage x:Key="BoolToPowerImage" />-->
             <converters:BoolToBluetoothStatusColor x:Key="BoolToBluetoothStatusColor" />
+            <converters:BoolToPowerColorConverter x:Key="BoolToPowerColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -58,28 +60,56 @@
             <StackLayout 
                 HorizontalOptions="Fill"
                 Orientation="Horizontal">
-                <BoxView 
+           
+                <StackLayout
                     VerticalOptions="Center"
-                    Color="{Binding IsBluetoothConnected, Converter={StaticResource BoolToBluetoothStatusColor}}"/>
-                <Label Text="Conexión"
-                       VerticalOptions="Center"/>
-                <Image 
+                    HorizontalOptions="StartAndExpand"
+                    Orientation="Horizontal">
+                    
+                    <controls:TintedImage                  
+                        VerticalOptions="Center"
+                        TintColor="{Binding IsBluetoothConnected, Converter={StaticResource BoolToBluetoothStatusColor}}"
+                        Source="ic_radio_button_checked_black_24dp.png" />
+
+                    <Label                        
+                        Text="Conexión"
+                        VerticalOptions="Center"/>
+                </StackLayout>
+         
+                <!--<Image 
                     VerticalOptions="Center"
                     HorizontalOptions="End"
                     WidthRequest="40"
-                    Source="{Binding IsDisplayEnabled, Converter={StaticResource BoolToPowerImage}}"               
-                   >
+                    Source="{Binding IsDisplayEnabled, Converter={StaticResource BoolToPowerImage}}" >           
+                  
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer
                             Command="{Binding Source={StaticResource ViewModel}, Path=PowerCommand}"
                         />
                     </Image.GestureRecognizers>
-                </Image>
+                </Image>-->
+               
+                <!--Source="ic_power_settings_new_black_48dp.png"-->
+                <controls:TintedImage
+                    WidthRequest="100"
+                    HeightRequest="100"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Center"
+                    Source="ic_power_settings_blue.png"
+                    TintColor="{Binding IsDisplayEnabled, Converter={StaticResource BoolToPowerColorConverter}}" >
+                    <controls:TintedImage.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding Source={StaticResource ViewModel}, Path=PowerCommand}"
+                        />
+                    </controls:TintedImage.GestureRecognizers>
+
+                </controls:TintedImage>
                 <!--<Image                     
                     Source="all_citsalogo.png"
                     HorizontalOptions="End"/>-->
             </StackLayout>
 
+          
 
 
         </StackLayout>

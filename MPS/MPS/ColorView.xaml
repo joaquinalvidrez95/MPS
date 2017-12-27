@@ -12,7 +12,7 @@
 
             <Button x:Name="button"
                     BackgroundColor="DodgerBlue"                          
-                    Style="{StaticResource ButtonColorStyle}"/>
+                    Style="{StaticResource StyleButtonColor}"/>
         </StackLayout>
             
      

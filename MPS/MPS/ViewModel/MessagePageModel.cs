@@ -25,7 +25,7 @@ namespace MPS.ViewModel
             }
         }
 
-        public ICommand MessagePopupCommand { get; }
+        public ICommand AddMessageCommand { get; }
 
         public ObservableCollection<Message> Messages
         {
@@ -44,7 +44,7 @@ namespace MPS.ViewModel
             Messages = new ObservableCollection<Message>(new MessagesRepository().Messages.ToList());
             DeleteCommand = new Command<Message>(DeleteMessage);
             SendCommand = new Command<Message>(SendMessage);
-            MessagePopupCommand = new Command(OpenNewPopupMessage);
+            AddMessageCommand = new Command(OpenNewPopupMessage);
           
             MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
             Message = "";

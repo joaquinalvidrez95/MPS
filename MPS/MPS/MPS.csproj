@@ -40,9 +40,11 @@
     </Compile>
     <Compile Include="Behaviour\EditorLengthValidatorBehavior.cs" />
     <Compile Include="Behaviour\EntryLengthValidatorBehavior.cs" />
+    <Compile Include="Behaviour\EntryPasswordValidator.cs" />
     <Compile Include="Behaviour\ItemTappedAttached.cs" />
     <Compile Include="Bluetooth\BluetoothHelper.cs" />
     <Compile Include="Converters\BoolToBluetoothStatusColor.cs" />
+    <Compile Include="Converters\BoolToPowerColorConverter.cs" />
     <Compile Include="Converters\BoolToPowerImage.cs" />
     <Compile Include="Data\MessageDatabase.cs" />
     <Compile Include="Model\MessagesRepository.cs" />
@@ -53,6 +55,7 @@
     <Compile Include="Model\DisplayColors.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="ViewModel\MessagePopupModel.cs" />
+    <Compile Include="ViewModel\PasswordPopupModel.cs" />
     <Compile Include="ViewModel\QuickMessagePopupModel.cs" />
     <Compile Include="View\CustomSlider.cs" />
     <Compile Include="View\MessagePopup.xaml.cs">
@@ -85,8 +88,14 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\MessagePageModel.cs" />
+    <Compile Include="View\PasswordPopup.xaml.cs">
+      <DependentUpon>PasswordPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\QuickMessagePopup.xaml.cs">
       <DependentUpon>QuickMessagePopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisibilityPage.xaml.cs">
+      <DependentUpon>VisibilityPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +117,9 @@
     </Reference>
     <Reference Include="Plugin.BLE.Abstractions, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Plugin.BLE.1.3.0\lib\portable-net45+win8+wpa81+wp8\Plugin.BLE.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.CrossPlatformTintedImage.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Plugin.CrossPlatformTintedImage.1.0.0\lib\portable-net45+wp80+win8+wpa81\Plugin.CrossPlatformTintedImage.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Rg.Plugins.Popup.1.0.4\lib\portable-win+net45+wp8+win8+wpa81\Rg.Plugins.Popup.dll</HintPath>
@@ -184,6 +196,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="View\QuickMessagePopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="View\PasswordPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="View\VisibilityPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

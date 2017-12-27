@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MPS.Model;
@@ -114,12 +115,11 @@ namespace MPS.ViewModel
             CurrentView = 0;
             Speed = 0;
             MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);
-            //IsBluetoothConnected = Color.Red;
             QuickMessageCommand = new Command(SendQuickMessage);
             MessagingCenter.Subscribe<QuickMessagePopupModel, string>(this, MessengerKeys.QuickMessage, OnQuickMessageAdded);
             MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.Speed, UpdateSpeed);
             MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.CurrentView, UpdateView);
-            MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
+            MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);         
         }
 
         private void UpdatePowerFromFeedback(MainPageModel mainPageModel, bool b)
@@ -166,7 +166,6 @@ namespace MPS.ViewModel
             CurrentView++;
             CurrentView = CurrentView % 3;
             MessagingCenter.Send(this, MessengerKeys.CurrentView, CurrentView);
-
         }
 
         private void UpdateDateTime()

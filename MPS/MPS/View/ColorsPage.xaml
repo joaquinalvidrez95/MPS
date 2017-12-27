@@ -4,7 +4,7 @@
              xmlns:viewmodel="clr-namespace:MPS.ViewModel;assembly=MPS"
              Title="Colores"
              x:Class="MPS.ColorsPage"                   
-             Style="{StaticResource PaddingContentPage}">
+             Style="{StaticResource StylePaddingContentPage}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -70,7 +70,7 @@
 
                     <Grid.Resources>
                         <ResourceDictionary>
-                            <Style TargetType="Button" BasedOn="{StaticResource ButtonColorStyle}">
+                            <Style TargetType="Button" BasedOn="{StaticResource StyleButtonColor}">
                                 <Setter Property="Command" Value="{Binding ColorsCommand}"></Setter>
                             </Style>
                         </ResourceDictionary>
@@ -185,7 +185,7 @@
                             <StackLayout Orientation="Vertical">
                                 <Label Text="Rojo"
                                        TextColor="Red"/>
-                                <Slider Style="{StaticResource SliderRgb}"                                               
+                                <Slider Style="{StaticResource StyleSliderRgb}"                                               
                                         Value="{Binding RedValue}"/>
                             </StackLayout>
                         </ViewCell>
@@ -193,7 +193,7 @@
                             <StackLayout>
                                 <Label Text="Verde"
                                        TextColor="Green"/>
-                                <Slider Style="{StaticResource SliderRgb}"                                            
+                                <Slider Style="{StaticResource StyleSliderRgb}"                                            
                                         Value="{Binding GreenValue}"/>
                             </StackLayout>
                         </ViewCell>
@@ -201,7 +201,7 @@
                             <StackLayout>
                                 <Label Text="Azul"
                                        TextColor="Blue"/>
-                                <Slider Style="{StaticResource SliderRgb}"                                            
+                                <Slider Style="{StaticResource StyleSliderRgb}"                                            
                                         Value="{Binding BlueValue}"/>
                             </StackLayout>
                         </ViewCell>

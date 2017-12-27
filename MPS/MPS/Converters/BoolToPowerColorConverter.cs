@@ -8,12 +8,13 @@ using Xamarin.Forms;
 
 namespace MPS.Converters
 {
-    public class BoolToBluetoothStatusColor : IValueConverter
+    public class BoolToPowerColorConverter:IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //return (bool) value ? Color.LawnGreen : Color.Red;            
-            return (bool) value ? Application.Current.Resources["ColorBluetoothConnected"] : Application.Current.Resources["ColorBluetoothDisconnected"];
+            return (bool) value
+                ? Application.Current.Resources["ColorPrimary"]
+                : Application.Current.Resources["ColorDisplayDisabled"];
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

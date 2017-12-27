@@ -126,6 +126,12 @@
     <Reference Include="Plugin.BLE.Abstractions, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Plugin.BLE.1.3.0\lib\Xamarin.iOS10\Plugin.BLE.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Plugin.CrossPlatformTintedImage.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Plugin.CrossPlatformTintedImage.1.0.0\lib\Xamarin.iOS10\Plugin.CrossPlatformTintedImage.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.CrossPlatformTintedImage.iOS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Plugin.CrossPlatformTintedImage.1.0.0\lib\Xamarin.iOS10\Plugin.CrossPlatformTintedImage.iOS.dll</HintPath>
+    </Reference>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Rg.Plugins.Popup.1.0.4\lib\Xamarin.IOS\Rg.Plugins.Popup.dll</HintPath>
     </Reference>
