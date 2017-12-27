@@ -88,11 +88,10 @@
                         />
                     </Image.GestureRecognizers>
                 </Image>-->
-               
-                <!--Source="ic_power_settings_new_black_48dp.png"-->
+                         
                 <controls:TintedImage
-                    WidthRequest="100"
-                    HeightRequest="100"
+                    WidthRequest="{StaticResource DimensionButtonPower}"
+                    HeightRequest="{StaticResource DimensionButtonPower}"
                     HorizontalOptions="CenterAndExpand"
                     VerticalOptions="Center"
                     Source="ic_power_settings_blue.png"

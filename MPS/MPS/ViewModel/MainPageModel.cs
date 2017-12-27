@@ -7,6 +7,7 @@ using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +22,10 @@ namespace MPS.ViewModel
     {
         private IDevice _connectedDevice;
         private bool _hasFeedback;
+        private bool _isFixingControls;
         public ICommand BluetoothConnectionCommand { get; }
         private INavigation Navigation { get; }
-        private const int Timeout = 500;
+        private const int Timeout = 1500;
 
         public MainPageModel(INavigation navigation)
         {
@@ -56,47 +58,12 @@ namespace MPS.ViewModel
                 await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_connectedDevice);
                 var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
                 var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-                characteristic.ValueUpdated += (o, args) =>
-                {
-                    _hasFeedback = true;
-                    var bytes = args.Characteristic.Value;
-                    //Device.BeginInvokeOnMainThread(() =>
-                    //{
-                    //    labelInbox.Text = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-                    //});
-                    MessagingCenter.Send(this, MessengerKeys.Power, (bytes[1] - 48) == 1);
-                    MessagingCenter.Send(this, MessengerKeys.Speed, bytes[2] - 48);
-                    MessagingCenter.Send(this, MessengerKeys.CurrentView, bytes[3] - 48);
-                    var display = new DisplayColors
-                    {
-                        ColorUpperLineRgb =
-                        {
-                            Red = bytes[4] - 48,
-                            Green = bytes[5] - 48,
-                            Blue = bytes[6] - 48
-                        },
-                        ColorLowerLineRgb =
-                        {
-                            Red = bytes[7] - 48,
-                            Green = bytes[8] - 48,
-                            Blue = bytes[9] - 48
-                        },
-                        ColorBackgroundRgb =
-                        {
-                            Red = bytes[10] - 48,
-                            Green = bytes[11] - 48,
-                            Blue = bytes[12] - 48
-                        }
-                    };
-                    MessagingCenter.Send(this, MessengerKeys.Message, display);
-
-
-                };
-
+                characteristic.ValueUpdated += OnDataReceived;
                 await characteristic.StartUpdatesAsync();
                 _hasFeedback = false;
-                RequestParameters();
+                //RequestParameters();
 
+                //await Task.Delay(Timeout);
                 Device.StartTimer(TimeSpan.FromMilliseconds(Timeout), () =>
                 {
                     if (!_hasFeedback)
@@ -109,6 +76,50 @@ namespace MPS.ViewModel
             catch (DeviceConnectionException)
             {
 
+            }
+        }
+
+        private void OnDataReceived(object sender, CharacteristicUpdatedEventArgs e)
+        {
+      
+            var bytes = e.Characteristic.Value;
+            //Device.BeginInvokeOnMainThread(() =>
+            //{
+            //    
+            //});
+            var x = Encoding.UTF8.GetString(bytes, 0, 1);
+            switch (x)
+            {
+                case BluetoothHelper.BluetoothContract.Feedback:
+                    _hasFeedback = true;
+                    _isFixingControls = true;
+                    MessagingCenter.Send(this, MessengerKeys.Power, (bytes[1] - 48) == 1);
+                    MessagingCenter.Send(this, MessengerKeys.Speed, bytes[2] - 48);
+                    MessagingCenter.Send(this, MessengerKeys.CurrentView, bytes[3] - 48);
+                    var display = new DisplayColors
+                    {
+                        ColorUpperLineRgb =
+                        {
+                            Red = bytes[5] - 48,
+                            Green = bytes[6] - 48,
+                            Blue = bytes[7] - 48
+                        },
+                        ColorLowerLineRgb =
+                        {
+                            Red = bytes[8] - 48,
+                            Green = bytes[9] - 48,
+                            Blue = bytes[10] - 48
+                        },
+                        ColorBackgroundRgb =
+                        {
+                            Red = bytes[11] - 48,
+                            Green = bytes[12] - 48,
+                            Blue = bytes[13] - 48
+                        }
+                    };
+                    MessagingCenter.Send(this, MessengerKeys.Message, display);
+                    _isFixingControls = false;
+                    break;
             }
         }
 
@@ -182,6 +193,7 @@ namespace MPS.ViewModel
 
         private async void WriteData(string data)
         {
+            if (_isFixingControls) return;
             if (_connectedDevice == null)
             {
                 return;
@@ -195,6 +207,7 @@ namespace MPS.ViewModel
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
             var array = Encoding.UTF8.GetBytes(data);
             await characteristic.WriteAsync(array);
+            Debug.WriteLine("Written data: " + data);
         }
 
         private async void GoToBluetoothDevicesPageAsync()
