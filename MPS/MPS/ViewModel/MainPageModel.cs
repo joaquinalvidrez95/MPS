@@ -20,8 +20,10 @@ namespace MPS.ViewModel
     public class MainPageModel : BaseViewModel
     {
         private IDevice _connectedDevice;
+        private bool _hasFeedback;
         public ICommand BluetoothConnectionCommand { get; }
         private INavigation Navigation { get; }
+        private const int Timeout=500;
 
         public MainPageModel(INavigation navigation)
         {
@@ -29,37 +31,8 @@ namespace MPS.ViewModel
             Navigation = navigation;
             CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
             CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
-            MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, async (sender, arg) =>
-            {
-                if (arg == null)
-                {
-                    return;
-                }
-
-                try
-                {
-                    _connectedDevice = arg;
-                    await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_connectedDevice);
-
-                }
-                catch (DeviceConnectionException)
-                {
-
-                }
-                //var service = await connectedDevice.GetServiceAsync(Guid.Parse(BluetoothUUID.ServiceUUID));
-                //characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothUUID.CharacteristicUUID));
-                //characteristic.ValueUpdated += (o, args) =>
-                //{
-                //    var bytes = args.Characteristic.Value;
-                //    Device.BeginInvokeOnMainThread(() =>
-                //    {
-                //        labelInbox.Text = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-                //    });
-
-                //};
-
-                //await characteristic.StartUpdatesAsync();
-            });
+            MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, ConnectDevice);
+            MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power, SendPowerStatus);
             MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, SendViewAsync);
             MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.Speed, SendSpeedAsync);
             MessagingCenter.Subscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime, SendDateTime);
@@ -68,6 +41,99 @@ namespace MPS.ViewModel
             MessagingCenter.Subscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours, SendColours);
 
         }
+
+
+        private async void ConnectDevice(BluetoothDevicesPageModel arg1, IDevice arg2)
+        {
+            if (arg2 == null)
+            {
+                return;
+            }
+
+            try
+            {
+                _connectedDevice = arg2;
+                await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_connectedDevice);
+                var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+                var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+                characteristic.ValueUpdated += (o, args) =>
+                {
+                    var bytes = args.Characteristic.Value;
+                    //Device.BeginInvokeOnMainThread(() =>
+                    //{
+                    //    labelInbox.Text = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+                    //});
+                    MessagingCenter.Send(this, MessengerKeys.Power, (bytes[1] - 48) == 1);
+                    MessagingCenter.Send(this, MessengerKeys.Speed, bytes[2] - 48);
+                    MessagingCenter.Send(this, MessengerKeys.CurrentView, bytes[3] - 48);
+                    var display = new DisplayColors
+                    {
+                        ColorUpperLineRgb =
+                        {
+                            Red = bytes[4] - 48,
+                            Green = bytes[5] - 48,
+                            Blue = bytes[6] - 48
+                        },
+                        ColorLowerLineRgb =
+                        {
+                            Red = bytes[7] - 48,
+                            Green = bytes[8] - 48,
+                            Blue = bytes[9] - 48
+                        },
+                        ColorBackgroundRgb =
+                        {
+                            Red = bytes[10] - 48,
+                            Green = bytes[11] - 48,
+                            Blue = bytes[12] - 48
+                        }
+                    };
+                    MessagingCenter.Send(this, MessengerKeys.Message, display);
+
+
+                };
+
+                await characteristic.StartUpdatesAsync();
+                _hasFeedback = false;
+                RequestParameters();
+
+                Device.StartTimer(TimeSpan.FromMilliseconds(Timeout), () =>
+                {
+                    if (!_hasFeedback)
+                    {
+                        RequestParameters();
+                    }
+                });
+                Task t = Task.Run(() => {
+                    if (!_hasFeedback)
+                    {
+                        RequestParameters();
+                        
+                    }
+                });
+                t.Wait(Timeout);
+
+
+
+
+
+            }
+            catch (DeviceConnectionException)
+            {
+
+            }
+        }
+
+        private void RequestParameters()
+        {
+            WriteData(BluetoothHelper.BluetoothContract.Request + '\n');
+        }
+
+        private void SendPowerStatus(MainParametersPageModel arg1, bool arg2)
+        {
+            string data = BluetoothHelper.BluetoothContract.Power + (arg2 ? 1 : 0) + '\n';
+            WriteData(data);
+        }
+
 
         private void SendQuickMessage(MainParametersPageModel arg1, string arg2)
         {
@@ -132,8 +198,8 @@ namespace MPS.ViewModel
                 return;
             }
             if (_connectedDevice?.State != DeviceState.Connected)
-            {                
-                MessagingCenter.Send(this, MessengerKeys.DeviceStatus, _connectedDevice);              
+            {
+                MessagingCenter.Send(this, MessengerKeys.DeviceStatus, _connectedDevice);
                 return;
             }
             var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));

@@ -21,6 +21,8 @@ namespace MPS.Bluetooth
             public const string View = "P";
             public const string Colours = "C";
             public const string Message = "M";           
+            public const string Power = "E";
+            public const string Request = "R";
         }
     }
 }

@@ -20,11 +20,11 @@ namespace MPS.ViewModel
         //private const double STEP_VALUE = 1.0;
         private string _currentDateTime;
         private double _speed;
-        //enum TypeOfView { FirstView = 0, SecondView, ThirdView };
         int _currentView;
         private string _text;
-        private Color _statusColor;
+        private bool _isBluetoothConnected;
         private string _message;
+        private bool _isDisplayEnabled;
 
         public ICommand DateTimeCommand { get; }
         public ICommand ToggleViewCommand { get; }
@@ -78,6 +78,12 @@ namespace MPS.ViewModel
             }
         }
 
+        public bool IsDisplayEnabled
+        {
+            get => _isDisplayEnabled;
+            set { _isDisplayEnabled = value; OnPropertyChanged(); }
+        }
+
         public string Text
         {
             get => _text;
@@ -88,28 +94,53 @@ namespace MPS.ViewModel
             }
         }
 
-        public Color StatusColor
+        public bool IsBluetoothConnected
         {
-            get => _statusColor;
+            get => _isBluetoothConnected;
             set
             {
-                _statusColor = value;
+                _isBluetoothConnected = value;
                 OnPropertyChanged();
             }
         }
 
-
+        public ICommand PowerCommand { get; }
 
         public MainParametersPageModel()
         {
             DateTimeCommand = new Command(UpdateDateTime);
             ToggleViewCommand = new Command(ToggleView);
+            PowerCommand = new Command(TogglePower);
             CurrentView = 0;
             Speed = 0;
             MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);
-            StatusColor = Color.Red;
+            //IsBluetoothConnected = Color.Red;
             QuickMessageCommand = new Command(SendQuickMessage);
             MessagingCenter.Subscribe<QuickMessagePopupModel, string>(this, MessengerKeys.QuickMessage, OnQuickMessageAdded);
+            MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.Speed, UpdateSpeed);
+            MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.CurrentView, UpdateView);
+            MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
+        }
+
+        private void UpdatePowerFromFeedback(MainPageModel mainPageModel, bool b)
+        {
+            IsDisplayEnabled = b;
+        }
+
+        private void TogglePower()
+        {
+            IsDisplayEnabled = !IsDisplayEnabled;
+            MessagingCenter.Send(this, MessengerKeys.Power, IsDisplayEnabled);
+        }
+
+        private void UpdateView(MainPageModel arg1, int arg2)
+        {
+            CurrentView = arg2;
+        }
+
+        private void UpdateSpeed(MainPageModel arg1, int arg2)
+        {
+            Speed = arg2;
         }
 
         private void OnQuickMessageAdded(QuickMessagePopupModel arg1, string text)
@@ -122,10 +153,10 @@ namespace MPS.ViewModel
             switch (arg2.State)
             {
                 case DeviceState.Connected:
-                    StatusColor = Color.LawnGreen;
+                    IsBluetoothConnected = true;
                     break;
                 case DeviceState.Disconnected:
-                    StatusColor = Color.Red;
+                    IsBluetoothConnected = false;
                     break;
             }
         }
@@ -135,7 +166,6 @@ namespace MPS.ViewModel
             CurrentView++;
             CurrentView = CurrentView % 3;
             MessagingCenter.Send(this, MessengerKeys.CurrentView, CurrentView);
-
 
         }
 

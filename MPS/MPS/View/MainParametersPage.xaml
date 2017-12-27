@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"         
              xmlns:viewmodel="clr-namespace:MPS.ViewModel;assembly=MPS"
+             xmlns:converters="clr-namespace:MPS.Converters;assembly=MPS"
              Title="Principal"
              x:Class="MPS.MainParametersPage"
              Style="{StaticResource PaddingContentPage}">
@@ -20,41 +21,66 @@
                         Value="80,10,80,5"/>
 
             </Style>
+            <converters:BoolToPowerImage x:Key="BoolToPowerImage" />
+            <converters:BoolToBluetoothStatusColor x:Key="BoolToBluetoothStatusColor" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
         <StackLayout BindingContext="{StaticResource ViewModel}">
 
-            <Button Image="ic_access_time_white_48dp.png"
-                                    Text="Actualizar"                                  
-                                    Command="{Binding DateTimeCommand}"  />
+            <Button 
+                Image="ic_access_time_white_48dp.png"
+                Text="Actualizar"                                  
+                Command="{Binding DateTimeCommand}"  />
 
-            <Button Text="Cambiar"                 
-                                    Image="ic_remove_red_eye_white_48dp.png"                      
-                                    Command="{Binding ToggleViewCommand}"/>
+            <Button 
+                Text="Cambiar"                 
+                Image="ic_remove_red_eye_white_48dp.png"                      
+                Command="{Binding ToggleViewCommand}"/>
 
-            <Button Image="ic_send_white_48.png"                  
-                    Text="Enviar"
-                    Command="{Binding QuickMessageCommand}"/>
+            <Button 
+                Image="ic_send_white_48.png"                  
+                Text="Enviar"
+                Command="{Binding QuickMessageCommand}"/>
 
-            <Slider Minimum="0"                   
-                                    Maximum="9"      
-                                    Margin="0,10,0,10"
-                                    x:Name="SliderSpeed"      
-                                    WidthRequest="300"
-                                    HorizontalOptions="CenterAndExpand"
-                                    Value="{Binding Speed}"/>
+            <Slider 
+                Minimum="0"                   
+                Maximum="9"      
+                Margin="0,10,0,10"
+                x:Name="SliderSpeed"      
+                WidthRequest="300"
+                HorizontalOptions="CenterAndExpand"
+                Value="{Binding Speed}"/>
 
             <Label Text="{Binding Text}"/>
 
-            <StackLayout Orientation="Horizontal">
-                <BoxView Color="{Binding StatusColor}"/>
+            <StackLayout 
+                HorizontalOptions="Fill"
+                Orientation="Horizontal">
+                <BoxView 
+                    VerticalOptions="Center"
+                    Color="{Binding IsBluetoothConnected, Converter={StaticResource BoolToBluetoothStatusColor}}"/>
                 <Label Text="Conexión"
                        VerticalOptions="Center"/>
+                <Image 
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"
+                    WidthRequest="40"
+                    Source="{Binding IsDisplayEnabled, Converter={StaticResource BoolToPowerImage}}"               
+                   >
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding Source={StaticResource ViewModel}, Path=PowerCommand}"
+                        />
+                    </Image.GestureRecognizers>
+                </Image>
+                <!--<Image                     
+                    Source="all_citsalogo.png"
+                    HorizontalOptions="End"/>-->
             </StackLayout>
 
-            <Image Source="all_citsalogo.png"/>
+
 
         </StackLayout>
     </ContentPage.Content>

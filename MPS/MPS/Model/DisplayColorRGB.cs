@@ -11,54 +11,54 @@ namespace MPS.Model
         public int Green { get; set; }
         public int Blue { get; set; }
 
-        public string ColorName
-        {
-            set
-            {
-                switch (value)
-                {
-                    case "Red":
-                        SetColorByCode(5, 0, 0);
-                        break;
-                    case "Orange":
-                        SetColorByCode(5, 1, 0);
-                        break;
-                    case "Yellow":
-                        SetColorByCode(4, 2, 0);
-                        break;
-                    case "LawnGreen":
-                        SetColorByCode(3, 5, 0);
-                        break;
-                    case "SpringGreen":
-                        SetColorByCode(0, 5, 1);
-                        break;
-                    case "Cyan":
-                        SetColorByCode(0, 5, 3);
-                        break;
-                    case "DodgerBlue":
-                        SetColorByCode(0, 3, 5);
-                        break;
-                    case "Blue":
-                        SetColorByCode(0, 0, 5);
-                        break;
-                    case "DarkViolet":
-                        SetColorByCode(3, 0, 4);
-                        break;
-                    case "Magenta":
-                        SetColorByCode(5, 0, 2);
-                        break;
-                    case "Black":
-                        SetColorByCode(0, 0, 0);
-                        break;
-                    case "White":
-                        SetColorByCode(5, 5, 5);
-                        break;
-                    default:
-                        SetColorByCode(0, 0, 0);
-                        break;
-                }
-            }
-        }
+        //public string ColorName
+        //{
+        //    set
+        //    {
+        //        switch (value)
+        //        {
+        //            case "Red":
+        //                SetColorByCode(5, 0, 0);
+        //                break;
+        //            case "Orange":
+        //                SetColorByCode(5, 1, 0);
+        //                break;
+        //            case "Yellow":
+        //                SetColorByCode(4, 2, 0);
+        //                break;
+        //            case "LawnGreen":
+        //                SetColorByCode(3, 5, 0);
+        //                break;
+        //            case "SpringGreen":
+        //                SetColorByCode(0, 5, 1);
+        //                break;
+        //            case "Cyan":
+        //                SetColorByCode(0, 5, 3);
+        //                break;
+        //            case "DodgerBlue":
+        //                SetColorByCode(0, 3, 5);
+        //                break;
+        //            case "Blue":
+        //                SetColorByCode(0, 0, 5);
+        //                break;
+        //            case "DarkViolet":
+        //                SetColorByCode(3, 0, 4);
+        //                break;
+        //            case "Magenta":
+        //                SetColorByCode(5, 0, 2);
+        //                break;
+        //            case "Black":
+        //                SetColorByCode(0, 0, 0);
+        //                break;
+        //            case "White":
+        //                SetColorByCode(5, 5, 5);
+        //                break;
+        //            default:
+        //                SetColorByCode(0, 0, 0);
+        //                break;
+        //        }
+        //    }
+        //}
 
         public string ColorCode => Red.ToString() + Green + Blue;
 

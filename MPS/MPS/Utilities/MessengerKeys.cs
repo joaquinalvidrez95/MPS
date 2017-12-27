@@ -8,6 +8,7 @@ namespace MPS.Utilities
 {
     public class MessengerKeys
     {
+        public const string Power="Power";
         public const string QuickMessage = "QuickMessage";
         public const string DeviceSelected = "DeviceSelected";
         public const string CurrentView = "CurrentView";

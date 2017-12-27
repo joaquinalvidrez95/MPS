@@ -42,6 +42,8 @@
     <Compile Include="Behaviour\EntryLengthValidatorBehavior.cs" />
     <Compile Include="Behaviour\ItemTappedAttached.cs" />
     <Compile Include="Bluetooth\BluetoothHelper.cs" />
+    <Compile Include="Converters\BoolToBluetoothStatusColor.cs" />
+    <Compile Include="Converters\BoolToPowerImage.cs" />
     <Compile Include="Data\MessageDatabase.cs" />
     <Compile Include="Model\MessagesRepository.cs" />
     <Compile Include="Services\IFileHelper.cs" />
