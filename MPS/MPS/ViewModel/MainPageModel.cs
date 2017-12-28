@@ -56,14 +56,13 @@ namespace MPS.ViewModel
             {
                 _connectedDevice = arg2;
                 await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_connectedDevice);
+
                 var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
                 var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
                 characteristic.ValueUpdated += OnDataReceived;
                 await characteristic.StartUpdatesAsync();
                 _hasFeedback = false;
-                //RequestParameters();
-
-                //await Task.Delay(Timeout);
+               
                 Device.StartTimer(TimeSpan.FromMilliseconds(Timeout), () =>
                 {
                     if (!_hasFeedback)

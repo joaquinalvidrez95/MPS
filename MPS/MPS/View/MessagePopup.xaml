@@ -72,13 +72,16 @@
             HorizontalOptions="End"/>
         <StackLayout
             Orientation="Horizontal">
-            <Button 
+            <!--<Button 
                 Text="Guardar"        
                 Image="ic_save_white_48dp.png"                              
+                Command="{Binding DoneCommand}"/>-->
+          
+            <Button 
+                Text="Guardar"        
                 Command="{Binding DoneCommand}"/>
             <Button 
-                Text="{StaticResource ButtonTextCancel}"       
-                Image="ic_cancel_white_48dp.png"
+                Style="{StaticResource StyleButtonPopupCancel}"
                 Command="{Binding CancelCommand}"/>
 
         </StackLayout>

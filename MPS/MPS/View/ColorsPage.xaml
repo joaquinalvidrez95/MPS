@@ -19,6 +19,7 @@
             BindingContext="{StaticResource ViewModel}">
 
             <StackLayout                
+                VerticalOptions="StartAndExpand"
                 Orientation="Horizontal">
                 <Label 
                     Text="Color de: "
@@ -71,12 +72,13 @@
 
             <Frame 
                 OutlineColor="Black"                   
-                VerticalOptions="Center"
+                VerticalOptions="CenterAndExpand"
                 HorizontalOptions="Center"
-                Margin="0,0,0,30">
+                Margin="0,30,0,30">
 
-                <Grid ColumnSpacing="5"                
-                      HorizontalOptions="Center">
+                <Grid 
+                    ColumnSpacing="5"                              
+                    HorizontalOptions="Center">
 
                     <Grid.Resources>
                         <ResourceDictionary>
@@ -186,9 +188,10 @@
                 </Grid>
             </Frame>
 
-            <TableView Intent="Form"
-                       HasUnevenRows="True"         
-                       VerticalOptions="EndAndExpand">
+            <TableView 
+                Intent="Form"
+                HasUnevenRows="True"         
+                VerticalOptions="EndAndExpand">
                 <TableRoot>
                     <TableSection>
                         <ViewCell>

@@ -14,6 +14,7 @@ namespace MPS.ViewModel
     public class QuickMessagePopupModel : BaseViewModel
     {
         private string _text;
+        private int _leftCharacters;
 
 
         public ICommand DoneCommand
@@ -29,8 +30,15 @@ namespace MPS.ViewModel
             set
             {                
                 _text = value;
+                LeftCharacters = (int)Application.Current.Resources["MaxMessageLength"] - Text.Length;
                 OnPropertyChanged();
             }
+        }
+
+        public int LeftCharacters
+        {
+            get => _text == null ? (int)Application.Current.Resources["MaxMessageLength"] : _leftCharacters;
+            set { _leftCharacters = value; OnPropertyChanged(); }
         }
 
         public QuickMessagePopupModel()

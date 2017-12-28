@@ -14,12 +14,17 @@
             <Style TargetType="Button">
                 <Setter Property="BackgroundColor"
                         Value="Red"/>
+                <!--<Setter Property="HorizontalOptions"
+                        Value="FillAndExpand"/>-->
                 <Setter Property="HorizontalOptions"
-                        Value="FillAndExpand"/>
+                        Value="CenterAndExpand"/>
                 <Setter Property="TextColor"
                         Value="White"/>
+                <!--<Setter Property="Margin"
+                        Value="80,10,80,5"/>-->
                 <Setter Property="Margin"
-                        Value="80,10,80,5"/>
+                        Value="0,10,0,5"/>
+                <Setter Property="WidthRequest" Value="180"/>
 
             </Style>
             <!--<converters:BoolToPowerImage x:Key="BoolToPowerImage" />-->
@@ -45,6 +50,20 @@
                 Image="ic_send_white_48.png"                  
                 Text="Enviar"
                 Command="{Binding QuickMessageCommand}"/>
+            <!--<Button 
+          
+                Text="Actualizar"                                  
+                Command="{Binding DateTimeCommand}"  />
+
+            <Button 
+                Text="Cambiar"                 
+                         
+                Command="{Binding ToggleViewCommand}"/>
+
+            <Button 
+                    
+                Text="Enviar"
+                Command="{Binding QuickMessageCommand}"/>-->
 
             <Slider 
                 Minimum="0"                   
@@ -60,12 +79,12 @@
             <StackLayout 
                 HorizontalOptions="Fill"
                 Orientation="Horizontal">
-           
+
                 <StackLayout
                     VerticalOptions="Center"
                     HorizontalOptions="StartAndExpand"
                     Orientation="Horizontal">
-                    
+
                     <controls:TintedImage                  
                         VerticalOptions="Center"
                         TintColor="{Binding IsBluetoothConnected, Converter={StaticResource BoolToBluetoothStatusColor}}"
@@ -75,20 +94,7 @@
                         Text="Conexión"
                         VerticalOptions="Center"/>
                 </StackLayout>
-         
-                <!--<Image 
-                    VerticalOptions="Center"
-                    HorizontalOptions="End"
-                    WidthRequest="40"
-                    Source="{Binding IsDisplayEnabled, Converter={StaticResource BoolToPowerImage}}" >           
-                  
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Command="{Binding Source={StaticResource ViewModel}, Path=PowerCommand}"
-                        />
-                    </Image.GestureRecognizers>
-                </Image>-->
-                         
+
                 <controls:TintedImage
                     WidthRequest="{StaticResource DimensionButtonPower}"
                     HeightRequest="{StaticResource DimensionButtonPower}"

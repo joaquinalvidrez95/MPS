@@ -27,19 +27,25 @@
         <Label Text="Mensaje instantáneo"
                TextColor="{StaticResource ColorAccent}"/>
         <BoxView Style="{StaticResource StyleBoxViewDivider}"/>
-        <Editor HeightRequest="{StaticResource EditorHeight}"
-                Text="{Binding Text}">
+        <Editor 
+            HeightRequest="{StaticResource EditorHeight}"
+            Text="{Binding Text}">
             <Editor.Behaviors>
                 <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
             </Editor.Behaviors>
         </Editor>
-        <StackLayout Orientation="Horizontal">
-            <Button Text="Enviar"                                             
-                    Image="ic_send_white_48.png"
-                    Command="{Binding DoneCommand}"/>
-            <Button Text="{StaticResource ButtonTextCancel}"         
-                    Image="ic_cancel_white_48dp.png"                    
-                    Command="{Binding CancelCommand}"/>
+        <Label
+            Text="{Binding LeftCharacters}"
+            HorizontalOptions="End"/>
+        <StackLayout 
+            Orientation="Horizontal">
+            <!--Image="ic_send_white_48.png"-->
+            <Button 
+                Text="Enviar"                                                          
+                Command="{Binding DoneCommand}"/>
+            <Button 
+                Style="{StaticResource StyleButtonPopupCancel}"                                           
+                Command="{Binding CancelCommand}"/>
         </StackLayout>
 
 

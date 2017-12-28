@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"            
-             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"            
              x:Class="MPS.App">
     <Application.Resources>
 
@@ -15,8 +14,9 @@
             <Color x:Key="ColorBluetoothDisconnected">Red</Color>
             <Color x:Key="ColorBackgroundPopup">White</Color>
             <Color x:Key="ColorDisplayDisabled">#BDBDBD</Color>
-            
-            <x:Double x:Key="EditorHeight">220</x:Double>
+
+            <!--<x:Double x:Key="EditorHeight">220</x:Double>-->
+            <x:Double x:Key="EditorHeight">200</x:Double>
 
             <x:String x:Key="ButtonTextAccept">Aceptar</x:String>
             <x:String x:Key="ButtonTextCancel">Cancelar</x:String>
@@ -25,13 +25,15 @@
             <x:Int32 x:Key="MaxTitleLength">35</x:Int32>
 
             <x:Int32 x:Key="BorderWidthDefault">1</x:Int32>
-            <x:Int32 x:Key="DimensionButtonColor">40</x:Int32>
+            <x:Int32 x:Key="DimensionButtonColor">50</x:Int32>
+            <x:Double x:Key="DimensionButtonPower">100</x:Double>
 
             <x:Int32 x:Key="PasswordLength">4</x:Int32>
             <x:Double x:Key="HeightBoxViewDivider">1</x:Double>
-            <x:Double x:Key="DimensionButtonPower">100</x:Double>
+           
 
-            <GridLength x:Key="GridLengthColorButtons">40</GridLength>
+            <GridLength x:Key="GridLengthColorButtons">30</GridLength>
+            <!--<GridLength x:Key="GridLengthColorButtons">40</GridLength>-->
 
             <Style x:Key="StyleButtonColor" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource ColorAccent}"/>
@@ -71,7 +73,7 @@
             </Style>
 
             <Style x:Key="StylePaddingPopup" TargetType="pages:PopupPage">
-                <Setter Property="Padding" Value="30,0,30,0"/>
+                <Setter Property="Padding" Value="25,0,25,0"/>
             </Style>
 
             <Style x:Key="StyleButtonPopup"  TargetType="Button">
@@ -82,10 +84,17 @@
                 <Setter Property="HorizontalOptions"
                         Value="FillAndExpand"/>
             </Style>
-            
+
+            <Style 
+                x:Key="StyleButtonPopupCancel"
+                TargetType="Button"
+                BasedOn="{StaticResource StyleButtonPopup}" >
+                <!--<Setter Property="Image" Value="ic_cancel_white_48dp.png"/>-->
+                <Setter Property="Text" Value="{StaticResource ButtonTextCancel}"/>
+            </Style>
+
             <Thickness x:Key="PaddingPopupStackLayout">10,20,10,20</Thickness>
          
-
 
         </ResourceDictionary>
 

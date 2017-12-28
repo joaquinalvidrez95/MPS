@@ -25,6 +25,8 @@ namespace MPS.Bluetooth
             public const string Request = "R";
             public const string Feedback = "S";
             public const string HourFormat = "H";
+            public const string TypeOfView = "F";
+            public const string Visibilities = "B";
         }
     }
 }

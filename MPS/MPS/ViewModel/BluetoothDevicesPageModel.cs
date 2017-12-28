@@ -75,8 +75,7 @@ namespace MPS.ViewModel
         }
 
         private async void SelectDeviceAsync()
-        {
-            //Text = DeviceSelected.Name;
+        {          
             //await PopupNavigation.PushAsync(new PasswordPopup());
             await CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();
             await _navigation.PopAsync();

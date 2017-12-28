@@ -166,6 +166,7 @@ namespace MPS.ViewModel
             CurrentView++;
             CurrentView = CurrentView % 3;
             MessagingCenter.Send(this, MessengerKeys.CurrentView, CurrentView);
+             //PopupNavigation.PushAsync(new PasswordPopup());
         }
 
         private void UpdateDateTime()

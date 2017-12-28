@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
 
 namespace MPS.ViewModel
 {
@@ -24,6 +26,18 @@ namespace MPS.ViewModel
         public PasswordPopupModel()
         {
             Password = "";
+            DoneCommand=new Command(StartConnection);
+            CancelCommand=new Command(CancelConnection);
+        }
+
+        private async void CancelConnection()
+        {
+            await PopupNavigation.PopAsync();
+        }
+
+        private async void StartConnection()
+        {
+            await PopupNavigation.PopAsync();
         }
     }
 }
