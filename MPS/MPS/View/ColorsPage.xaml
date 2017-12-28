@@ -15,19 +15,29 @@
     <ContentPage.Content>
         <StackLayout 
             Orientation="Vertical"        
+            VerticalOptions="Fill"
             BindingContext="{StaticResource ViewModel}">
-            <Picker
-                HorizontalOptions="Fill"
-                Title="Seleccione"                
-                SelectedIndex="{Binding SelectedIndex}">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Texto superior</x:String>
-                        <x:String>Texto inferior</x:String>
-                        <x:String>Fondo</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
+
+            <StackLayout                
+                Orientation="Horizontal">
+                <Label 
+                    Text="Color de: "
+                    VerticalOptions="Center"/>
+                <Picker
+                    HorizontalOptions="Fill"
+                    Title="Seleccione"                               
+                    VerticalOptions="Center"
+                    SelectedIndex="{Binding SelectedIndex}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Texto superior</x:String>
+                            <x:String>Texto inferior</x:String>
+                            <x:String>Fondo</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </StackLayout>
+            
             <!--<StackLayout Style="{StaticResource StackLayoutColors}">
                 <Button Style="{StaticResource ButtonColorStyle}"
                         Command="{Binding SetUpperLineColorCommand}"
@@ -61,7 +71,7 @@
 
             <Frame 
                 OutlineColor="Black"                   
-                VerticalOptions="CenterAndExpand"
+                VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Margin="0,0,0,30">
 

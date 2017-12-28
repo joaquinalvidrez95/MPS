@@ -75,7 +75,7 @@ namespace MPS.ViewModel
             }
             catch (DeviceConnectionException)
             {
-
+                Debug.WriteLine("Error al conectar");
             }
         }
 
@@ -83,12 +83,14 @@ namespace MPS.ViewModel
         {
       
             var bytes = e.Characteristic.Value;
+            
             //Device.BeginInvokeOnMainThread(() =>
             //{
             //    
             //});
-            var x = Encoding.UTF8.GetString(bytes, 0, 1);
-            switch (x)
+            var x = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+            Debug.WriteLine(x);
+            switch (x[0].ToString())
             {
                 case BluetoothHelper.BluetoothContract.Feedback:
                     _hasFeedback = true;
