@@ -21,6 +21,20 @@
             <x:String x:Key="ButtonTextAccept">Aceptar</x:String>
             <x:String x:Key="ButtonTextCancel">Cancelar</x:String>
 
+            <x:String x:Key="TitleColoursPage">Colores</x:String>
+            <x:String x:Key="TitleMainPage">Principal</x:String>
+            <x:String x:Key="TitleMessagesPage">Mensajes</x:String>
+            <x:String x:Key="TitleVisibilityPage">Vista</x:String>
+
+            <x:String x:Key="IconHome">ic_home_white_48dp.png</x:String>
+            <x:String x:Key="IconEye">ic_remove_red_eye_white_48dp.png</x:String>
+            <x:String x:Key="IconMessage">ic_send_white_48.png</x:String>
+            <x:String x:Key="IconColours">ic_color_lens_white_48dp.png</x:String>
+            <x:String x:Key="IconTime">ic_access_time_white_48dp.png</x:String>
+            <x:String x:Key="IconAdd">ic_add_white_48dp.png</x:String>
+            <x:String x:Key="IconDelete">ic_delete_forever_black_48dp.png</x:String>
+            <x:String x:Key="IconMessageBlack">ic_send_envelope.png</x:String>
+           
             <x:Int32 x:Key="MaxMessageLength">180</x:Int32>
             <x:Int32 x:Key="MaxTitleLength">35</x:Int32>
 
@@ -31,9 +45,8 @@
             <x:Int32 x:Key="PasswordLength">4</x:Int32>
             <x:Double x:Key="HeightBoxViewDivider">1</x:Double>
            
-
             <GridLength x:Key="GridLengthColorButtons">30</GridLength>
-            <!--<GridLength x:Key="GridLengthColorButtons">40</GridLength>-->
+           
 
             <Style x:Key="StyleButtonColor" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource ColorAccent}"/>
@@ -71,6 +84,27 @@
             <Style x:Key="StylePaddingContentPage" TargetType="ContentPage">
                 <Setter Property="Padding" Value="20,5,20,0"/>
             </Style>
+
+            <Style x:Key="StyleMainParametersPage" BasedOn="{StaticResource StylePaddingContentPage}" TargetType="ContentPage">
+                <!--<Setter Property="Title" Value="{StaticResource TitleMainPage}"/>-->
+                <Setter Property="Icon" Value="{StaticResource IconHome}"/>
+            </Style>
+
+            <Style x:Key="StyleMessagesPage" BasedOn="{StaticResource StylePaddingContentPage}" TargetType="ContentPage">
+                <!--<Setter Property="Title" Value="{StaticResource TitleMessagesPage}"/>-->
+                <Setter Property="Icon" Value="{StaticResource IconMessage}"/>
+            </Style>
+
+            <Style x:Key="StyleColoursPage" BasedOn="{StaticResource StylePaddingContentPage}" TargetType="ContentPage">
+                <!--<Setter Property="Title" Value="{StaticResource TitleColoursPage}"/>-->
+                <Setter Property="Icon" Value="{StaticResource IconColours}"/>
+            </Style>
+
+            <Style x:Key="StyleVisibilityPage" BasedOn="{StaticResource StylePaddingContentPage}" TargetType="ContentPage">
+                <!--<Setter Property="Title" Value="{StaticResource TitleVisibilityPage}"/>-->
+                <Setter Property="Icon" Value="{StaticResource IconEye}"/>
+            </Style>
+
 
             <Style x:Key="StylePaddingPopup" TargetType="pages:PopupPage">
                 <Setter Property="Padding" Value="25,0,25,0"/>

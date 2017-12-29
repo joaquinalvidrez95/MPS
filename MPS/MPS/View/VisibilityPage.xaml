@@ -2,9 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
-             x:Class="MPS.View.VisibilityPage"
-             Title="Vista"
-             Style="{StaticResource StylePaddingContentPage}">
+             x:Class="MPS.View.VisibilityPage"           
+             Style="{StaticResource StyleVisibilityPage}">
+ 
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewModel:VisibilityPageModel x:Key="ViewModel" />
@@ -18,7 +18,7 @@
         <TableView                
             BindingContext="{StaticResource ViewModel}"
                 VerticalOptions="Fill"
-                HasUnevenRows="True"
+                HasUnevenRows="True"           
                 Intent="Form" >
             <TableRoot>
                 <TableSection
@@ -53,8 +53,8 @@
                             >
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
-                                    <x:String>Fija</x:String>
-                                    <x:String>Alternada</x:String>
+                                    <x:String>Fijo</x:String>
+                                    <x:String>Alternado</x:String>
                                 </x:Array>
                             </Picker.ItemsSource>
                         </Picker>

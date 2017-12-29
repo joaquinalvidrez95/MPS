@@ -2,12 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"         
              xmlns:viewmodel="clr-namespace:MPS.ViewModel;assembly=MPS"
-             xmlns:converters="clr-namespace:MPS.Converters;assembly=MPS"
-             Title="Principal"
+             xmlns:converters="clr-namespace:MPS.Converters;assembly=MPS"             
              x:Class="MPS.MainParametersPage"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             Style="{StaticResource StylePaddingContentPage}">
-
+             Style="{StaticResource StyleMainParametersPage}">
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewmodel:MainParametersPageModel x:Key="ViewModel" />
@@ -37,33 +36,19 @@
         <StackLayout BindingContext="{StaticResource ViewModel}">
 
             <Button 
-                Image="ic_access_time_white_48dp.png"
+                Image="{StaticResource IconTime}"
                 Text="Actualizar"                                  
                 Command="{Binding DateTimeCommand}"  />
 
             <Button 
                 Text="Cambiar"                 
-                Image="ic_remove_red_eye_white_48dp.png"                      
+                Image="{StaticResource IconEye}"                      
                 Command="{Binding ToggleViewCommand}"/>
 
             <Button 
-                Image="ic_send_white_48.png"                  
+                Image="{StaticResource IconMessage}"                  
                 Text="Enviar"
                 Command="{Binding QuickMessageCommand}"/>
-            <!--<Button 
-          
-                Text="Actualizar"                                  
-                Command="{Binding DateTimeCommand}"  />
-
-            <Button 
-                Text="Cambiar"                 
-                         
-                Command="{Binding ToggleViewCommand}"/>
-
-            <Button 
-                    
-                Text="Enviar"
-                Command="{Binding QuickMessageCommand}"/>-->
 
             <Slider 
                 Minimum="0"                   

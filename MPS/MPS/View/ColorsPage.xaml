@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"                    
-             xmlns:viewmodel="clr-namespace:MPS.ViewModel;assembly=MPS"
-             Title="Colores"
+             xmlns:viewmodel="clr-namespace:MPS.ViewModel;assembly=MPS"             
              x:Class="MPS.ColorsPage"                   
-             Style="{StaticResource StylePaddingContentPage}">
-
+             Style="{StaticResource StyleColoursPage}">
+       
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewmodel:ColorsPageModel x:Key="ViewModel" />
@@ -20,6 +19,7 @@
 
             <StackLayout                
                 VerticalOptions="StartAndExpand"
+                HorizontalOptions="Center"
                 Orientation="Horizontal">
                 <Label 
                     Text="Color de: "
@@ -74,7 +74,8 @@
                 OutlineColor="Black"                   
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="Center"
-                Margin="0,30,0,30">
+                Padding="10,10,10,10"
+                Margin="0,20,0,20">
 
                 <Grid 
                     ColumnSpacing="5"                              

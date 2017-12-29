@@ -2,11 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"                          
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
-             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
-             Title="Mensajes"
-             Style="{StaticResource StylePaddingContentPage}"
+             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"                     
+             Style="{StaticResource StyleMessagesPage}"
              x:Class="MPS.MessagePage">
-
+    <!--Title="{StaticResource TitleMessagesPage}"-->
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewModel:MessagePageModel x:Key="ViewModel" />
@@ -23,7 +22,7 @@
             <Button
                 Command="{Binding AddMessageCommand}"
                 HorizontalOptions="Center"           
-                Image="ic_add_white_48dp.png"/>
+                Image="{StaticResource IconAdd}"/>
             <ListView 
                 ItemsSource="{Binding Messages}"              
                 SelectedItem="{Binding SelectedItem}"                      
@@ -61,7 +60,7 @@
                                     HorizontalOptions="StartAndExpand" />
                                 
                                 <Image 
-                                    Source="ic_delete_forever_black_48dp.png"
+                                    Source="{StaticResource IconDelete}"
                                     VerticalOptions="Center"
                                     HorizontalOptions="End">
                                     <Image.GestureRecognizers>
@@ -73,7 +72,7 @@
 
                                 <Image 
                                     Margin="20,0,0,0"
-                                    Source="ic_send_envelope.png"
+                                    Source="{StaticResource IconMessageBlack}"
                                     VerticalOptions="Center"
                                     HorizontalOptions="End">
                                     <Image.GestureRecognizers>
