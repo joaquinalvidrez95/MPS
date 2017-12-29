@@ -23,7 +23,7 @@ namespace MPS.ViewModel
         private IDevice _connectedDevice;
         private bool _hasFeedback;
         private bool _isFixingControls;
-        private const int TimeoutForFixingControls = 1000;
+        private const int TimeoutForFixingControls = 20;
         public ICommand BluetoothConnectionCommand { get; }
         private INavigation Navigation { get; }
         private const int Timeout = 2000;
@@ -85,7 +85,7 @@ namespace MPS.ViewModel
             switch (x[0].ToString())
             {
                 case BluetoothHelper.BluetoothContract.Feedback:
-                    _hasFeedback = true;
+                    _hasFeedback = true;                    
                     _isFixingControls = true;
                     MessagingCenter.Send(this, MessengerKeys.Power, (bytes[1] - 48) == 1);
                     MessagingCenter.Send(this, MessengerKeys.Speed, bytes[2] - 48);
@@ -122,9 +122,13 @@ namespace MPS.ViewModel
                         IsDateVisible = (bytes[17] - 48) == 1,
                     };
                     MessagingCenter.Send(this, MessengerKeys.Visibilities, displayVisibility);
-
-                    Task.Delay(TimeoutForFixingControls);
-                    _isFixingControls = false;
+                  
+                    Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForFixingControls), () =>
+                    {
+                        _isFixingControls = false;                        
+                        return false;                        
+                    });                    
+              
                     break;
             }
         }

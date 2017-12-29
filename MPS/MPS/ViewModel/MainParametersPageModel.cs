@@ -20,9 +20,7 @@ namespace MPS.ViewModel
     {
         //private const double STEP_VALUE = 1.0;
         private string _currentDateTime;
-        //private double _speed;
-        //int _currentView;
-        private string _text;
+        //int _currentView;   
         private bool _isBluetoothConnected;
         private string _message;
         private bool _isDisplayEnabled;
@@ -51,23 +49,7 @@ namespace MPS.ViewModel
                 OnPropertyChanged();
             }
         }
-
-        //public double Speed
-        //{
-        //    get => _speed;
-        //    set
-        //    {
-        //        //value = Math.Round(value / STEP_VALUE);
-        //        //value = value * STEP_VALUE;
-        //        value = Math.Round(value);
-        //        if ((int)value != (int)_speed)
-        //        {
-        //            MessagingCenter.Send(this, MessengerKeys.Speed, (int)value);
-        //        }
-        //        _speed = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
+   
 
         private int _currentView;
         //{
@@ -84,17 +66,7 @@ namespace MPS.ViewModel
             get => _isDisplayEnabled;
             set { _isDisplayEnabled = value; OnPropertyChanged(); }
         }
-
-        public string Text
-        {
-            get => _text;
-            private set
-            {
-                _text = value;
-                OnPropertyChanged();
-            }
-        }
-
+       
         public bool IsBluetoothConnected
         {
             get => _isBluetoothConnected;
@@ -112,8 +84,7 @@ namespace MPS.ViewModel
             DateTimeCommand = new Command(UpdateDateTime);
             ToggleViewCommand = new Command(ToggleView);
             PowerCommand = new Command(TogglePower);
-            _currentView = 0;
-            //Speed = 0;
+            _currentView = 0;          
             QuickMessageCommand = new Command(SendQuickMessage);
 
         }
@@ -164,8 +135,7 @@ namespace MPS.ViewModel
                 now = now.AddHours(1);
             }
             string currentTime = $"Current Time: {now}";
-            CurrentDateTime = currentTime;
-            Text = CurrentDateTime;
+            CurrentDateTime = currentTime;       
             MessagingCenter.Send(this, MessengerKeys.DateTime, now);
         }
 

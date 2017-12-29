@@ -28,7 +28,7 @@
                 Image="{StaticResource IconAdd}"/>
             
             <Label TextColor="{StaticResource ColorAccent}" Text="Velocidad" />
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 
                 <Slider 
                     Minimum="0"                   
