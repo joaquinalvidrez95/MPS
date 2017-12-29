@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"            
-             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"            
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"           
              x:Class="MPS.App">
     <Application.Resources>
 
@@ -15,8 +15,8 @@
             <Color x:Key="ColorBackgroundPopup">White</Color>
             <Color x:Key="ColorDisplayDisabled">#BDBDBD</Color>
 
-            <!--<x:Double x:Key="EditorHeight">220</x:Double>-->
-            <x:Double x:Key="EditorHeight">200</x:Double>
+            <!--<x:Double x:Key="EditorHeight">200</x:Double>-->
+            <x:Double x:Key="EditorHeight">150</x:Double>
 
             <x:String x:Key="ButtonTextAccept">Aceptar</x:String>
             <x:String x:Key="ButtonTextCancel">Cancelar</x:String>
@@ -34,6 +34,8 @@
             <x:String x:Key="IconAdd">ic_add_white_48dp.png</x:String>
             <x:String x:Key="IconDelete">ic_delete_forever_black_48dp.png</x:String>
             <x:String x:Key="IconMessageBlack">ic_send_envelope.png</x:String>
+            <x:String x:Key="IconCitsaLogo">all_citsalogo.png</x:String>
+            
            
             <x:Int32 x:Key="MaxMessageLength">180</x:Int32>
             <x:Int32 x:Key="MaxTitleLength">35</x:Int32>
@@ -41,6 +43,8 @@
             <x:Int32 x:Key="BorderWidthDefault">1</x:Int32>
             <x:Int32 x:Key="DimensionButtonColor">50</x:Int32>
             <x:Double x:Key="DimensionButtonPower">100</x:Double>
+            <x:Double x:Key="WidthSlider">230</x:Double>
+            <!--<x:Double x:Key="WidthSlider">300</x:Double>-->
 
             <x:Int32 x:Key="PasswordLength">4</x:Int32>
             <x:Double x:Key="HeightBoxViewDivider">1</x:Double>
@@ -70,16 +74,12 @@
                 <Setter Property="Margin" Value="0,0,0,20"/>
             </Style>
             <Style x:Key="StyleSliderRgb" TargetType="Slider">
-                <Setter Property="Minimum" 
-                        Value="0"/>
-                <Setter Property="Maximum" 
-                        Value="5"/>
-                <Setter Property="WidthRequest" 
-                        Value="300"/>
-                <Setter Property="HorizontalOptions" 
-                        Value="Center"/>
-                <Setter Property="Margin"
-                        Value="0,0,0,20"/>
+                <Setter Property="Minimum" Value="0"/>
+                <Setter Property="Maximum" Value="5"/>
+                <Setter Property="WidthRequest" Value="{StaticResource WidthSlider}"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="Margin" Value="0,0,0,20"/>
+
             </Style>
             <Style x:Key="StylePaddingContentPage" TargetType="ContentPage">
                 <Setter Property="Padding" Value="20,5,20,0"/>
@@ -128,7 +128,8 @@
             </Style>
 
             <Thickness x:Key="PaddingPopupStackLayout">10,20,10,20</Thickness>
-         
+           
+
 
         </ResourceDictionary>
 

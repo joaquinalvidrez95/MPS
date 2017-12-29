@@ -22,9 +22,9 @@ namespace MPS.ViewModel
             get => _isTimeVisible;
             set
             {
-                _isTimeVisible = value;
-                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
+                _isTimeVisible = value;                
                 OnPropertyChanged();
+                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
             }
         }
 
@@ -38,9 +38,9 @@ namespace MPS.ViewModel
             get => _isDateVisible;
             set
             {
-                _isDateVisible = value;
-                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
+                _isDateVisible = value;                
                 OnPropertyChanged();
+                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
             }
         }
 
@@ -49,9 +49,9 @@ namespace MPS.ViewModel
             get => _isTemperatureVisible;
             set
             {
-                _isTemperatureVisible = value;
-                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
+                _isTemperatureVisible = value;                
                 OnPropertyChanged();
+                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
             }
         }
 

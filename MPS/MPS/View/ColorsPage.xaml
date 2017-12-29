@@ -1,13 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"                    
-             xmlns:viewmodel="clr-namespace:MPS.ViewModel;assembly=MPS"             
+             xmlns:viewmodel="clr-namespace:MPS.ViewModel;assembly=MPS"
+             xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
              x:Class="MPS.ColorsPage"                   
              Style="{StaticResource StyleColoursPage}">
-       
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewmodel:ColorsPageModel x:Key="ViewModel" />
+           
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -38,37 +40,7 @@
                     </Picker.ItemsSource>
                 </Picker>
             </StackLayout>
-            
-            <!--<StackLayout Style="{StaticResource StackLayoutColors}">
-                <Button Style="{StaticResource ButtonColorStyle}"
-                        Command="{Binding SetUpperLineColorCommand}"
-                        BackgroundColor="{Binding ColorUpperLine}"
-                        BorderColor="{Binding BorderColorUpperLineButton}"
-                        BorderWidth="{Binding BorderWidthUpperLineButton}"/>
-                <Label Text="Texto superior"                                
-                       VerticalOptions="Center"/>
 
-            </StackLayout>
-
-            <StackLayout Style="{StaticResource StackLayoutColors}">
-                <Button Style="{StaticResource ButtonColorStyle}"
-                        Command="{Binding SetLowerLineColorCommand}"                        
-                        BackgroundColor="{Binding ColorLowerLine}"
-                        BorderColor="{Binding BorderColorLowerLineButton}"
-                        BorderWidth="{Binding BorderWidthLowerLineButton}"/>
-                <Label Text="Texto inferior"                  
-                       VerticalOptions="Center"/>
-            </StackLayout>
-
-            <StackLayout Style="{StaticResource StackLayoutColors}">
-                <Button Style="{StaticResource ButtonColorStyle}"
-                        Command="{Binding SetBackgroundColorCommand}"
-                        BackgroundColor="{Binding ColorBackground}"
-                        BorderColor="{Binding BorderColorBackgroundButton}"
-                        BorderWidth="{Binding BorderWidthBackgroundButton}"/>
-                <Label Text="Fondo"                                  
-                       VerticalOptions="Center"/>
-            </StackLayout>-->
 
             <Frame 
                 OutlineColor="Black"                   
@@ -129,7 +101,7 @@
                         Grid.Row="0"
                         BackgroundColor="LawnGreen"
                         CommandParameter="{Binding Source={x:Reference LawnGreen}, Path=BackgroundColor}"/>
-                    
+
                     <Button 
                         x:Name="SpringGreen"                            
                         Grid.Column="4"       
@@ -199,24 +171,53 @@
                             <StackLayout Orientation="Vertical">
                                 <Label Text="Rojo"
                                        TextColor="Red"/>
-                                <Slider Style="{StaticResource StyleSliderRgb}"                                               
-                                        Value="{Binding RedValue}"/>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                    <Slider Style="{StaticResource StyleSliderRgb}"          
+                                            VerticalOptions="Center"
+                                            Value="{Binding RedValue}">
+                                        <Slider.Behaviors>
+                                            <behaviour:DiscreteSliderBehaviour />
+                                        </Slider.Behaviors>
+                                    </Slider>
+                                    <Label 
+                                        Text="{Binding RedValue}" 
+                                        VerticalOptions="Center"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout >
+                                <Label Text="Verde" TextColor="Green"/>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                    <Slider Style="{StaticResource StyleSliderRgb}"      
+                                            VerticalOptions="Center"
+                                            Value="{Binding GreenValue}">
+                                        <Slider.Behaviors>
+                                            <behaviour:DiscreteSliderBehaviour />
+                                        </Slider.Behaviors>
+                                    </Slider>
+                                    <Label 
+                                        Text="{Binding GreenValue}" 
+                                        VerticalOptions="Center"/>
+                                </StackLayout>
                             </StackLayout>
                         </ViewCell>
                         <ViewCell>
                             <StackLayout>
-                                <Label Text="Verde"
-                                       TextColor="Green"/>
-                                <Slider Style="{StaticResource StyleSliderRgb}"                                            
-                                        Value="{Binding GreenValue}"/>
-                            </StackLayout>
-                        </ViewCell>
-                        <ViewCell>
-                            <StackLayout>
-                                <Label Text="Azul"
-                                       TextColor="Blue"/>
-                                <Slider Style="{StaticResource StyleSliderRgb}"                                            
-                                        Value="{Binding BlueValue}"/>
+                                <Label Text="Azul" TextColor="Blue"/>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
+                                    <Slider Style="{StaticResource StyleSliderRgb}"   
+                                            VerticalOptions="Center"                                            
+                                            Value="{Binding BlueValue}">
+                                        <Slider.Behaviors>
+                                            <behaviour:DiscreteSliderBehaviour />
+                                        </Slider.Behaviors>
+                                    </Slider>
+                                    <Label 
+                                        Text="{Binding BlueValue}" 
+                                        VerticalOptions="Center"/>
+                                </StackLayout>
+                                
                             </StackLayout>
                         </ViewCell>
                     </TableSection>

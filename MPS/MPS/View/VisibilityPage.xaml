@@ -4,7 +4,7 @@
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
              x:Class="MPS.View.VisibilityPage"           
              Style="{StaticResource StyleVisibilityPage}">
- 
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewModel:VisibilityPageModel x:Key="ViewModel" />
@@ -24,10 +24,10 @@
                 <TableSection
                         Title="Formato de hora">
                     <ViewCell>
-                        <Picker                                
-                                Title="Seleccione formato"   
-                            SelectedIndex="{Binding TimeFormatSelected}"
-                            >
+                        <Picker                   
+                            HorizontalOptions="Start"
+                            Title="Seleccione formato"   
+                            SelectedIndex="{Binding TimeFormatSelected}" >
 
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
@@ -48,7 +48,8 @@
                         Title="Modo de desplegar">
                     <ViewCell>
                         <Picker                           
-                                Title="Seleccione modo"  
+                            Title="Seleccione modo"  
+                            HorizontalOptions="Start"
                             SelectedIndex="{Binding ViewModeSelected}"
                             >
                             <Picker.ItemsSource>

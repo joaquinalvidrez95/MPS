@@ -23,6 +23,7 @@ namespace MPS.ViewModel
         private IDevice _connectedDevice;
         private bool _hasFeedback;
         private bool _isFixingControls;
+        private const int TimeoutForFixingControls = 1000;
         public ICommand BluetoothConnectionCommand { get; }
         private INavigation Navigation { get; }
         private const int Timeout = 2000;
@@ -122,7 +123,7 @@ namespace MPS.ViewModel
                     };
                     MessagingCenter.Send(this, MessengerKeys.Visibilities, displayVisibility);
 
-
+                    Task.Delay(TimeoutForFixingControls);
                     _isFixingControls = false;
                     break;
             }
@@ -184,7 +185,7 @@ namespace MPS.ViewModel
             MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
         }
 
-        private void OnSpeedReceived(MainParametersPageModel arg1, int arg2)
+        private void OnSpeedReceived(MessagePageModel messagePageModel, int arg2)
         {
             string data = MessengerKeys.Speed + arg2 + '\n';
             WriteData(data);
@@ -248,9 +249,8 @@ namespace MPS.ViewModel
             MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
             MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power, OnPowerStatusReceived);
             MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, OnViewReceived);
-            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
+            MessagingCenter.Subscribe<MessagePageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
             MessagingCenter.Subscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime, OnDateTimeReceived);
-            //MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.QuickMessage, OnQuickMessageReceived);
             MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.Message, OnQuickMessageReceived);
             MessagingCenter.Subscribe<MessagePageModel, Message>(this, MessengerKeys.Message, OnMessageStoredReceived);
             MessagingCenter.Subscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours, OnColoursReceived);

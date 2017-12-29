@@ -20,7 +20,7 @@ namespace MPS.ViewModel
     {
         //private const double STEP_VALUE = 1.0;
         private string _currentDateTime;
-        private double _speed;
+        //private double _speed;
         //int _currentView;
         private string _text;
         private bool _isBluetoothConnected;
@@ -52,22 +52,22 @@ namespace MPS.ViewModel
             }
         }
 
-        public double Speed
-        {
-            get => _speed;
-            set
-            {
-                //value = Math.Round(value / STEP_VALUE);
-                //value = value * STEP_VALUE;
-                value = Math.Round(value);
-                if ((int)value != (int)_speed)
-                {
-                    MessagingCenter.Send(this, MessengerKeys.Speed, (int)value);
-                }
-                _speed = value;
-                OnPropertyChanged();
-            }
-        }
+        //public double Speed
+        //{
+        //    get => _speed;
+        //    set
+        //    {
+        //        //value = Math.Round(value / STEP_VALUE);
+        //        //value = value * STEP_VALUE;
+        //        value = Math.Round(value);
+        //        if ((int)value != (int)_speed)
+        //        {
+        //            MessagingCenter.Send(this, MessengerKeys.Speed, (int)value);
+        //        }
+        //        _speed = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         private int _currentView;
         //{
@@ -113,7 +113,7 @@ namespace MPS.ViewModel
             ToggleViewCommand = new Command(ToggleView);
             PowerCommand = new Command(TogglePower);
             _currentView = 0;
-            Speed = 0;
+            //Speed = 0;
             QuickMessageCommand = new Command(SendQuickMessage);
 
         }
@@ -132,12 +132,7 @@ namespace MPS.ViewModel
         private void UpdateView(MainPageModel arg1, int arg2)
         {
             _currentView = arg2;
-        }
-
-        private void UpdateSpeed(MainPageModel arg1, int arg2)
-        {
-            Speed = arg2;
-        }
+        }      
     
 
         private void OnDeviceStatusChanged(MainPageModel arg1, IDevice arg2)
@@ -184,7 +179,6 @@ namespace MPS.ViewModel
         {
             MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);         
             //MessagingCenter.Subscribe<QuickMessagePopupModel, string>(this, MessengerKeys.QuickMessage, OnQuickMessageAdded);
-            MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.Speed, UpdateSpeed);
             MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.CurrentView, UpdateView);
             MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
         }

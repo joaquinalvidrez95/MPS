@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using MPS.Model;
@@ -11,10 +13,30 @@ namespace MPS.ViewModel
     public class MessagePageModel : BaseViewModel
     {
         private string _message;
+        private double _speed;
+
         private ObservableCollection<Message> _messages;
 
       
         public ICommand ItemTappedCommand { get; }
+
+        public double Speed
+        {
+            get => _speed;
+            set
+            {
+                //value = Math.Round(value / STEP_VALUE);
+                //value = value * STEP_VALUE;
+
+                value = Math.Round(value);                
+                if ((int)value != (int)_speed)
+                {                  
+                    MessagingCenter.Send(this, MessengerKeys.Speed, (int)value);
+                }
+                _speed = value;
+                OnPropertyChanged();
+            }
+        }
         public string Message
         {
             get => _message;
@@ -98,6 +120,13 @@ namespace MPS.ViewModel
         {
             //MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
             MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.Message, OnMessageAdded);
+            MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
+
+        }
+
+        private void OnSpeedReceived(MainPageModel mainPageModel, int i)
+        {
+            Speed = i;
         }
     }
 }

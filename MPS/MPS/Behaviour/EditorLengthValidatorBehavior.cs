@@ -38,8 +38,7 @@ namespace MPS.Behaviour
         {
             return e.Length <= MaxLength 
                 && !e.Contains("\n")
-                && (Regex.IsMatch(e, @"^[ -Za-zñ]+$") || e == "");
-                //&& (Regex.IsMatch(e, @"^[ -.0-9A-Za-z]+$") || e == "");
+                && (Regex.IsMatch(e, @"^[ -Za-zñ]+$") || e == "");                
         }
     }
 }

@@ -6,102 +6,89 @@
              x:Class="MPS.MainParametersPage"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              Style="{StaticResource StyleMainParametersPage}">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewmodel:MainParametersPageModel x:Key="ViewModel" />
             <Style TargetType="Button">
-                <Setter Property="BackgroundColor"
-                        Value="Red"/>
-                <!--<Setter Property="HorizontalOptions"
-                        Value="FillAndExpand"/>-->
-                <Setter Property="HorizontalOptions"
-                        Value="CenterAndExpand"/>
-                <Setter Property="TextColor"
-                        Value="White"/>
-                <!--<Setter Property="Margin"
-                        Value="80,10,80,5"/>-->
-                <Setter Property="Margin"
-                        Value="0,10,0,5"/>
+                <Setter Property="BackgroundColor" Value="Red"/>
+                <Setter Property="HorizontalOptions"  Value="CenterAndExpand"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="Margin" Value="0,10,0,5"/>
                 <Setter Property="WidthRequest" Value="190"/>
-
             </Style>
-            <!--<converters:BoolToPowerImage x:Key="BoolToPowerImage" />-->
             <converters:BoolToBluetoothStatusColor x:Key="BoolToBluetoothStatusColor" />
             <converters:BoolToPowerColorConverter x:Key="BoolToPowerColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout BindingContext="{StaticResource ViewModel}">
+        <ScrollView Orientation="Vertical">
+            <StackLayout BindingContext="{StaticResource ViewModel}">
 
-            <Button 
+                <Button 
                 Image="{StaticResource IconTime}"
                 Text="Actualizar"                                  
                 Command="{Binding DateTimeCommand}"  />
 
-            <Button 
+                <Button 
                 Text="Cambiar"                 
                 Image="{StaticResource IconEye}"                      
                 Command="{Binding ToggleViewCommand}"/>
 
-            <Button 
+                <Button 
                 Image="{StaticResource IconMessage}"                  
                 Text="Enviar"
                 Command="{Binding QuickMessageCommand}"/>
 
-            <Slider 
-                Minimum="0"                   
-                Maximum="9"      
-                Margin="0,10,0,10"
-                x:Name="SliderSpeed"      
-                WidthRequest="300"
-                HorizontalOptions="CenterAndExpand"
-                Value="{Binding Speed}"/>
+                <!--<Slider 
+                    Minimum="0"                   
+                    Maximum="9"      
+                    Margin="0,10,0,10"
+                    x:Name="SliderSpeed"      
+                    WidthRequest="{StaticResource WidthSlider}"
+                    HorizontalOptions="CenterAndExpand"
+                    Value="{Binding Speed}"/>-->
 
-            <Label Text="{Binding Text}"/>
+                <Label Text="{Binding Text}"/>
 
-            <StackLayout 
-                HorizontalOptions="Fill"
+                <StackLayout 
+                HorizontalOptions="Center"
                 Orientation="Horizontal">
 
-                <StackLayout
+                    <StackLayout
                     VerticalOptions="Center"
                     HorizontalOptions="StartAndExpand"
                     Orientation="Horizontal">
 
-                    <controls:TintedImage                  
+                        <controls:TintedImage                  
                         VerticalOptions="Center"
                         TintColor="{Binding IsBluetoothConnected, Converter={StaticResource BoolToBluetoothStatusColor}}"
                         Source="ic_radio_button_checked_black_24dp.png" />
 
-                    <Label                        
+                        <Label                        
                         Text="Conexión"
                         VerticalOptions="Center"/>
-                </StackLayout>
+                    </StackLayout>
 
-                <controls:TintedImage
+                    <controls:TintedImage
                     WidthRequest="{StaticResource DimensionButtonPower}"
                     HeightRequest="{StaticResource DimensionButtonPower}"
                     HorizontalOptions="CenterAndExpand"
                     VerticalOptions="Center"
                     Source="ic_power_settings_blue.png"
                     TintColor="{Binding IsDisplayEnabled, Converter={StaticResource BoolToPowerColorConverter}}" >
-                    <controls:TintedImage.GestureRecognizers>
-                        <TapGestureRecognizer
+                        <controls:TintedImage.GestureRecognizers>
+                            <TapGestureRecognizer
                             Command="{Binding Source={StaticResource ViewModel}, Path=PowerCommand}"
                         />
-                    </controls:TintedImage.GestureRecognizers>
+                        </controls:TintedImage.GestureRecognizers>
 
-                </controls:TintedImage>
-                <!--<Image                     
-                    Source="all_citsalogo.png"
-                    HorizontalOptions="End"/>-->
+                    </controls:TintedImage>
+
+                </StackLayout>
+
             </StackLayout>
-
-          
-
-
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

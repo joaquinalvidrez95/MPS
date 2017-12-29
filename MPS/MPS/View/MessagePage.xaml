@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"                          
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
-             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"                     
+             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
+             xmlns:converters="clr-namespace:MPS.Converters;assembly=MPS"
+             xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
              Style="{StaticResource StyleMessagesPage}"
              x:Class="MPS.MessagePage">
     <!--Title="{StaticResource TitleMessagesPage}"-->
@@ -13,6 +15,7 @@
                 <Setter Property="BackgroundColor"
                         Value="{StaticResource ColorAccent}"/>
             </Style>
+            <converters:DoubleToSliderStringConverter x:Key="DoubleToSliderStringConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <!--behaviour:ItemTappedAttached.Command="{Binding ItemTappedCommand}"-->
@@ -23,8 +26,27 @@
                 Command="{Binding AddMessageCommand}"
                 HorizontalOptions="Center"           
                 Image="{StaticResource IconAdd}"/>
+            
+            <Label TextColor="{StaticResource ColorAccent}" Text="Velocidad" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                
+                <Slider 
+                    Minimum="0"                   
+                    Maximum="9"     
+                    VerticalOptions="Center"
+                    Margin="0,0,0,10"                  
+                    Value="{Binding Speed}"
+                    WidthRequest="{StaticResource WidthSlider}">
+                    <Slider.Behaviors>
+                        <behaviour:DiscreteSliderBehaviour />
+                    </Slider.Behaviors>
+                </Slider>
+
+                <Label Text="{Binding Speed, Converter={StaticResource DoubleToSliderStringConverter}}" VerticalOptions="Center"/>
+            </StackLayout>
+           
             <ListView 
-                ItemsSource="{Binding Messages}"              
+                ItemsSource="{Binding Messages}"     
                 SelectedItem="{Binding SelectedItem}"                      
                 Header="sds"
                 HasUnevenRows="True">
