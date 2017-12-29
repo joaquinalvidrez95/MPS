@@ -47,7 +47,10 @@
     <Compile Include="Converters\BoolToPowerColorConverter.cs" />
     <Compile Include="Converters\BoolToPowerImage.cs" />
     <Compile Include="Data\MessageDatabase.cs" />
+    <Compile Include="Model\DisplayVisibility.cs" />
     <Compile Include="Model\MessagesRepository.cs" />
+    <Compile Include="Model\TimeFormat.cs" />
+    <Compile Include="Model\ViewMode.cs" />
     <Compile Include="Services\IFileHelper.cs" />
     <Compile Include="ViewModel\EditableMessagePopupModel.cs" />
     <Compile Include="ViewModel\NewMessagePopupModel.cs" />
@@ -57,6 +60,7 @@
     <Compile Include="ViewModel\MessagePopupModel.cs" />
     <Compile Include="ViewModel\PasswordPopupModel.cs" />
     <Compile Include="ViewModel\QuickMessagePopupModel.cs" />
+    <Compile Include="ViewModel\VisibilityPageModel.cs" />
     <Compile Include="View\CustomSlider.cs" />
     <Compile Include="View\MessagePopup.xaml.cs">
       <DependentUpon>MessagePopup.xaml</DependentUpon>

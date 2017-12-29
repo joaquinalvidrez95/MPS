@@ -21,7 +21,7 @@ namespace MPS.ViewModel
         //private const double STEP_VALUE = 1.0;
         private string _currentDateTime;
         private double _speed;
-        int _currentView;
+        //int _currentView;
         private string _text;
         private bool _isBluetoothConnected;
         private string _message;
@@ -69,15 +69,15 @@ namespace MPS.ViewModel
             }
         }
 
-        private int CurrentView
-        {
-            get => _currentView;
-            set
-            {
-                _currentView = value;
-                OnPropertyChanged();
-            }
-        }
+        private int _currentView;
+        //{
+        //    get => _currentView;
+        //    set
+        //    {
+        //        _currentView = value;
+        //        OnPropertyChanged();
+        //    }
+    //}
 
         public bool IsDisplayEnabled
         {
@@ -112,7 +112,7 @@ namespace MPS.ViewModel
             DateTimeCommand = new Command(UpdateDateTime);
             ToggleViewCommand = new Command(ToggleView);
             PowerCommand = new Command(TogglePower);
-            CurrentView = 0;
+            _currentView = 0;
             Speed = 0;
             QuickMessageCommand = new Command(SendQuickMessage);
 
@@ -131,18 +131,14 @@ namespace MPS.ViewModel
 
         private void UpdateView(MainPageModel arg1, int arg2)
         {
-            CurrentView = arg2;
+            _currentView = arg2;
         }
 
         private void UpdateSpeed(MainPageModel arg1, int arg2)
         {
             Speed = arg2;
         }
-
-        //private void OnQuickMessageAdded(QuickMessagePopupModel arg1, string text)
-        //{
-        //    MessagingCenter.Send(this, MessengerKeys.QuickMessage, text);
-        //}
+    
 
         private void OnDeviceStatusChanged(MainPageModel arg1, IDevice arg2)
         {
@@ -159,9 +155,9 @@ namespace MPS.ViewModel
 
         private void ToggleView()
         {
-            CurrentView++;
-            CurrentView = CurrentView % 3;
-            MessagingCenter.Send(this, MessengerKeys.CurrentView, CurrentView);
+            _currentView++;
+            _currentView = _currentView % 3;
+            MessagingCenter.Send(this, MessengerKeys.CurrentView, _currentView);
              //PopupNavigation.PushAsync(new PasswordPopup());
         }
 

@@ -87,7 +87,8 @@ namespace MPS.ViewModel
             await PopupNavigation.PopAsync();
             MessageToSent.Text = Text;
             MessageToSent.Title = Title;
-            MessagingCenter.Send(this, MessengerKeys.NewMessage, MessageToSent);
+            //MessagingCenter.Send(this, MessengerKeys.NewMessage, MessageToSent);
+            MessagingCenter.Send(this, MessengerKeys.Message, MessageToSent);
         }
 
         protected abstract void ValidateTitle(string value);

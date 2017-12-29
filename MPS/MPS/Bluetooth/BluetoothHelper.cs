@@ -24,9 +24,10 @@ namespace MPS.Bluetooth
             //public const string Power = "E";
             public const string Request = "R";
             public const string Feedback = "S";
-            public const string TimeFormat = "H";
-            public const string ViewMode = "F";
-            public const string Visibilities = "B";
+            public const string PinOk = "J";
+
+            //public const string ViewMode = "F";
+            //public const string Visibilities = "B";
         }
     }
 }

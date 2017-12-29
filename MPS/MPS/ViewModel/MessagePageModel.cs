@@ -96,7 +96,8 @@ namespace MPS.ViewModel
 
         protected override void Subscribe()
         {
-            MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
+            //MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
+            MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.Message, OnMessageAdded);
         }
     }
 }

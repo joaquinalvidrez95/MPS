@@ -32,12 +32,12 @@ namespace MPS.ViewModel
             BluetoothConnectionCommand = new Command(GoToBluetoothDevicesPageAsync);
             Navigation = navigation;
             CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
-            CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;            
+            CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
 
         }
 
 
-        private async void ConnectDevice(BluetoothDevicesPageModel arg1, IDevice arg2)
+        private async void OnDeviceSelected(BluetoothDevicesPageModel arg1, IDevice arg2)
         {
             if (arg2 == null)
             {
@@ -54,7 +54,7 @@ namespace MPS.ViewModel
                 characteristic.ValueUpdated += OnDataReceived;
                 await characteristic.StartUpdatesAsync();
                 _hasFeedback = false;
-               
+
                 Device.StartTimer(TimeSpan.FromMilliseconds(Timeout), () =>
                 {
                     if (!_hasFeedback)
@@ -72,9 +72,9 @@ namespace MPS.ViewModel
 
         private void OnDataReceived(object sender, CharacteristicUpdatedEventArgs e)
         {
-      
+
             var bytes = e.Characteristic.Value;
-            
+
             //Device.BeginInvokeOnMainThread(() =>
             //{
             //    
@@ -89,7 +89,7 @@ namespace MPS.ViewModel
                     MessagingCenter.Send(this, MessengerKeys.Power, (bytes[1] - 48) == 1);
                     MessagingCenter.Send(this, MessengerKeys.Speed, bytes[2] - 48);
                     MessagingCenter.Send(this, MessengerKeys.CurrentView, bytes[3] - 48);
-                    MessagingCenter.Send(this, MessengerKeys.ViewMode, bytes[4] - 48);
+                    MessagingCenter.Send(this, MessengerKeys.TimeFormat, (TimeFormat)(bytes[4] - 48));
                     var display = new DisplayColors
                     {
                         ColorUpperLineRgb =
@@ -112,6 +112,17 @@ namespace MPS.ViewModel
                         }
                     };
                     MessagingCenter.Send(this, MessengerKeys.Colours, display);
+
+                    MessagingCenter.Send(this, MessengerKeys.ViewMode, (ViewMode)(bytes[14] - 48));
+                    var displayVisibility = new DisplayVisibility
+                    {
+                        IsTimeVisible = (bytes[15] - 48) == 1,
+                        IsTemperatureVisible = (bytes[16] - 48) == 1,
+                        IsDateVisible = (bytes[17] - 48) == 1,
+                    };
+                    MessagingCenter.Send(this, MessengerKeys.Visibilities, displayVisibility);
+
+
                     _isFixingControls = false;
                     break;
             }
@@ -122,26 +133,26 @@ namespace MPS.ViewModel
             WriteData(BluetoothHelper.BluetoothContract.Request + '\n');
         }
 
-        private void SendPowerStatus(MainParametersPageModel arg1, bool arg2)
+        private void OnPowerStatusReceived(MainParametersPageModel arg1, bool arg2)
         {
-            string data = BluetoothHelper.BluetoothContract.Power + (arg2 ? 1 : 0) + '\n';
+            string data = MessengerKeys.Power + (arg2 ? 1 : 0) + '\n';
             WriteData(data);
         }
 
 
-        private void SendQuickMessage(QuickMessagePopupModel quickMessagePopupModel, Message message)
+        private void OnQuickMessageReceived(QuickMessagePopupModel quickMessagePopupModel, Message message)
         {
             SendMessage(message.Text);
         }
 
-        private void SendMessageStored(MessagePageModel arg1, Message message)
+        private void OnMessageStoredReceived(MessagePageModel arg1, Message message)
         {
             SendMessage(message.Text);
         }
 
         private void SendMessage(string message)
         {
-            var data = BluetoothHelper.BluetoothContract.Message + message + "   " + '\n';
+            var data = MessengerKeys.Message + message + "   " + '\n';
             int i;
             const int max = 15;
             for (i = 0; i < data.Length / max; i++)
@@ -153,13 +164,13 @@ namespace MPS.ViewModel
                 WriteData(data.Substring(i * max, data.Length % max));
         }
 
-        private void SendColours(ColorsPageModel arg1, DisplayColors arg2)
+        private void OnColoursReceived(ColorsPageModel arg1, DisplayColors arg2)
         {
-            string data = BluetoothHelper.BluetoothContract.Colours + arg2.ColorCode() + '\n';
+            string data = MessengerKeys.Colours + arg2.ColorCode() + '\n';
             WriteData(data);
         }
 
-        private void SendDateTime(MainParametersPageModel arg1, DateTime arg2)
+        private void OnDateTimeReceived(MainParametersPageModel arg1, DateTime arg2)
         {
             string data =
                 MessengerKeys.DateTime
@@ -173,15 +184,37 @@ namespace MPS.ViewModel
             MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
         }
 
-        private void SendSpeedAsync(MainParametersPageModel arg1, int arg2)
+        private void OnSpeedReceived(MainParametersPageModel arg1, int arg2)
         {
             string data = MessengerKeys.Speed + arg2 + '\n';
             WriteData(data);
         }
 
-        private void SendViewAsync(MainParametersPageModel arg1, int arg2)
+        private void OnViewReceived(MainParametersPageModel arg1, int arg2)
         {
             string data = MessengerKeys.CurrentView + arg2 + '\n';
+            WriteData(data);
+        }
+
+        private void OnDisplayVisibilityReceived(VisibilityPageModel visibilityPageModel, DisplayVisibility visibility)
+        {
+            var data = MessengerKeys.Visibilities
+                + (visibility.IsTimeVisible ? 1 : 0)
+                + (visibility.IsTemperatureVisible ? 1 : 0)
+                + (visibility.IsDateVisible ? 1 : 0)
+                + '\n';
+            WriteData(data);
+        }
+
+        private void OnViewModeReceived(VisibilityPageModel visibilityPageModel, ViewMode viewMode)
+        {
+            string data = MessengerKeys.ViewMode + (int)viewMode + '\n';
+            WriteData(data);
+        }
+
+        private void OnTimeFormatReceived(VisibilityPageModel visibilityPageModel, TimeFormat timeFormat)
+        {
+            string data = MessengerKeys.TimeFormat + (int)timeFormat + '\n';
             WriteData(data);
         }
 
@@ -212,15 +245,20 @@ namespace MPS.ViewModel
 
         protected override void Subscribe()
         {
-            MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, ConnectDevice);
-            MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power, SendPowerStatus);
-            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, SendViewAsync);
-            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.Speed, SendSpeedAsync);
-            MessagingCenter.Subscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime, SendDateTime);
-            //MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.QuickMessage, SendQuickMessage);
-            MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.Message, SendQuickMessage);
-            MessagingCenter.Subscribe<MessagePageModel, Message>(this, MessengerKeys.Message, SendMessageStored);
-            MessagingCenter.Subscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours, SendColours);
+            MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
+            MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power, OnPowerStatusReceived);
+            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, OnViewReceived);
+            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
+            MessagingCenter.Subscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime, OnDateTimeReceived);
+            //MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.QuickMessage, OnQuickMessageReceived);
+            MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.Message, OnQuickMessageReceived);
+            MessagingCenter.Subscribe<MessagePageModel, Message>(this, MessengerKeys.Message, OnMessageStoredReceived);
+            MessagingCenter.Subscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours, OnColoursReceived);
+            MessagingCenter.Subscribe<VisibilityPageModel, DisplayVisibility>(this, MessengerKeys.Visibilities, OnDisplayVisibilityReceived);
+            MessagingCenter.Subscribe<VisibilityPageModel, TimeFormat>(this, MessengerKeys.TimeFormat, OnTimeFormatReceived);
+            MessagingCenter.Subscribe<VisibilityPageModel, ViewMode>(this, MessengerKeys.ViewMode, OnViewModeReceived);
         }
+
+
     }
 }

@@ -92,7 +92,7 @@ namespace MPS.ViewModel
            
         }
 
-        private void UpdateColorFromFeedback(MainPageModel arg1, DisplayColors arg2)
+        private void OnColoursReceived(MainPageModel arg1, DisplayColors arg2)
         {
             _displayColors = arg2;
             UpdateRgbColors();
@@ -117,7 +117,7 @@ namespace MPS.ViewModel
             MessagingCenter.Subscribe<MainPageModel, DisplayColors>(
                 this,
                 MessengerKeys.Colours,
-                UpdateColorFromFeedback);
+                OnColoursReceived);
         }
     }
 }

@@ -1,56 +1,67 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
              x:Class="MPS.View.VisibilityPage"
              Title="Vista"
              Style="{StaticResource StylePaddingContentPage}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <viewModel:VisibilityPageModel x:Key="ViewModel" />
+        </ResourceDictionary>
+
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout 
+        <!--<StackLayout 
             VerticalOptions="Fill"
-            Orientation="Vertical">
-            <TableView                
+            Orientation="Vertical">-->
+        <TableView                
+            BindingContext="{StaticResource ViewModel}"
                 VerticalOptions="Fill"
                 HasUnevenRows="True"
                 Intent="Form" >
-                <TableRoot>
-                    <TableSection
+            <TableRoot>
+                <TableSection
                         Title="Formato de hora">
-                        <ViewCell>
-                            <Picker                                
-                                Title="Seleccione formato"                                                    
+                    <ViewCell>
+                        <Picker                                
+                                Title="Seleccione formato"   
+                            SelectedIndex="{Binding TimeFormatSelected}"
                             >
-                                <Picker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>24 horas</x:String>
-                                        <x:String>12 horas</x:String>
-                                    </x:Array>
-                                </Picker.ItemsSource>
-                            </Picker>
-                        </ViewCell>
-                    </TableSection>
-                    <TableSection 
+
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>24 horas</x:String>
+                                    <x:String>12 horas</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </ViewCell>
+                </TableSection>
+                <TableSection 
                      Title="Mostrar">
-                        <SwitchCell Text="Hora"/>
-                        <SwitchCell Text="Fecha"/>
-                        <SwitchCell Text="Temperatura"/>
-                    </TableSection>
-                    <TableSection
+                    <SwitchCell Text="Hora" On="{Binding IsTimeVisible}"/>
+                    <SwitchCell Text="Fecha" On="{Binding IsDateVisible}"/>
+                    <SwitchCell Text="Temperatura" On="{Binding IsTemperatureVisible}"/>
+                </TableSection>
+                <TableSection
                         Title="Modo de desplegar">
-                        <ViewCell>
-                            <Picker                           
-                                Title="Seleccione modo"                               
+                    <ViewCell>
+                        <Picker                           
+                                Title="Seleccione modo"  
+                            SelectedIndex="{Binding ViewModeSelected}"
                             >
-                                <Picker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>Fija</x:String>
-                                        <x:String>Alternada</x:String>
-                                    </x:Array>
-                                </Picker.ItemsSource>
-                            </Picker>
-                        </ViewCell>
-                    </TableSection>
-                </TableRoot>
-            </TableView>
-        </StackLayout>
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Fija</x:String>
+                                    <x:String>Alternada</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+        <!--</StackLayout>-->
     </ContentPage.Content>
 </ContentPage>
