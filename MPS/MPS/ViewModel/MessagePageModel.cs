@@ -46,7 +46,7 @@ namespace MPS.ViewModel
             SendCommand = new Command<Message>(SendMessage);
             AddMessageCommand = new Command(OpenNewPopupMessage);
           
-            MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
+           
             Message = "";
         }
 
@@ -54,7 +54,7 @@ namespace MPS.ViewModel
 
         private void SendMessage(Message selectedMessage)
         {
-            MessagingCenter.Send(this, MessengerKeys.Message, selectedMessage.Text);
+            MessagingCenter.Send(this, MessengerKeys.Message, selectedMessage);
         }
 
         private async void DeleteMessage(Message messageSelected)
@@ -94,5 +94,9 @@ namespace MPS.ViewModel
         }
 
 
+        protected override void Subscribe()
+        {
+            MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
+        }
     }
 }

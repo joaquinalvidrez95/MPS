@@ -24,7 +24,7 @@
                         Value="80,10,80,5"/>-->
                 <Setter Property="Margin"
                         Value="0,10,0,5"/>
-                <Setter Property="WidthRequest" Value="180"/>
+                <Setter Property="WidthRequest" Value="190"/>
 
             </Style>
             <!--<converters:BoolToPowerImage x:Key="BoolToPowerImage" />-->

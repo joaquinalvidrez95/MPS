@@ -114,12 +114,8 @@ namespace MPS.ViewModel
             PowerCommand = new Command(TogglePower);
             CurrentView = 0;
             Speed = 0;
-            MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);
             QuickMessageCommand = new Command(SendQuickMessage);
-            MessagingCenter.Subscribe<QuickMessagePopupModel, string>(this, MessengerKeys.QuickMessage, OnQuickMessageAdded);
-            MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.Speed, UpdateSpeed);
-            MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.CurrentView, UpdateView);
-            MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);         
+
         }
 
         private void UpdatePowerFromFeedback(MainPageModel mainPageModel, bool b)
@@ -143,10 +139,10 @@ namespace MPS.ViewModel
             Speed = arg2;
         }
 
-        private void OnQuickMessageAdded(QuickMessagePopupModel arg1, string text)
-        {
-            MessagingCenter.Send(this, MessengerKeys.QuickMessage, text);
-        }
+        //private void OnQuickMessageAdded(QuickMessagePopupModel arg1, string text)
+        //{
+        //    MessagingCenter.Send(this, MessengerKeys.QuickMessage, text);
+        //}
 
         private void OnDeviceStatusChanged(MainPageModel arg1, IDevice arg2)
         {
@@ -184,9 +180,17 @@ namespace MPS.ViewModel
 
         private async void SendQuickMessage()
         {
-            MessagingCenter.Send(this, MessengerKeys.Message, Message);
+            //MessagingCenter.Send(this, MessengerKeys.Message, Message);
             await PopupNavigation.PushAsync(new QuickMessagePopup());
         }
 
+        protected override void Subscribe()
+        {
+            MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);         
+            //MessagingCenter.Subscribe<QuickMessagePopupModel, string>(this, MessengerKeys.QuickMessage, OnQuickMessageAdded);
+            MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.Speed, UpdateSpeed);
+            MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.CurrentView, UpdateView);
+            MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
+        }
     }
 }

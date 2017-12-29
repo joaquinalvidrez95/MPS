@@ -5,18 +5,19 @@
              Title="Vista"
              Style="{StaticResource StylePaddingContentPage}">
     <ContentPage.Content>
-        <StackLayout>
-            <TableView
+        <StackLayout 
+            VerticalOptions="Fill"
+            Orientation="Vertical">
+            <TableView                
                 VerticalOptions="Fill"
+                HasUnevenRows="True"
                 Intent="Form" >
                 <TableRoot>
                     <TableSection
                         Title="Formato de hora">
                         <ViewCell>
-                            <Picker
-                                HorizontalOptions="Fill"
-                                Title="Seleccione formato"                               
-                                VerticalOptions="Center"
+                            <Picker                                
+                                Title="Seleccione formato"                                                    
                             >
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
@@ -36,10 +37,8 @@
                     <TableSection
                         Title="Modo de desplegar">
                         <ViewCell>
-                            <Picker
-                                HorizontalOptions="Fill"
+                            <Picker                           
                                 Title="Seleccione modo"                               
-                                VerticalOptions="Center"
                             >
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">

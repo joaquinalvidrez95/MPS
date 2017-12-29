@@ -91,5 +91,9 @@ namespace MPS.ViewModel
         }
 
         protected abstract void ValidateTitle(string value);
+
+        protected override void Subscribe()
+        {
+        }
     }
 }

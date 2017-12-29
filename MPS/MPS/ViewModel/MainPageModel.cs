@@ -25,22 +25,14 @@ namespace MPS.ViewModel
         private bool _isFixingControls;
         public ICommand BluetoothConnectionCommand { get; }
         private INavigation Navigation { get; }
-        private const int Timeout = 1500;
+        private const int Timeout = 2000;
 
         public MainPageModel(INavigation navigation)
         {
             BluetoothConnectionCommand = new Command(GoToBluetoothDevicesPageAsync);
             Navigation = navigation;
             CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
-            CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
-            MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, ConnectDevice);
-            MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power, SendPowerStatus);
-            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, SendViewAsync);
-            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.Speed, SendSpeedAsync);
-            MessagingCenter.Subscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime, SendDateTime);
-            MessagingCenter.Subscribe<MainParametersPageModel, string>(this, MessengerKeys.QuickMessage, SendQuickMessage);
-            MessagingCenter.Subscribe<MessagePageModel, string>(this, MessengerKeys.Message, SendMessageStored);
-            MessagingCenter.Subscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours, SendColours);
+            CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;            
 
         }
 
@@ -97,6 +89,7 @@ namespace MPS.ViewModel
                     MessagingCenter.Send(this, MessengerKeys.Power, (bytes[1] - 48) == 1);
                     MessagingCenter.Send(this, MessengerKeys.Speed, bytes[2] - 48);
                     MessagingCenter.Send(this, MessengerKeys.CurrentView, bytes[3] - 48);
+                    MessagingCenter.Send(this, MessengerKeys.ViewMode, bytes[4] - 48);
                     var display = new DisplayColors
                     {
                         ColorUpperLineRgb =
@@ -118,7 +111,7 @@ namespace MPS.ViewModel
                             Blue = bytes[13] - 48
                         }
                     };
-                    MessagingCenter.Send(this, MessengerKeys.Message, display);
+                    MessagingCenter.Send(this, MessengerKeys.Colours, display);
                     _isFixingControls = false;
                     break;
             }
@@ -136,14 +129,14 @@ namespace MPS.ViewModel
         }
 
 
-        private void SendQuickMessage(MainParametersPageModel arg1, string arg2)
+        private void SendQuickMessage(QuickMessagePopupModel quickMessagePopupModel, Message message)
         {
-            SendMessage(arg2);
+            SendMessage(message.Text);
         }
 
-        private void SendMessageStored(MessagePageModel arg1, string arg2)
+        private void SendMessageStored(MessagePageModel arg1, Message message)
         {
-            SendMessage(arg2);
+            SendMessage(message.Text);
         }
 
         private void SendMessage(string message)
@@ -169,7 +162,7 @@ namespace MPS.ViewModel
         private void SendDateTime(MainParametersPageModel arg1, DateTime arg2)
         {
             string data =
-                BluetoothHelper.BluetoothContract.DateTime
+                MessengerKeys.DateTime
                 + arg2.ToString("HHmmssddMMyy")
                 + '\n';
             WriteData(data);
@@ -182,13 +175,13 @@ namespace MPS.ViewModel
 
         private void SendSpeedAsync(MainParametersPageModel arg1, int arg2)
         {
-            string data = BluetoothHelper.BluetoothContract.Speed + arg2 + '\n';
+            string data = MessengerKeys.Speed + arg2 + '\n';
             WriteData(data);
         }
 
         private void SendViewAsync(MainParametersPageModel arg1, int arg2)
         {
-            string data = BluetoothHelper.BluetoothContract.View + arg2 + '\n';
+            string data = MessengerKeys.CurrentView + arg2 + '\n';
             WriteData(data);
         }
 
@@ -217,5 +210,17 @@ namespace MPS.ViewModel
         }
 
 
+        protected override void Subscribe()
+        {
+            MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, ConnectDevice);
+            MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power, SendPowerStatus);
+            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, SendViewAsync);
+            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.Speed, SendSpeedAsync);
+            MessagingCenter.Subscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime, SendDateTime);
+            //MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.QuickMessage, SendQuickMessage);
+            MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.Message, SendQuickMessage);
+            MessagingCenter.Subscribe<MessagePageModel, Message>(this, MessengerKeys.Message, SendMessageStored);
+            MessagingCenter.Subscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours, SendColours);
+        }
     }
 }

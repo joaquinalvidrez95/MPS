@@ -16,16 +16,16 @@ namespace MPS.Bluetooth
 
         public class BluetoothContract
         {
-            public const string Speed = "V";
-            public const string DateTime = "A";
-            public const string View = "P";
-            public const string Colours = "C";
-            public const string Message = "M";           
-            public const string Power = "E";
+            //public const string Speed = "V";
+            //public const string DateTime = "A";
+            //public const string View = "P";
+            //public const string Colours = "C";
+            //public const string Message = "M";
+            //public const string Power = "E";
             public const string Request = "R";
             public const string Feedback = "S";
-            public const string HourFormat = "H";
-            public const string TypeOfView = "F";
+            public const string TimeFormat = "H";
+            public const string ViewMode = "F";
             public const string Visibilities = "B";
         }
     }

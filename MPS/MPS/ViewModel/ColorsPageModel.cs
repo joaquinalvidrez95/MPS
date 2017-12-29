@@ -14,17 +14,7 @@ namespace MPS.ViewModel
 {
     public class ColorsPageModel : BaseViewModel
     {
-        //private readonly Color _borderColorDefault = Color.Black;
-        //private readonly Color _borderColorHighlight = Color.Gray;
-        //private const int BorderWithHighlight = 5;
-
-
-        //private Color _borderColorLowerLine;
-        //private int _borderWidthLowerLineButton;
-        //private Color _borderColorUpperLineButton;
-        //private int _borderWidthUpperLineButton;
-        //enum ButtonSelected { UpperLine = 0, LowerLine, Background, None }
-    
+     
         private int _selectedIndex;       
 
         public int SelectedIndex
@@ -38,12 +28,8 @@ namespace MPS.ViewModel
             }
         }
 
-
-
         public ICommand ColorsCommand { get; }
-        //public ICommand SetUpperLineColorCommand { get; }
-        //public ICommand SetLowerLineColorCommand { get; }
-        //public ICommand SetBackgroundColorCommand { get; }
+      
         private DisplayColors _displayColors;
 
         public double RedValue
@@ -98,46 +84,12 @@ namespace MPS.ViewModel
             }
         }
 
-        //public Color ColorUpperLine
-        //{
-        //    get => _displayColors.ColorUpperLine;
-        //    set
-        //    {
-        //        _displayColors.ColorUpperLine = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //public Color ColorLowerLine
-        //{
-        //    get => _displayColors.ColorLowerLine;
-        //    set
-        //    {
-        //        _displayColors.ColorLowerLine = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //public Color ColorBackground
-        //{
-        //    get => _displayColors.ColorBackground;
-        //    set
-        //    {
-        //        _displayColors.ColorBackground = value;
-        //        OnPropertyChanged();
-        //    }
-        //}    
-
+   
         public ColorsPageModel()
         {
             ColorsCommand = new Command<Color>(ChangeColor);
-            _displayColors = new DisplayColors();
-            //SetUpperLineColorCommand = new Command(HighlightUpperLineButton);
-            //SetLowerLineColorCommand = new Command(HighlightLowerLineButton);
-            //SetBackgroundColorCommand = new Command(HighlightBackgroundButton);
-       
-            MessagingCenter.Subscribe<MainPageModel, DisplayColors>(this, MessengerKeys.Message, UpdateColorFromFeedback);
-
+            _displayColors = new DisplayColors();          
+           
         }
 
         private void UpdateColorFromFeedback(MainPageModel arg1, DisplayColors arg2)
@@ -145,52 +97,12 @@ namespace MPS.ViewModel
             _displayColors = arg2;
             UpdateRgbColors();
         }
-
-        //private void HighlightUpperLineButton()
-        //{
-        //    ClearButtons();
-        //    _state = ButtonSelected.UpperLine;
-        //    SelectedIndex = (int)_state;
-        //    BorderWidthUpperLineButton = BorderWithHighlight;
-        //    BorderColorUpperLineButton = _borderColorHighlight;
-        //}
-
-        //private void HighlightBackgroundButton()
-        //{
-        //    ClearButtons();
-        //    _state = ButtonSelected.Background;
-        //    SelectedIndex = (int)_state;
-        //    BorderWidthBackgroundButton = BorderWithHighlight;
-        //    BorderColorBackgroundButton = _borderColorHighlight;
-        //}
-
-        //private void HighlightLowerLineButton()
-        //{
-        //    ClearButtons();
-        //    _state = ButtonSelected.LowerLine;
-        //    SelectedIndex = (int)_state;
-        //    BorderWidthLowerLineButton = BorderWithHighlight;
-        //    BorderColorLowerLineButton = _borderColorHighlight;
-
-        //}
-
-        //private void ClearButtons()
-        //{
-        //    BorderColorUpperLineButton = _borderColorDefault;
-        //    BorderColorLowerLineButton = _borderColorDefault;
-        //    BorderColorBackgroundButton = _borderColorDefault;
-        //    BorderWidthUpperLineButton = (int)Application.Current.Resources["BorderWidthDefault"];
-        //    BorderWidthLowerLineButton = (int)Application.Current.Resources["BorderWidthDefault"];
-        //    BorderWidthBackgroundButton = (int)Application.Current.Resources["BorderWidthDefault"];
-        //}
-
+      
         private void ChangeColor(Color colorName)
-        {
-                 
+        {                 
             _displayColors.SetColorByIndex(SelectedIndex, colorName);
             MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
             UpdateRgbColors();
-
         }
        
         private void UpdateRgbColors()
@@ -200,5 +112,12 @@ namespace MPS.ViewModel
             BlueValue = _displayColors.GetBlueByIndex(SelectedIndex);
         }
 
+        protected override void Subscribe()
+        {
+            MessagingCenter.Subscribe<MainPageModel, DisplayColors>(
+                this,
+                MessengerKeys.Colours,
+                UpdateColorFromFeedback);
+        }
     }
 }

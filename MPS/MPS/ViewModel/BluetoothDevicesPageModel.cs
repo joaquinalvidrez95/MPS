@@ -81,5 +81,10 @@ namespace MPS.ViewModel
             await _navigation.PopAsync();
             MessagingCenter.Send(this, MessengerKeys.DeviceSelected, DeviceSelected);
         }
+
+        protected override void Subscribe()
+        {
+            
+        }
     }
 }

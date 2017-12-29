@@ -10,6 +10,11 @@ namespace MPS.ViewModel
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
+        protected BaseViewModel()
+        {
+            Subscribe();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -20,5 +25,9 @@ namespace MPS.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+
+
+        protected abstract void Subscribe();
     }
 }

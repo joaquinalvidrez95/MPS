@@ -28,7 +28,7 @@ namespace MPS.ViewModel
         {
             get => _text;
             set
-            {                
+            {
                 _text = value;
                 LeftCharacters = (int)Application.Current.Resources["MaxMessageLength"] - Text.Length;
                 OnPropertyChanged();
@@ -61,8 +61,14 @@ namespace MPS.ViewModel
         {
             if (string.IsNullOrEmpty(Text)) return;
             await PopupNavigation.PopAsync();
+            Message m = new Message {Text = Text};
+            //MessagingCenter.Send(this, MessengerKeys.QuickMessage, m);
+            MessagingCenter.Send(this, MessengerKeys.Message, m);
+        }
 
-            MessagingCenter.Send(this, MessengerKeys.QuickMessage, Text);
+        protected override void Subscribe()
+        {
+            
         }
     }
 }

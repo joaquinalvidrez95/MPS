@@ -39,5 +39,10 @@ namespace MPS.ViewModel
         {
             await PopupNavigation.PopAsync();
         }
+
+        protected override void Subscribe()
+        {
+            
+        }
     }
 }
