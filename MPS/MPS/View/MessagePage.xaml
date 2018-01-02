@@ -7,7 +7,7 @@
              xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
              Style="{StaticResource StyleMessagesPage}"
              x:Class="MPS.MessagePage">
-    <!--Title="{StaticResource TitleMessagesPage}"-->
+   
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewModel:MessagePageModel x:Key="ViewModel" />
@@ -30,13 +30,11 @@
             <Label TextColor="{StaticResource ColorAccent}" Text="Velocidad" />
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 
-                <Slider 
-                    Minimum="0"                   
-                    Maximum="9"     
-                    VerticalOptions="Center"
-                    Margin="0,0,0,10"                  
+                <Slider                     
+                    Style="{StaticResource StyleSliderSpeed}"                    
+                    Margin="0,0,0,10"                              
                     Value="{Binding Speed}"
-                    WidthRequest="{StaticResource WidthSlider}">
+                 >
                     <Slider.Behaviors>
                         <behaviour:DiscreteSliderBehaviour />
                     </Slider.Behaviors>

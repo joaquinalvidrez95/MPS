@@ -82,7 +82,6 @@
     <Compile Include="View\ColorsPage.xaml.cs">
       <DependentUpon>ColorsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DiscreteSlider.cs" />
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

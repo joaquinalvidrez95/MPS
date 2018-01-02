@@ -12,7 +12,8 @@ namespace MPS.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((double)value + 1).ToString();
+            //return ((double)value + 1).ToString();
+            return ((double)value - 2).ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

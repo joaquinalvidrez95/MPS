@@ -46,27 +46,26 @@
                 Orientation="Horizontal">
 
                     <StackLayout
-                    VerticalOptions="Center"
-                    HorizontalOptions="StartAndExpand"
-                    Orientation="Horizontal">
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"
+                        Orientation="Horizontal">
 
                         <controls:TintedImage                  
-                        VerticalOptions="Center"
-                        TintColor="{Binding IsBluetoothConnected, Converter={StaticResource BoolToBluetoothStatusColor}}"
-                        Source="ic_radio_button_checked_black_24dp.png" />
+                            VerticalOptions="Center"
+                            TintColor="{Binding IsBluetoothConnected, Converter={StaticResource BoolToBluetoothStatusColor}}"
+                            Source="{StaticResource IconRadioButton}" />
 
-                        <Label                        
-                        Text="Conexión"
-                        VerticalOptions="Center"/>
+                        <Label Text="Conexión" VerticalOptions="Center"/>
+
                     </StackLayout>
 
                     <controls:TintedImage
-                    WidthRequest="{StaticResource DimensionButtonPower}"
-                    HeightRequest="{StaticResource DimensionButtonPower}"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="Center"
-                    Source="ic_power_settings_blue.png"
-                    TintColor="{Binding IsDisplayEnabled, Converter={StaticResource BoolToPowerColorConverter}}" >
+                        WidthRequest="{StaticResource DimensionButtonPower}"
+                        HeightRequest="{StaticResource DimensionButtonPower}"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
+                        Source="{StaticResource IconPower}"
+                        TintColor="{Binding IsDisplayEnabled, Converter={StaticResource BoolToPowerColorConverter}}" >
                         <controls:TintedImage.GestureRecognizers>
                             <TapGestureRecognizer
                             Command="{Binding Source={StaticResource ViewModel}, Path=PowerCommand}"

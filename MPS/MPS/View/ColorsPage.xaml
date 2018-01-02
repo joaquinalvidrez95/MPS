@@ -172,8 +172,7 @@
                                 <Label Text="Rojo"
                                        TextColor="Red"/>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                                    <Slider Style="{StaticResource StyleSliderRgb}"          
-                                            VerticalOptions="Center"
+                                    <Slider Style="{StaticResource StyleSliderRgb}"                                                  
                                             Value="{Binding RedValue}">
                                         <Slider.Behaviors>
                                             <behaviour:DiscreteSliderBehaviour />
@@ -189,8 +188,7 @@
                             <StackLayout >
                                 <Label Text="Verde" TextColor="Green"/>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                                    <Slider Style="{StaticResource StyleSliderRgb}"      
-                                            VerticalOptions="Center"
+                                    <Slider Style="{StaticResource StyleSliderRgb}"                                                
                                             Value="{Binding GreenValue}">
                                         <Slider.Behaviors>
                                             <behaviour:DiscreteSliderBehaviour />
@@ -206,8 +204,7 @@
                             <StackLayout>
                                 <Label Text="Azul" TextColor="Blue"/>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
-                                    <Slider Style="{StaticResource StyleSliderRgb}"   
-                                            VerticalOptions="Center"                                            
+                                    <Slider Style="{StaticResource StyleSliderRgb}"                                                                                      
                                             Value="{Binding BlueValue}">
                                         <Slider.Behaviors>
                                             <behaviour:DiscreteSliderBehaviour />

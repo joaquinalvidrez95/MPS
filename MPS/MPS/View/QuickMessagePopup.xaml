@@ -39,7 +39,6 @@
             HorizontalOptions="End"/>
         <StackLayout 
             Orientation="Horizontal">
-            <!--Image="ic_send_white_48.png"-->
             <Button 
                 Text="Enviar"                                                          
                 Command="{Binding DoneCommand}"/>

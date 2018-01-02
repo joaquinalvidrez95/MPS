@@ -62,7 +62,7 @@ namespace MPS.ViewModel
         {
             //get => _selectedItem;
             get => null;
-            set { _selectedItem = value; OnPropertyChanged();}
+            set { _selectedItem = value; OnPropertyChanged(); }
         }
 
         public ICommand SendCommand { get; }
@@ -73,10 +73,9 @@ namespace MPS.ViewModel
             DeleteCommand = new Command<Message>(DeleteMessage);
             SendCommand = new Command<Message>(SendMessage);
             AddMessageCommand = new Command(OpenNewPopupMessage);
-            Message = "";      
+            Message = "";
+            Speed = 3;
         }
-
-
 
         private void SendMessage(Message selectedMessage)
         {
@@ -98,7 +97,7 @@ namespace MPS.ViewModel
 
         private async void EditMessage()
         {
-            await PopupNavigation.PushAsync(new MessagePopup(new EditableMessagePopupModel(_selectedItem, Messages)));        
+            await PopupNavigation.PushAsync(new MessagePopup(new EditableMessagePopupModel(_selectedItem, Messages)));
         }
 
         private void OnMessageAdded(MessagePopupModel arg1, Message message)
@@ -128,7 +127,7 @@ namespace MPS.ViewModel
 
         private void OnSpeedReceived(MainPageModel mainPageModel, int i)
         {
-            Speed = i;
+            Speed = i % ((double)Application.Current.Resources["MaxSliderSpeed"] + 1);
         }
     }
 }
