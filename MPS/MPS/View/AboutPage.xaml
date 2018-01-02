@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MPS.View.AboutPage"
+             Style="{StaticResource StylePaddingContentPage}"
+             Title="Acerca de">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <Image 
+                Source="{StaticResource IconCitsaLogo}" 
+                WidthRequest="{StaticResource DimensionCitsaLogo}"
+                HorizontalOptions="Center"
+                HeightRequest="{StaticResource DimensionCitsaLogo}"></Image>
+
+            <Label 
+                Text="Citsa Digital ®"
+                FontSize="20"
+                FontAttributes="Bold"
+                TextColor="{StaticResource ColorPrimary}"/>
+            <BoxView                
+                Style="{StaticResource StyleBoxViewDivider}"             
+                Margin="0,5,0,5"/>
+            <Label Text="www.citsadigital.com"/>
+            <Label Text="Tels: (81) 8478-7965 y 66"/>
+            <Label Text="soporte@citsadigital.com"/>
+            <Label Text="disenoelectronico@citsadigital.com"/>
+            <Label Text="Desarrollado por: Joaquín Alan Alvidrez Soto" LineBreakMode="NoWrap"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

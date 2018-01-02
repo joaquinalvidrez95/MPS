@@ -23,6 +23,12 @@
             Text="Item 1"
             Priority="0"
             Command="{Binding BluetoothConnectionCommand}"/>
+        <ToolbarItem 
+            Order="Primary"        
+            Icon="{StaticResource IconAbout}"
+            Text="Acerca de"
+            Priority="0"
+            Command="{Binding AboutCommand}"/>
     </TabbedPage.ToolbarItems>
 
 

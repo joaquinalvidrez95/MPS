@@ -25,16 +25,24 @@ namespace MPS.ViewModel
         private bool _isFixingControls;
         private const int TimeoutForFixingControls = 20;
         public ICommand BluetoothConnectionCommand { get; }
+        public ICommand AboutCommand { get; }
         private INavigation Navigation { get; }
+
         private const int Timeout = 2000;
 
         public MainPageModel(INavigation navigation)
         {
             BluetoothConnectionCommand = new Command(GoToBluetoothDevicesPageAsync);
+            AboutCommand = new Command(GoToAboutPage);
             Navigation = navigation;
             CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
             CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
 
+        }
+
+        private async void GoToAboutPage()
+        {
+            await Navigation.PushAsync(new AboutPage());
         }
 
 

@@ -35,14 +35,16 @@
             <x:String x:Key="IconDelete">ic_delete_forever_black_48dp.png</x:String>
             <x:String x:Key="IconMessageBlack">ic_send_envelope.png</x:String>
             <x:String x:Key="IconCitsaLogo">all_citsalogo.png</x:String>
-            
-           
+            <x:String x:Key="IconCitsaLogoLarge">icon_all_citsalogo.png</x:String>
+            <x:String x:Key="IconAbout">ic_info_outline_white_48dp.png</x:String>
+                       
             <x:Int32 x:Key="MaxMessageLength">180</x:Int32>
             <x:Int32 x:Key="MaxTitleLength">35</x:Int32>
 
             <x:Int32 x:Key="BorderWidthDefault">1</x:Int32>
             <x:Int32 x:Key="DimensionButtonColor">50</x:Int32>
             <x:Double x:Key="DimensionButtonPower">100</x:Double>
+            <x:Double x:Key="DimensionCitsaLogo">120</x:Double>
             <x:Double x:Key="WidthSlider">230</x:Double>
             <!--<x:Double x:Key="WidthSlider">300</x:Double>-->
 
