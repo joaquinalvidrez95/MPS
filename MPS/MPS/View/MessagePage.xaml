@@ -46,15 +46,15 @@
             </StackLayout>
            
             <ListView 
-                ItemsSource="{Binding Messages}"     
-                SelectedItem="{Binding SelectedItem}"                      
+                ItemsSource="{Binding Messages}"                    
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"                      
                 Header="sds"
                 HasUnevenRows="True">
                 
                 <behaviors:Interaction.Behaviors>
                     <behaviors:BehaviorCollection>
                         <behaviors:EventToCommand                             
-                            EventName="ItemTapped"                       
+                            EventName="ItemTapped"                               
                             Command="{Binding ItemTappedCommand}">
                         </behaviors:EventToCommand>
                     </behaviors:BehaviorCollection>

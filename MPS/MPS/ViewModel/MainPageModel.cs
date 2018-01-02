@@ -67,7 +67,7 @@ namespace MPS.ViewModel
             }
             catch (DeviceConnectionException)
             {
-                Debug.WriteLine("Error al conectar");
+                //Debug.WriteLine("Error al conectar");
             }
         }
 
@@ -81,7 +81,7 @@ namespace MPS.ViewModel
             //    
             //});
             var x = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-            Debug.WriteLine(x);
+            //Debug.WriteLine(x);
             switch (x[0].ToString())
             {
                 case BluetoothHelper.BluetoothContract.Feedback:
@@ -239,7 +239,7 @@ namespace MPS.ViewModel
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
             var array = Encoding.UTF8.GetBytes(data);
             await characteristic.WriteAsync(array);
-            Debug.WriteLine("Written data: " + data);
+            //Debug.WriteLine("Written data: " + data);
         }
 
         private async void GoToBluetoothDevicesPageAsync()

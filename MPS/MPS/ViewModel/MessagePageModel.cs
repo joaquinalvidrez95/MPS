@@ -16,8 +16,9 @@ namespace MPS.ViewModel
         private double _speed;
 
         private ObservableCollection<Message> _messages;
+        private Message _selectedItem;
 
-      
+
         public ICommand ItemTappedCommand { get; }
 
         public double Speed
@@ -28,9 +29,9 @@ namespace MPS.ViewModel
                 //value = Math.Round(value / STEP_VALUE);
                 //value = value * STEP_VALUE;
 
-                value = Math.Round(value);                
+                value = Math.Round(value);
                 if ((int)value != (int)_speed)
-                {                  
+                {
                     MessagingCenter.Send(this, MessengerKeys.Speed, (int)value);
                 }
                 _speed = value;
@@ -57,7 +58,12 @@ namespace MPS.ViewModel
 
         public ICommand DeleteCommand { get; }
 
-        public Message SelectedItem { get; set; }
+        public Message SelectedItem
+        {
+            //get => _selectedItem;
+            get => null;
+            set { _selectedItem = value; OnPropertyChanged();}
+        }
 
         public ICommand SendCommand { get; }
         public MessagePageModel()
@@ -67,12 +73,10 @@ namespace MPS.ViewModel
             DeleteCommand = new Command<Message>(DeleteMessage);
             SendCommand = new Command<Message>(SendMessage);
             AddMessageCommand = new Command(OpenNewPopupMessage);
-          
-           
-            Message = "";
+            Message = "";      
         }
 
-      
+
 
         private void SendMessage(Message selectedMessage)
         {
@@ -94,7 +98,7 @@ namespace MPS.ViewModel
 
         private async void EditMessage()
         {
-            await PopupNavigation.PushAsync(new MessagePopup(new EditableMessagePopupModel(SelectedItem, Messages)));
+            await PopupNavigation.PushAsync(new MessagePopup(new EditableMessagePopupModel(_selectedItem, Messages)));        
         }
 
         private void OnMessageAdded(MessagePopupModel arg1, Message message)
@@ -118,10 +122,8 @@ namespace MPS.ViewModel
 
         protected override void Subscribe()
         {
-            //MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.NewMessage, OnMessageAdded);
             MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.Message, OnMessageAdded);
             MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
-
         }
 
         private void OnSpeedReceived(MainPageModel mainPageModel, int i)
