@@ -14,8 +14,8 @@ namespace MPS.ViewModel
 {
     public class ColorsPageModel : BaseViewModel
     {
-     
-        private int _selectedIndex;       
+
+        private int _selectedIndex;
 
         public int SelectedIndex
         {
@@ -29,7 +29,7 @@ namespace MPS.ViewModel
         }
 
         public ICommand ColorsCommand { get; }
-      
+
         private DisplayColors _displayColors;
 
         public double RedValue
@@ -38,15 +38,21 @@ namespace MPS.ViewModel
             set
             {
                 value = Math.Round(value);
-                var colorValue = _displayColors.GetRedByIndex(SelectedIndex);
-                _displayColors.SetRedByIndex(SelectedIndex, (int)value);
+                var colorValue = _displayColors.GetColorCodeByIndex(SelectedIndex)[DisplayColorRgb.IndexRed] - 48;
 
-                if ((int)value != colorValue)
+                try
                 {
-                    MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
+                    _displayColors.SetColorCodeByIndex(SelectedIndex, (int)value + GreenValue.ToString() + BlueValue);
+                    if ((int)value != colorValue)
+                    {
+                        MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
+                    }
+                }
+                catch (ColorException)
+                {
+
                 }
                 OnPropertyChanged();
-
             }
         }
 
@@ -57,12 +63,20 @@ namespace MPS.ViewModel
             {
                 value = Math.Round(value);
                 var colorValue = _displayColors.GetGreenByIndex(SelectedIndex);
-                _displayColors.SetGreenByIndex(SelectedIndex, (int)value);
 
-                if ((int)value != colorValue)
+                try
                 {
-                    MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
+                    _displayColors.SetColorCodeByIndex(SelectedIndex, RedValue.ToString() + (int) value + BlueValue);
+                    if ((int)value != colorValue)
+                    {
+                        MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
+                    }
                 }
+                catch (ColorException)
+                {
+                    
+                }
+                
                 OnPropertyChanged();
             }
         }
@@ -74,22 +88,29 @@ namespace MPS.ViewModel
             {
                 value = Math.Round(value);
                 var colorValue = _displayColors.GetBlueByIndex(SelectedIndex);
-                _displayColors.SetBlueByIndex(SelectedIndex, (int)value);
-
-                if ((int)value != colorValue)
+                try
                 {
-                    MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
+                    _displayColors.SetColorCodeByIndex(SelectedIndex, RedValue.ToString() + GreenValue + (int) value);
+                    if ((int)value != colorValue)
+                    {
+                        MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
+                    }
                 }
+                catch (ColorException)
+                {
+                    
+                }
+                
                 OnPropertyChanged();
             }
         }
 
-   
+
         public ColorsPageModel()
         {
             ColorsCommand = new Command<Color>(ChangeColorAsync);
-            _displayColors = new DisplayColors();          
-           
+            _displayColors = new DisplayColors();
+
         }
 
         private void OnColoursReceived(MainPageModel arg1, DisplayColors arg2)
@@ -97,24 +118,29 @@ namespace MPS.ViewModel
             _displayColors = arg2;
             UpdateRgbColors();
         }
-      
-        private async void ChangeColorAsync(Color newColor)
-        {     
-            if(_displayColors.SetColorByIndex(SelectedIndex, newColor))
+
+        private void ChangeColorAsync(Color newColor)
+        {
+            if (_displayColors.SetColorByIndex(SelectedIndex, newColor))
             {
                 MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
                 UpdateRgbColors();
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert(
+                DisplayColorError();
+            }
+        }
+
+        private async void DisplayColorError()
+        {
+            await Application.Current.MainPage.DisplayAlert(
                 "Error",
                 "No es posible seleccionar un color de fondo igual al del texto",
                 "Aceptar"
-                );
-            }            
+            );
         }
-       
+
         private void UpdateRgbColors()
         {
             RedValue = _displayColors.GetRedByIndex(SelectedIndex);

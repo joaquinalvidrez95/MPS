@@ -49,6 +49,7 @@
     <Compile Include="Converters\BoolToPowerImage.cs" />
     <Compile Include="Converters\DoubleToSliderStringConverter.cs" />
     <Compile Include="Data\MessageDatabase.cs" />
+    <Compile Include="Model\ColorException.cs" />
     <Compile Include="Model\DisplayVisibility.cs" />
     <Compile Include="Model\MessagesRepository.cs" />
     <Compile Include="Model\TimeFormat.cs" />

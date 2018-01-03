@@ -24,24 +24,23 @@ namespace MPS.Model
 
         public string GetColorCode()
         {
-            return ColorUpperLineRgb.GetColorCode
-                   + ColorLowerLineRgb.GetColorCode
-                   + ColorBackgroundRgb.GetColorCode;
+            return ColorUpperLineRgb.ColorCode
+                   + ColorLowerLineRgb.ColorCode
+                   + ColorBackgroundRgb.ColorCode;
         }
         public bool SetColorByIndex(int index, Color color)
         {
-
             if (index == IndexBackgroundLineColor)
             {
-                if (DisplayColorRgb.ColorsDictionary[color] == ColorLowerLineRgb.GetColorCode ||
-                    DisplayColorRgb.ColorsDictionary[color] == ColorUpperLineRgb.GetColorCode)
+                if (DisplayColorRgb.ColorsDictionary[color] == ColorLowerLineRgb.ColorCode ||
+                    DisplayColorRgb.ColorsDictionary[color] == ColorUpperLineRgb.ColorCode)
                 {
                     return false;
                 }
             }
             else
             {
-                if (DisplayColorRgb.ColorsDictionary[color] == ColorBackgroundRgb.GetColorCode)
+                if (DisplayColorRgb.ColorsDictionary[color] == ColorBackgroundRgb.ColorCode)
                 {
                     return false;
                 }
@@ -50,46 +49,55 @@ namespace MPS.Model
             return true;
         }
 
-        public void SetRedByIndex(int index, int value)
+        public void SetColorCodeByIndex(int index, string colorCode)
         {
-            _colors[index].Red = value;
+            if (index == IndexBackgroundLineColor)
+            {
+                if (colorCode == ColorLowerLineRgb.ColorCode ||
+                    colorCode == ColorUpperLineRgb.ColorCode)
+                {
+                    throw new ColorException();
+                }
+            }
+            else
+            {
+                if (colorCode == ColorBackgroundRgb.ColorCode)
+                {
+                    throw new ColorException();
+                }
+            }
+            _colors[index].ColorCode = colorCode;         
+        }
+
+        public string GetColorCodeByIndex(int index)
+        {
+            return _colors[index].ColorCode;
         }
 
         public int GetRedByIndex(int index)
         {
-            return _colors[index].Red;
-        }
-
-        public void SetGreenByIndex(int index, int value)
-        {
-            _colors[index].Green = value;
+            return _colors[index].ColorCode[DisplayColorRgb.IndexRed] - 48;
         }
 
         public int GetGreenByIndex(int index)
         {
-            return _colors[index].Green;
-        }
-
-        public void SetBlueByIndex(int index, int value)
-        {
-            _colors[index].Blue = value;
+            return _colors[index].ColorCode[DisplayColorRgb.IndexGreen] - 48;
         }
 
         public int GetBlueByIndex(int index)
         {
-            return _colors[index].Blue;
+            return _colors[index].ColorCode[DisplayColorRgb.IndexBlue] - 48;
         }
 
         public DisplayColors()
         {
-            ColorLowerLineRgb = new DisplayColorRgb();
-            ColorUpperLineRgb = new DisplayColorRgb();
-            ColorBackgroundRgb = new DisplayColorRgb();            
+            ColorLowerLineRgb = new DisplayColorRgb { Color = Color.Blue };
+            ColorUpperLineRgb = new DisplayColorRgb { Color = Color.Blue };
+            ColorBackgroundRgb = new DisplayColorRgb();
             _colors.Insert(IndexUpperLineColor, ColorUpperLineRgb);
             _colors.Insert(IndexLowerLineColor, ColorLowerLineRgb);
             _colors.Insert(IndexBackgroundLineColor, ColorBackgroundRgb);
         }
-
 
     }
 }

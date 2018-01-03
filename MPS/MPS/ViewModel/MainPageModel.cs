@@ -28,7 +28,7 @@ namespace MPS.ViewModel
         public ICommand AboutCommand { get; }
         private INavigation Navigation { get; }
 
-        private const int Timeout = 2000;
+        private const int Timeout = 1000;
 
         public MainPageModel(INavigation navigation)
         {
@@ -58,16 +58,16 @@ namespace MPS.ViewModel
         }
 
 
-        private async void OnDeviceSelected(BluetoothDevicesPageModel arg1, IDevice arg2)
+        private async void OnDeviceSelected(BluetoothDevicesPageModel arg1, IDevice device)
         {
-            if (arg2 == null)
+            if (device == null)
             {
                 return;
             }
 
             try
             {
-                _connectedDevice = arg2;
+                _connectedDevice = device;
                 await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_connectedDevice);
 
                 var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
@@ -95,11 +95,7 @@ namespace MPS.ViewModel
         {
 
             var bytes = e.Characteristic.Value;
-
-            //Device.BeginInvokeOnMainThread(() =>
-            //{
-            //    
-            //});
+          
             var x = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
             //Debug.WriteLine(x);
             switch (x[0].ToString())
@@ -111,25 +107,20 @@ namespace MPS.ViewModel
                     MessagingCenter.Send(this, MessengerKeys.Speed, bytes[2] - 48);
                     MessagingCenter.Send(this, MessengerKeys.CurrentView, bytes[3] - 48);
                     MessagingCenter.Send(this, MessengerKeys.TimeFormat, (TimeFormat)(bytes[4] - 48));
+
                     var display = new DisplayColors
                     {
                         ColorUpperLineRgb =
                         {
-                            Red = bytes[5] - 48,
-                            Green = bytes[6] - 48,
-                            Blue = bytes[7] - 48
+                            ColorCode = (bytes[5] - 48).ToString()+ (bytes[6] - 48)+(bytes[7] - 48)
                         },
                         ColorLowerLineRgb =
                         {
-                            Red = bytes[8] - 48,
-                            Green = bytes[9] - 48,
-                            Blue = bytes[10] - 48
+                            ColorCode = (bytes[8] - 48).ToString()+ (bytes[9] - 48)+(bytes[10] - 48)
                         },
                         ColorBackgroundRgb =
                         {
-                            Red = bytes[11] - 48,
-                            Green = bytes[12] - 48,
-                            Blue = bytes[13] - 48
+                            ColorCode = (bytes[11] - 48).ToString()+ (bytes[12] - 48)+(bytes[13] - 48)
                         }
                     };
                     MessagingCenter.Send(this, MessengerKeys.Colours, display);
@@ -163,7 +154,6 @@ namespace MPS.ViewModel
             string data = MessengerKeys.Power + (arg2 ? 1 : 0) + '\n';
             WriteData(data);
         }
-
 
         private void OnQuickMessageReceived(QuickMessagePopupModel quickMessagePopupModel, Message message)
         {
@@ -259,7 +249,7 @@ namespace MPS.ViewModel
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
             var array = Encoding.UTF8.GetBytes(data);
             await characteristic.WriteAsync(array);
-            //Debug.WriteLine("Written data: " + data);
+            Debug.WriteLine("Written data: " + data);
         }
 
         private async void GoToBluetoothDevicesPageAsync()
