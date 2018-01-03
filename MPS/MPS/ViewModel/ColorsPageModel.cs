@@ -135,9 +135,9 @@ namespace MPS.ViewModel
         private async void DisplayColorError()
         {
             await Application.Current.MainPage.DisplayAlert(
-                "Error",
-                "No es posible seleccionar un color de fondo igual al del texto",
-                "Aceptar"
+                (string)Application.Current.Resources["DisplayAlertTitleError"],
+                (string) Application.Current.Resources["DisplayAlertMessageColorException"],
+                (string)Application.Current.Resources["DisplayAlertCancelAccept"]
             );
         }
 

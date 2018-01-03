@@ -85,10 +85,11 @@ namespace MPS.ViewModel
         private async void DeleteMessage(Message messageSelected)
         {
             if (!await Application.Current.MainPage.DisplayAlert(
-                title: "Confirmación",
-                message: "¿Estás seguro de eliminar el mensaje?",
-                accept: "Sí",
-                cancel: "No")) return;
+                (string)Application.Current.Resources["DisplayAlertTitleConfirmation"],
+                (string)Application.Current.Resources["DisplayAlertMessageMessageDeletedQuestion"],
+                (string)Application.Current.Resources["DisplayAlertAcceptYes"],
+                (string)Application.Current.Resources["DisplayAlertCancelNo"]
+                )) return;
 
             new MessagesRepository().DeleteMessage(messageSelected);
             Messages = new ObservableCollection<Message>(new MessagesRepository().Messages);

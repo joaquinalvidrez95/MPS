@@ -49,16 +49,26 @@ namespace MPS.ViewModel
             _navigation = navigation;
             _devices = new ObservableCollection<IDevice>();
             ItemTappedCommand = new Command(SelectDeviceAsync);
-
             SetupBluetoothAsync();
-
         }
 
         private async void SetupBluetoothAsync()
         {
-            _devices.Clear();
-            CrossBluetoothLE.Current.Adapter.DeviceDiscovered += OnDeviceDiscovered;
-            await CrossBluetoothLE.Current.Adapter.StartScanningForDevicesAsync();
+            if (CrossBluetoothLE.Current.IsOn)
+            {
+                _devices.Clear();
+                CrossBluetoothLE.Current.Adapter.DeviceDiscovered += OnDeviceDiscovered;
+                await CrossBluetoothLE.Current.Adapter.StartScanningForDevicesAsync();
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    (string)Application.Current.Resources["DisplayAlertTitleError"],
+                    (string) Application.Current.Resources["DisplayAlertMessageBluetoothOff"],
+                    (string)Application.Current.Resources["DisplayAlertCancelAccept"]
+                );
+                await _navigation.PopAsync();
+            }
         }
 
         private void OnDeviceDiscovered(object sender, DeviceEventArgs e)

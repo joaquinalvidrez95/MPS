@@ -26,6 +26,16 @@
             <x:String x:Key="TitleMessagesPage">Mensajes</x:String>
             <x:String x:Key="TitleVisibilityPage">Vista</x:String>
 
+            <x:String x:Key="DisplayAlertTitleError">Error</x:String>
+            <x:String x:Key="DisplayAlertTitleConfirmation">Confirmación</x:String>
+            <x:String x:Key="DisplayAlertAcceptYes">Sí</x:String>
+            <x:String x:Key="DisplayAlertCancelAccept">Aceptar</x:String>
+            <x:String x:Key="DisplayAlertCancelNo">No</x:String>
+            <x:String x:Key="DisplayAlertMessageBluetoothOff">Habilite su conexión bluetooth.</x:String>
+            <x:String x:Key="DisplayAlertMessageConexionLost">Se ha desconectado de: "</x:String>
+            <x:String x:Key="DisplayAlertMessageColorException">No es posible tener un color de fondo igual al del texto.</x:String>
+            <x:String x:Key="DisplayAlertMessageMessageDeletedQuestion">¿Está seguro de eliminar el mensaje?</x:String>
+           
             <x:String x:Key="IconHome">ic_home_white_48dp.png</x:String>
             <x:String x:Key="IconEye">ic_remove_red_eye_white_48dp.png</x:String>
             <x:String x:Key="IconMessage">ic_send_white_48.png</x:String>

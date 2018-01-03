@@ -44,9 +44,9 @@ namespace MPS.ViewModel
         private void OnDeviceDisconnected(object sender, DeviceErrorEventArgs e)
         {
             Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
-                "Error",
-                "Se ha desconectado de: " + e.Device.Name,
-                "Aceptar"
+                (string)Application.Current.Resources["DisplayAlertTitleError"],
+                 (string)Application.Current.Resources["DisplayAlertMessageConexionLost"] + e.Device.Name,
+                (string)Application.Current.Resources["DisplayAlertCancelAccept"]
             ));
 
             MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
@@ -95,7 +95,7 @@ namespace MPS.ViewModel
         {
 
             var bytes = e.Characteristic.Value;
-          
+
             var x = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
             //Debug.WriteLine(x);
             switch (x[0].ToString())
@@ -187,7 +187,7 @@ namespace MPS.ViewModel
 
         private void OnDateTimeReceived(MainParametersPageModel arg1, DateTime arg2)
         {
-            string data =
+            var data =
                 MessengerKeys.DateTime
                 + arg2.ToString("HHmmssddMMyy")
                 + '\n';
@@ -249,7 +249,7 @@ namespace MPS.ViewModel
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
             var array = Encoding.UTF8.GetBytes(data);
             await characteristic.WriteAsync(array);
-            Debug.WriteLine("Written data: " + data);
+            //Debug.WriteLine("Written data: " + data);
         }
 
         private async void GoToBluetoothDevicesPageAsync()
