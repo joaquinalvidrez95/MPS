@@ -87,7 +87,7 @@ namespace MPS.ViewModel
    
         public ColorsPageModel()
         {
-            ColorsCommand = new Command<Color>(ChangeColor);
+            ColorsCommand = new Command<Color>(ChangeColorAsync);
             _displayColors = new DisplayColors();          
            
         }
@@ -98,12 +98,21 @@ namespace MPS.ViewModel
             UpdateRgbColors();
         }
       
-        private void ChangeColor(Color newColor)
-        {
-     
-            _displayColors.SetColorByIndex(SelectedIndex, newColor);
-            MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
-            UpdateRgbColors();
+        private async void ChangeColorAsync(Color newColor)
+        {     
+            if(_displayColors.SetColorByIndex(SelectedIndex, newColor))
+            {
+                MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
+                UpdateRgbColors();
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                "Error",
+                "No es posible seleccionar un color de fondo igual al del texto",
+                "Aceptar"
+                );
+            }            
         }
        
         private void UpdateRgbColors()

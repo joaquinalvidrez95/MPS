@@ -30,18 +30,24 @@ namespace MPS.Model
         }
         public bool SetColorByIndex(int index, Color color)
         {
-            bool success=true;
+
             if (index == IndexBackgroundLineColor)
             {
-                success = !(DisplayColorRgb.ColorsDictionary[color].ToString() == ColorLowerLineRgb.GetColorCode ||
-                        DisplayColorRgb.ColorsDictionary[color].ToString() == ColorUpperLineRgb.GetColorCode);
+                if (DisplayColorRgb.ColorsDictionary[color] == ColorLowerLineRgb.GetColorCode ||
+                    DisplayColorRgb.ColorsDictionary[color] == ColorUpperLineRgb.GetColorCode)
+                {
+                    return false;
+                }
             }
             else
             {
-
+                if (DisplayColorRgb.ColorsDictionary[color] == ColorBackgroundRgb.GetColorCode)
+                {
+                    return false;
+                }
             }
             _colors[index].Color = color;
-            return success;
+            return true;
         }
 
         public void SetRedByIndex(int index, int value)
