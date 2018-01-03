@@ -98,9 +98,10 @@ namespace MPS.ViewModel
             UpdateRgbColors();
         }
       
-        private void ChangeColor(Color colorName)
-        {                 
-            _displayColors.SetColorByIndex(SelectedIndex, colorName);
+        private void ChangeColor(Color newColor)
+        {
+     
+            _displayColors.SetColorByIndex(SelectedIndex, newColor);
             MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
             UpdateRgbColors();
         }

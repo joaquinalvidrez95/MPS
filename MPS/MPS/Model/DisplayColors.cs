@@ -11,13 +11,10 @@ namespace MPS.Model
     public class DisplayColors
     {
 
-        //public Color ColorLowerLine { get; set; }        
-
-        //public Color ColorUpperLine { get; set; }
-
-        //public Color ColorBackground { get; set; }
-
-        private readonly IList<DisplayColorRgb> colors = new List<DisplayColorRgb>();
+        private readonly IList<DisplayColorRgb> _colors = new List<DisplayColorRgb>();
+        public const int IndexUpperLineColor = 0;
+        public const int IndexLowerLineColor = 1;
+        public const int IndexBackgroundLineColor = 2;
 
         public DisplayColorRgb ColorBackgroundRgb { get; set; }
 
@@ -25,49 +22,56 @@ namespace MPS.Model
 
         public DisplayColorRgb ColorLowerLineRgb { get; set; }
 
-        public string ColorCode()
+        public string GetColorCode()
         {
-            return ColorUpperLineRgb.ColorCode
-                   + ColorLowerLineRgb.ColorCode
-                   + ColorBackgroundRgb.ColorCode;
+            return ColorUpperLineRgb.GetColorCode
+                   + ColorLowerLineRgb.GetColorCode
+                   + ColorBackgroundRgb.GetColorCode;
         }
-        public void SetColorByIndex(int index, Color color)
+        public bool SetColorByIndex(int index, Color color)
         {
-            colors[index].Color = color;
+            bool success=true;
+            if (index == IndexBackgroundLineColor)
+            {
+                success = !(DisplayColorRgb.ColorsDictionary[color].ToString() == ColorLowerLineRgb.GetColorCode ||
+                        DisplayColorRgb.ColorsDictionary[color].ToString() == ColorUpperLineRgb.GetColorCode);
+            }
+            else
+            {
+
+            }
+            _colors[index].Color = color;
+            return success;
         }
-        //public void SetColorNameByIndex(int index, string colorName)
-        //{
-        //    colors[index].ColorName = colorName;
-        //}
 
         public void SetRedByIndex(int index, int value)
         {
-            colors[index].Red = value;
+            _colors[index].Red = value;
         }
 
         public int GetRedByIndex(int index)
         {
-            return colors[index].Red;
+            return _colors[index].Red;
         }
 
         public void SetGreenByIndex(int index, int value)
         {
-            colors[index].Green = value;
+            _colors[index].Green = value;
         }
 
         public int GetGreenByIndex(int index)
         {
-            return colors[index].Green;
+            return _colors[index].Green;
         }
 
         public void SetBlueByIndex(int index, int value)
         {
-            colors[index].Blue = value;
+            _colors[index].Blue = value;
         }
 
         public int GetBlueByIndex(int index)
         {
-            return colors[index].Blue;
+            return _colors[index].Blue;
         }
 
         public DisplayColors()
@@ -75,25 +79,14 @@ namespace MPS.Model
             ColorLowerLineRgb = new DisplayColorRgb();
             ColorUpperLineRgb = new DisplayColorRgb();
             ColorBackgroundRgb = new DisplayColorRgb();
-            colors.Add(ColorUpperLineRgb);
-            colors.Add(ColorLowerLineRgb);
-            colors.Add(ColorBackgroundRgb);
+            //_colors.Add(ColorUpperLineRgb);
+            //_colors.Add(ColorLowerLineRgb);
+            //_colors.Add(ColorBackgroundRgb);
+            _colors.Insert(IndexUpperLineColor, ColorUpperLineRgb);
+            _colors.Insert(IndexLowerLineColor, ColorLowerLineRgb);
+            _colors.Insert(IndexBackgroundLineColor, ColorBackgroundRgb);
         }
 
-        //public string ColorBackgroundName
-        //{
-        //    set => ColorBackgroundRgb.ColorName = value;
-        //}
-
-        //public string ColorLowerLineName
-        //{
-        //    set => ColorLowerLineRgb.ColorName = value;
-        //}
-
-        //public string ColorUpperLineName
-        //{
-        //    set => ColorUpperLineRgb.ColorName = value;
-        //}
 
     }
 }

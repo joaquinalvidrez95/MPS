@@ -179,7 +179,7 @@ namespace MPS.ViewModel
 
         private void OnColoursReceived(ColorsPageModel arg1, DisplayColors arg2)
         {
-            string data = MessengerKeys.Colours + arg2.ColorCode() + '\n';
+            string data = MessengerKeys.Colours + arg2.GetColorCode() + '\n';
             WriteData(data);
         }
 
