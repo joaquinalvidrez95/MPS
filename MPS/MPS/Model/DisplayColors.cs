@@ -84,10 +84,7 @@ namespace MPS.Model
         {
             ColorLowerLineRgb = new DisplayColorRgb();
             ColorUpperLineRgb = new DisplayColorRgb();
-            ColorBackgroundRgb = new DisplayColorRgb();
-            //_colors.Add(ColorUpperLineRgb);
-            //_colors.Add(ColorLowerLineRgb);
-            //_colors.Add(ColorBackgroundRgb);
+            ColorBackgroundRgb = new DisplayColorRgb();            
             _colors.Insert(IndexUpperLineColor, ColorUpperLineRgb);
             _colors.Insert(IndexLowerLineColor, ColorLowerLineRgb);
             _colors.Insert(IndexBackgroundLineColor, ColorBackgroundRgb);

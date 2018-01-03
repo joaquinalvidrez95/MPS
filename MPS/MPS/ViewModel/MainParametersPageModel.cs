@@ -50,16 +50,7 @@ namespace MPS.ViewModel
             }
         }
    
-
-        private int _currentView;
-        //{
-        //    get => _currentView;
-        //    set
-        //    {
-        //        _currentView = value;
-        //        OnPropertyChanged();
-        //    }
-    //}
+        private int _currentView;  
 
         public bool IsDisplayEnabled
         {
@@ -140,15 +131,13 @@ namespace MPS.ViewModel
         }
 
         private async void SendQuickMessage()
-        {
-            //MessagingCenter.Send(this, MessengerKeys.Message, Message);
+        {           
             await PopupNavigation.PushAsync(new QuickMessagePopup());
         }
 
         protected override void Subscribe()
         {
             MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);         
-            //MessagingCenter.Subscribe<QuickMessagePopupModel, string>(this, MessengerKeys.QuickMessage, OnQuickMessageAdded);
             MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.CurrentView, UpdateView);
             MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
         }

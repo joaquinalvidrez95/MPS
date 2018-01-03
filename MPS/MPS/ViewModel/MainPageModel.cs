@@ -37,7 +37,19 @@ namespace MPS.ViewModel
             Navigation = navigation;
             CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
             CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
+            CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceDisconnected;
 
+        }
+
+        private void OnDeviceDisconnected(object sender, DeviceErrorEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
+                "Error",
+                "Se ha desconectado de: " + e.Device.Name,
+                "Aceptar"
+            ));
+
+            MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
         }
 
         private async void GoToAboutPage()
@@ -93,7 +105,7 @@ namespace MPS.ViewModel
             switch (x[0].ToString())
             {
                 case BluetoothHelper.BluetoothContract.Feedback:
-                    _hasFeedback = true;                    
+                    _hasFeedback = true;
                     _isFixingControls = true;
                     MessagingCenter.Send(this, MessengerKeys.Power, (bytes[1] - 48) == 1);
                     MessagingCenter.Send(this, MessengerKeys.Speed, bytes[2] - 48);
@@ -130,13 +142,13 @@ namespace MPS.ViewModel
                         IsDateVisible = (bytes[17] - 48) == 1,
                     };
                     MessagingCenter.Send(this, MessengerKeys.Visibilities, displayVisibility);
-                  
+
                     Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForFixingControls), () =>
                     {
-                        _isFixingControls = false;                        
-                        return false;                        
-                    });                    
-              
+                        _isFixingControls = false;
+                        return false;
+                    });
+
                     break;
             }
         }

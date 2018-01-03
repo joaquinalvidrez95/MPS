@@ -5,11 +5,13 @@ using Plugin.BLE.Abstractions.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MPS.View;
+using Plugin.BLE.Abstractions.EventArgs;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 
@@ -18,21 +20,10 @@ namespace MPS.ViewModel
     public class BluetoothDevicesPageModel : BaseViewModel
     {
         private readonly INavigation _navigation;
-        //private string _text;
         private ObservableCollection<IDevice> _devices;
         private IDevice _deviceSelected;
 
         public ICommand ItemTappedCommand { get; }
-
-        //public string Text
-        //{
-        //    get => _text;
-        //    set
-        //    {
-        //        _text = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
 
         public ObservableCollection<IDevice> Devices
         {
@@ -66,17 +57,22 @@ namespace MPS.ViewModel
         private async void SetupBluetoothAsync()
         {
             _devices.Clear();
-            CrossBluetoothLE.Current.Adapter.DeviceDiscovered += (s, a) =>
-            {
-                if (!_devices.Contains(a.Device))
-                    _devices.Add(a.Device);
-            };
+            CrossBluetoothLE.Current.Adapter.DeviceDiscovered += OnDeviceDiscovered;
             await CrossBluetoothLE.Current.Adapter.StartScanningForDevicesAsync();
         }
 
+        private void OnDeviceDiscovered(object sender, DeviceEventArgs e)
+        {
+            //Debug.WriteLine("Dispositivo encontrado: " + e.Device.Id);
+
+            if (_devices.Contains(e.Device)) return;
+            if (e.Device.Name == null) return;
+            _devices.Add(e.Device);
+        }
+
         private async void SelectDeviceAsync()
-        {          
-            //await PopupNavigation.PushAsync(new PasswordPopup());
+        {
+            //await PopupNavigation.PushAsync(new PasswordPopup());          
             await CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();
             await _navigation.PopAsync();
             MessagingCenter.Send(this, MessengerKeys.DeviceSelected, DeviceSelected);
@@ -84,7 +80,7 @@ namespace MPS.ViewModel
 
         protected override void Subscribe()
         {
-            
+
         }
     }
 }
