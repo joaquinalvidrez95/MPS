@@ -80,6 +80,7 @@
                                     HorizontalOptions="StartAndExpand" />
                                 
                                 <Image 
+                                    Opacity="{StaticResource OpacityUnfocusedIcon}"
                                     Source="{StaticResource IconDelete}"
                                     VerticalOptions="Center"
                                     HorizontalOptions="End">
@@ -91,7 +92,8 @@
                                 </Image>
 
                                 <Image 
-                                    Margin="20,0,0,0"
+                                    Opacity="{StaticResource OpacityUnfocusedIcon}"
+                                    Margin="10,0,0,0"
                                     Source="{StaticResource IconMessageBlack}"
                                     VerticalOptions="Center"
                                     HorizontalOptions="End">

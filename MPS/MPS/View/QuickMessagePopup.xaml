@@ -3,48 +3,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
-             xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"             
+             xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
+             xmlns:converters="clr-namespace:MPS.Converters;assembly=MPS"
              x:Class="MPS.View.QuickMessagePopup"
              Style="{StaticResource StylePaddingPopup}">
 
+    <pages:PopupPage.BindingContext>
+        <viewModel:QuickMessagePopupModel/>
+    </pages:PopupPage.BindingContext>
+    
     <pages:PopupPage.Resources>
         <ResourceDictionary>
-            <viewModel:QuickMessagePopupModel x:Key="ViewModel" />
-            <Style 
-                TargetType="Button"
-                BasedOn="{StaticResource StyleButtonPopup}"
-            >
-            </Style>
+            <converters:DoubleToLeftCharactersConverter x:Key="DoubleToLeftCharactersConverter" />
+                      
         </ResourceDictionary>
     </pages:PopupPage.Resources>
 
-    <StackLayout BindingContext="{StaticResource ViewModel}"        
-                 Orientation="Vertical"
-                 BackgroundColor="{StaticResource ColorBackgroundPopup}"               
-                 VerticalOptions="Center"                 
-                 Padding="{StaticResource PaddingPopupStackLayout}">
+    <StackLayout Style="{StaticResource StyleStackLayoutPopup}" >
 
-        <Label Text="Mensaje instantáneo"
-               TextColor="{StaticResource ColorAccent}"/>
-        <BoxView Style="{StaticResource StyleBoxViewDivider}"/>
-        <Editor 
-            HeightRequest="{StaticResource EditorHeight}"
-            Text="{Binding Text}">
+        <Label Text="Mensaje instantáneo" Style="{StaticResource StyleLabelDialogTitle}"/>
+
+        <Editor HeightRequest="{StaticResource HeightEditor}" Text="{Binding Text}">
             <Editor.Behaviors>
                 <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
             </Editor.Behaviors>
         </Editor>
         <Label
-            Text="{Binding LeftCharacters}"
+            Text="{Binding LeftCharacters, Converter={StaticResource DoubleToLeftCharactersConverter}}"
             HorizontalOptions="End"/>
-        <StackLayout 
-            Orientation="Horizontal">
+        <StackLayout Style="{StaticResource StyleStackLayoutDialogButtonContainer}">
+            <Button VerticalOptions="Center"
+                Style="{StaticResource StyleButtonFlat}"
+                Text="{StaticResource ButtonTextCancel}"                                     
+                Command="{Binding CancelCommand}"/>
             <Button 
+                Style="{StaticResource StyleButtonFlat}"
                 Text="Enviar"                                                          
                 Command="{Binding DoneCommand}"/>
-            <Button 
-                Style="{StaticResource StyleButtonPopupCancel}"                                           
-                Command="{Binding CancelCommand}"/>
+        
         </StackLayout>
 
 

@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
-                 Style="{StaticResource StylePaddingPopup}"
+             xmlns:converters="clr-namespace:MPS.Converters;assembly=MPS"
+             Style="{StaticResource StylePaddingPopup}"
              x:Class="MPS.MessagePopup">
 
     <!--<pages:PopupPage.Animation>
@@ -21,68 +22,50 @@
 
     <pages:PopupPage.Resources>
         <ResourceDictionary>
-            <Style 
-                TargetType="Button"
-                BasedOn="{StaticResource StyleButtonPopup}"
-                   >
-            </Style>
+            <converters:DoubleToLeftCharactersConverter x:Key="DoubleToLeftCharactersConverter" />
         </ResourceDictionary>
     </pages:PopupPage.Resources>
-    <StackLayout 
-        VerticalOptions="Center"                
-        Orientation="Vertical"
-        BackgroundColor="{StaticResource ColorBackgroundPopup}"
-        Padding="{StaticResource PaddingPopupStackLayout}">
-        <Label 
-            Text="{Binding PopupTitle}"           
-            TextColor="{StaticResource ColorAccent}"/>
-        <BoxView 
-            Color="{StaticResource ColorAccent}"
-            HeightRequest="1"/>
-        <Label 
-            Text="Título repetido"
-            IsVisible="{Binding IsErrorMessageVisible}"
-            HorizontalOptions="End"
-            TextColor="{StaticResource ColorAccent}"/>
-        <StackLayout 
-            Orientation="Horizontal">
-            <Label 
-                Text="Título: "
-                HorizontalOptions="Start"
-                VerticalOptions="Center"/>
-            <Entry                            
-                VerticalOptions="Center"             
+    <StackLayout Style="{StaticResource StyleStackLayoutPopup}" >
+
+        <Label Style="{StaticResource StyleLabelDialogTitle}" Text="{Binding PopupTitle}"  />
+       
+
+        <Entry                            
+                VerticalOptions="Center"     
+            Placeholder="Título"
                 Text="{Binding Title}"
                 HorizontalOptions="FillAndExpand">
-                <Entry.Behaviors>
-                    <behaviour:EntryLengthValidatorBehavior MaxLength="{StaticResource MaxTitleLength}" />
-                </Entry.Behaviors>
-            </Entry>
-        </StackLayout>
+            <Entry.Behaviors>
+                <behaviour:EntryLengthValidatorBehavior MaxLength="{StaticResource MaxTitleLength}" />
+            </Entry.Behaviors>
+        </Entry>
 
-        <Editor 
-            HeightRequest="{StaticResource EditorHeight}"
-            Text="{Binding Text}">
+        <Label 
+            Text="{StaticResource ErrorTitleRepeated}"
+            IsVisible="{Binding IsErrorMessageVisible}"            
+            TextColor="{StaticResource ColorAccent}"/>
+
+
+        <Editor  HeightRequest="{StaticResource HeightEditor}" Text="{Binding Text}">
+
             <Editor.Behaviors>
                 <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
             </Editor.Behaviors>
         </Editor>
         <Label
-            Text="{Binding LeftCharacters}"
+            Text="{Binding LeftCharacters, Converter={StaticResource DoubleToLeftCharactersConverter}}"
             HorizontalOptions="End"/>
-        <StackLayout
-            Orientation="Horizontal">
-            <!--<Button 
-                Text="Guardar"        
-                Image="ic_save_white_48dp.png"                              
-                Command="{Binding DoneCommand}"/>-->
-          
+        <StackLayout Style="{StaticResource StyleStackLayoutDialogButtonContainer}">
+
             <Button 
+                Style="{StaticResource StyleButtonFlat}"
+                Text="{StaticResource ButtonTextCancel}"    
+                Command="{Binding CancelCommand}"/>
+            <Button 
+                Style="{StaticResource StyleButtonFlat}"
+
                 Text="Guardar"        
                 Command="{Binding DoneCommand}"/>
-            <Button 
-                Style="{StaticResource StyleButtonPopupCancel}"
-                Command="{Binding CancelCommand}"/>
 
         </StackLayout>
     </StackLayout>

@@ -14,7 +14,7 @@
         <local:ColorsPage />
 
         <view:VisibilityPage />
-    </TabbedPage.Children>
+    </TabbedPage.Children>   
 
     <TabbedPage.ToolbarItems>
         <ToolbarItem 

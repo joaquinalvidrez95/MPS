@@ -28,7 +28,7 @@ namespace MPS.ViewModel
         public ICommand AboutCommand { get; }
         private INavigation Navigation { get; }
 
-        private const int Timeout = 1000;
+        private const int Timeout = 1500;
 
         public MainPageModel(INavigation navigation)
         {

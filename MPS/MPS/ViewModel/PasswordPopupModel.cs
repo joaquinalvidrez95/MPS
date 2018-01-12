@@ -12,6 +12,13 @@ namespace MPS.ViewModel
     public class PasswordPopupModel : BaseViewModel
     {
         private string _password;
+        private bool _isPasswordIncorrect;
+
+        public bool IsPasswordIncorrect
+        {
+            get => _isPasswordIncorrect;
+            set { _isPasswordIncorrect = value;OnPropertyChanged(); }
+        }
 
         public string Password
         {
