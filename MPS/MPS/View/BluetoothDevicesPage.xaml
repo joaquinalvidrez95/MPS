@@ -2,17 +2,47 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MPS.Behaviour"
+          
              x:Class="MPS.View.BluetoothDevicesPage"
-             Style="{StaticResource StylePaddingContentPage}"
+             Padding="{StaticResource PaddingVertical}"
              Title="Seleccione dispositivo">
-    <ContentPage.Content>
-        <StackLayout>
 
-            <ListView 
-                ItemsSource="{Binding Devices}"                
+    <!--<ContentPage.BindingContext>
+        <viewModel:BluetoothDevicesPageModel/>
+    </ContentPage.BindingContext>-->
+    <ContentPage.Content>
+
+
+        <ListView 
+                RowHeight="{StaticResource HeightListViewSingleCell}"
+                ItemsSource="{Binding Devices}"    
+                SeparatorColor="{StaticResource ColorDivider}"
                 local:ItemTappedAttached.Command="{Binding ItemTappedCommand}"
-                SelectedItem="{Binding DeviceSelected}"    >
-            </ListView>
-        </StackLayout>
+                Header="sds"
+                SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"    >
+          
+            
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <Label                                                        
+                                VerticalTextAlignment="Center"
+                                Margin="{StaticResource MarginLeft}"
+                                HeightRequest="{StaticResource HeightListViewHeader}"
+                                Text="Dispositivos encontrados" 
+                                TextColor="{StaticResource ColorPrimary}"/>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Label VerticalTextAlignment="Center"
+                               Margin="{StaticResource MarginLeft}" 
+                                   Text="{Binding Name}" TextColor="{StaticResource ColorPrimaryText}"/>
+                    </ViewCell>
+                </DataTemplate>
+
+            </ListView.ItemTemplate>
+        </ListView>
+
     </ContentPage.Content>
 </ContentPage>

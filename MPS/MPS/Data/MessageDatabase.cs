@@ -23,12 +23,12 @@ namespace MPS.Data
             return await _database.Table<Message>().ToListAsync();
         }
 
-        public Task<Message> GetMessageAsync(string title)
-        {
-            return _database.Table<Message>()
-                .Where(i => i.Title.Equals(title))
-                .FirstOrDefaultAsync();
-        }
+        //public Task<Message> GetMessageAsync(string title)
+        //{
+        //    return _database.Table<Message>()
+        //        .Where(i => i.Title.Equals(title))
+        //        .FirstOrDefaultAsync();
+        //}
 
         public Task<int> SaveMessageAsync(Message message)
         {

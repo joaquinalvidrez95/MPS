@@ -20,56 +20,64 @@ namespace MPS.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+            RequestedOrientation = ScreenOrientation.Portrait;
 
             base.OnCreate(bundle);
-
+            Forms.SetFlags("FastRenderers_Experimental");
             global::Xamarin.Forms.Forms.Init(this, bundle);
             TintedImageRenderer.Init();
             LoadApplication(new App());
         }
 
+        //public override void OnConfigurationChanged(Configuration newConfig)
+        //{
+        //    base.OnConfigurationChanged(newConfig);
+        //    switch (newConfig.Orientation)
+        //    {
+        //        case Orientation.Landscape:
+        //            switch (Device.Idiom)
+        //            {
+        //                case TargetIdiom.Phone:
+        //                    LockRotation(Orientation.Portrait);
+        //                    break;
+        //                case TargetIdiom.Tablet:
+        //                    LockRotation(Orientation.Landscape);
+        //                    break;
+        //            }
+        //            break;
+        //        case Orientation.Portrait:
+        //            switch (Device.Idiom)
+        //            {
+        //                case TargetIdiom.Phone:
+        //                    LockRotation(Orientation.Portrait);
+        //                    break;
+        //                case TargetIdiom.Tablet:
+        //                    LockRotation(Orientation.Landscape);
+        //                    break;
+        //            }
+        //            break;
+        //    }
+            
+        //}
+
+        //private void LockRotation(Orientation orientation)
+        //{
+        //    switch (orientation)
+        //    {
+        //        case Orientation.Portrait:
+        //            RequestedOrientation = ScreenOrientation.Portrait;
+        //            break;
+        //        case Orientation.Landscape:
+        //            RequestedOrientation = ScreenOrientation.Landscape;
+        //            break;
+        //    }
+        //}
+
         public override void OnConfigurationChanged(Configuration newConfig)
         {
             base.OnConfigurationChanged(newConfig);
-            switch (newConfig.Orientation)
-            {
-                case Orientation.Landscape:
-                    switch (Device.Idiom)
-                    {
-                        case TargetIdiom.Phone:
-                            LockRotation(Orientation.Portrait);
-                            break;
-                        case TargetIdiom.Tablet:
-                            LockRotation(Orientation.Landscape);
-                            break;
-                    }
-                    break;
-                case Orientation.Portrait:
-                    switch (Device.Idiom)
-                    {
-                        case TargetIdiom.Phone:
-                            LockRotation(Orientation.Portrait);
-                            break;
-                        case TargetIdiom.Tablet:
-                            LockRotation(Orientation.Landscape);
-                            break;
-                    }
-                    break;
-            }
-            
-        }
+            RequestedOrientation = ScreenOrientation.Portrait;
 
-        private void LockRotation(Orientation orientation)
-        {
-            switch (orientation)
-            {
-                case Orientation.Portrait:
-                    RequestedOrientation = ScreenOrientation.Portrait;
-                    break;
-                case Orientation.Landscape:
-                    RequestedOrientation = ScreenOrientation.Landscape;
-                    break;
-            }
         }
     }
 }

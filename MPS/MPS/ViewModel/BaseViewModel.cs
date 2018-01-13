@@ -28,6 +28,9 @@ namespace MPS.ViewModel
 
 
 
-        protected abstract void Subscribe();
+        protected virtual void Subscribe()
+        {
+            
+        }
     }
 }

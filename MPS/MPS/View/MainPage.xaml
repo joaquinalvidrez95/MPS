@@ -3,9 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MPS"
              xmlns:view="clr-namespace:MPS.View;assembly=MPS"
+             xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
              x:Class="MPS.MainPage"            
              Title="MPS-40">
 
+    <TabbedPage.BindingContext>
+        <viewModel:MainPageModel></viewModel:MainPageModel>
+    </TabbedPage.BindingContext>
+    
     <TabbedPage.Children>
         <local:MainParametersPage />
 
@@ -19,15 +24,15 @@
     <TabbedPage.ToolbarItems>
         <ToolbarItem 
             Order="Primary"
-            Icon="ic_bluetooth_searching_white_48dp.png"
-            Text="Item 1"
+            Icon="{StaticResource IconBluetooth}"
+            Text="Bluetooth"
             Priority="0"
             Command="{Binding BluetoothConnectionCommand}"/>
         <ToolbarItem 
             Order="Primary"        
             Icon="{StaticResource IconAbout}"
             Text="Acerca de"
-            Priority="0"
+            Priority="1"
             Command="{Binding AboutCommand}"/>
     </TabbedPage.ToolbarItems>
 

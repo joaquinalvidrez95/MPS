@@ -26,18 +26,18 @@ namespace MPS.ViewModel
         private const int TimeoutForFixingControls = 20;
         public ICommand BluetoothConnectionCommand { get; }
         public ICommand AboutCommand { get; }
-        private INavigation Navigation { get; }
+        //private INavigation Navigation { get; }
 
         private const int Timeout = 1500;
 
-        public MainPageModel(INavigation navigation)
+        public MainPageModel()
         {
             BluetoothConnectionCommand = new Command(GoToBluetoothDevicesPageAsync);
             AboutCommand = new Command(GoToAboutPage);
-            Navigation = navigation;
-            CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
-            CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
-            CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceDisconnected;
+            //Navigation = navigation;
+            //CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
+            //CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
+            //CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceDisconnected;
 
         }
 
@@ -54,7 +54,7 @@ namespace MPS.ViewModel
 
         private async void GoToAboutPage()
         {
-            await Navigation.PushAsync(new AboutPage());
+            await Application.Current.MainPage.Navigation.PushAsync(new AboutPage());
         }
 
 
@@ -254,13 +254,13 @@ namespace MPS.ViewModel
 
         private async void GoToBluetoothDevicesPageAsync()
         {
-            await Navigation.PushAsync(new BluetoothDevicesPage());
+            await Application.Current.MainPage.Navigation.PushAsync(new BluetoothDevicesPage());
         }
 
 
         protected override void Subscribe()
         {
-            MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
+           // MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
             MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power, OnPowerStatusReceived);
             MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, OnViewReceived);
             MessagingCenter.Subscribe<MessagePageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);

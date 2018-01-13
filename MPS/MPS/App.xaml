@@ -35,8 +35,9 @@
             <x:String x:Key="TitleMainPage">Principal</x:String>
             <x:String x:Key="TitleMessagesPage">Mensajes</x:String>
             <x:String x:Key="TitleVisibilityPage">Vista</x:String>
-            
+
             <x:String x:Key="TextPasswordIncorrect">Pin incorrecto</x:String>
+            <x:String x:Key="TextTimeExpired">Se ha expirado el tiempo de respuesta, intente de nuevo</x:String>
 
             <x:String x:Key="DisplayAlertTitleError">Error</x:String>
             <x:String x:Key="DisplayAlertTitleConfirmation">Confirmación</x:String>
@@ -60,9 +61,11 @@
             <x:String x:Key="IconMessageBlack">ic_send_envelope.png</x:String>
             <x:String x:Key="IconCitsaLogo">all_citsalogo.png</x:String>
             <x:String x:Key="IconCitsaLogoLarge">icon_all_citsalogo.png</x:String>
-            <x:String x:Key="IconAbout">ic_info_outline_white_48dp.png</x:String>
+            <x:String x:Key="IconAbout">ic_info_outline_white_24dp.png</x:String>
             <x:String x:Key="IconPower">ic_power_settings_blue.png</x:String>
             <x:String x:Key="IconRadioButton">ic_radio_button_checked_black_24dp.png</x:String>
+            <x:String x:Key="IconBluetooth">ic_bluetooth_searching_white_24dp.png</x:String>
+
 
             <x:Int32 x:Key="MaxMessageLength">180</x:Int32>
             <x:Int32 x:Key="MaxTitleLength">35</x:Int32>
@@ -75,8 +78,14 @@
 
             <x:Int32 x:Key="PasswordLength">4</x:Int32>
             <x:Double x:Key="HeightBoxViewDivider">1</x:Double>
+            <x:Int32 x:Key="HeightListViewSingleCell">48</x:Int32>
+            <x:Double x:Key="HeightListViewHeader">48</x:Double>
+
 
             <GridLength x:Key="GridLengthColorButtons">40</GridLength>
+            <Thickness x:Key="PaddingPopup">24,24,24,0</Thickness>
+            <Thickness x:Key="PaddingHorizontalVertical">16,8,16,0</Thickness>
+            <Thickness x:Key="PaddingVertical">0,8,0,0</Thickness>
 
             <Thickness x:Key="MarginLeft">16,0,0,0</Thickness>
             <Thickness x:Key="MarginLeftOneControl">72,0,0,0</Thickness>
@@ -98,7 +107,6 @@
                 <Setter Property="BackgroundColor"  Value="Transparent"/>
                 <Setter Property="BorderColor"  Value="Transparent"/>
                 <Setter Property="BorderRadius"  Value="0"/>
-                <!--<Setter Property="HeightRequest" Value="36"/>-->         
                 <Setter Property="TextColor" Value="{StaticResource ColorAccent}"/>
             </Style>
 
@@ -139,7 +147,7 @@
             </Style>
 
             <Style x:Key="StylePaddingContentPage" TargetType="ContentPage">
-                <Setter Property="Padding" Value="20,5,20,0"/>
+                <Setter Property="Padding" Value="{StaticResource PaddingHorizontalVertical}"/>
             </Style>
 
             <Style x:Key="StyleMainParametersPage" BasedOn="{StaticResource StylePaddingContentPage}" TargetType="ContentPage">
@@ -181,7 +189,7 @@
                 <Setter Property="Orientation" Value="Horizontal"/>
             </Style>
 
-            <Thickness x:Key="PaddingPopup">24,24,24,0</Thickness>
+           
 
             <Style x:Key="StyleStackLayoutPopup" TargetType="StackLayout">
                 <Setter Property="BackgroundColor" Value="{StaticResource ColorBackgroundPopup}"/>
