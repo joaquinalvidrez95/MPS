@@ -52,10 +52,11 @@
             <x:String x:Key="ErrorTitleRepeated">Título repetido</x:String>
 
             <x:String x:Key="IconHome">ic_home_white_48dp.png</x:String>
-            <x:String x:Key="IconEye">ic_remove_red_eye_white_48dp.png</x:String>
-            <x:String x:Key="IconMessage">ic_send_white_48.png</x:String>
+            <x:String x:Key="IconEye">ic_remove_red_eye_white_24dp.png</x:String>
+            <!--<x:String x:Key="IconMessage">ic_send_white_48.png</x:String>-->
+            <x:String x:Key="IconMessage">ic_send_envelope_white_24dp.png</x:String>
             <x:String x:Key="IconColours">ic_color_lens_white_48dp.png</x:String>
-            <x:String x:Key="IconTime">ic_access_time_white_48dp.png</x:String>
+            <x:String x:Key="IconTime">ic_update_white_24dp.png</x:String>
             <x:String x:Key="IconAdd">ic_add_white_48dp.png</x:String>
             <x:String x:Key="IconDelete">ic_delete_forever_black_48dp.png</x:String>
             <x:String x:Key="IconMessageBlack">ic_send_envelope.png</x:String>

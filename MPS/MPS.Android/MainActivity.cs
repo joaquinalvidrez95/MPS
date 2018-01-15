@@ -23,6 +23,8 @@ namespace MPS.Droid
             RequestedOrientation = ScreenOrientation.Portrait;
 
             base.OnCreate(bundle);
+            
+            //Rg.Plugins.Popup.Popup.Init(this, bundle);
             Forms.SetFlags("FastRenderers_Experimental");
             global::Xamarin.Forms.Forms.Init(this, bundle);
             TintedImageRenderer.Init();

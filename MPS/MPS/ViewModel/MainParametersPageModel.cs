@@ -80,7 +80,7 @@ namespace MPS.ViewModel
 
         }
 
-        private void UpdatePowerFromFeedback(MainPageModel mainPageModel, bool b)
+        private void UpdatePowerFromFeedback(PasswordPopupModel passwordPopupModel, bool b)
         {
             IsDisplayEnabled = b;
         }
@@ -91,7 +91,7 @@ namespace MPS.ViewModel
             MessagingCenter.Send(this, MessengerKeys.Power, IsDisplayEnabled);
         }
 
-        private void UpdateView(MainPageModel arg1, int arg2)
+        private void UpdateView(PasswordPopupModel passwordPopupModel, int arg2)
         {
             _currentView = arg2;
         }      
@@ -138,8 +138,10 @@ namespace MPS.ViewModel
         protected override void Subscribe()
         {
             MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);         
-            MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.CurrentView, UpdateView);
-            MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
+            //MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.CurrentView, UpdateView);
+            MessagingCenter.Subscribe<PasswordPopupModel, int>(this, MessengerKeys.CurrentView, UpdateView);
+            //MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
+            MessagingCenter.Subscribe<PasswordPopupModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
         }
     }
 }

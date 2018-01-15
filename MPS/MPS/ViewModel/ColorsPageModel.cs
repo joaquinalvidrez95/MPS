@@ -66,7 +66,7 @@ namespace MPS.ViewModel
 
                 try
                 {
-                    _displayColors.SetColorCodeByIndex(SelectedIndex, RedValue.ToString() + (int) value + BlueValue);
+                    _displayColors.SetColorCodeByIndex(SelectedIndex, RedValue.ToString() + (int)value + BlueValue);
                     if ((int)value != colorValue)
                     {
                         MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
@@ -74,9 +74,9 @@ namespace MPS.ViewModel
                 }
                 catch (ColorException)
                 {
-                    
+
                 }
-                
+
                 OnPropertyChanged();
             }
         }
@@ -90,7 +90,7 @@ namespace MPS.ViewModel
                 var colorValue = _displayColors.GetBlueByIndex(SelectedIndex);
                 try
                 {
-                    _displayColors.SetColorCodeByIndex(SelectedIndex, RedValue.ToString() + GreenValue + (int) value);
+                    _displayColors.SetColorCodeByIndex(SelectedIndex, RedValue.ToString() + GreenValue + (int)value);
                     if ((int)value != colorValue)
                     {
                         MessagingCenter.Send(this, MessengerKeys.Colours, _displayColors);
@@ -98,9 +98,9 @@ namespace MPS.ViewModel
                 }
                 catch (ColorException)
                 {
-                    
+
                 }
-                
+
                 OnPropertyChanged();
             }
         }
@@ -113,7 +113,7 @@ namespace MPS.ViewModel
 
         }
 
-        private void OnColoursReceived(MainPageModel arg1, DisplayColors arg2)
+        private void OnColoursReceived(PasswordPopupModel passwordPopupModel, DisplayColors arg2)
         {
             _displayColors = arg2;
             UpdateRgbColors();
@@ -136,7 +136,7 @@ namespace MPS.ViewModel
         {
             await Application.Current.MainPage.DisplayAlert(
                 (string)Application.Current.Resources["DisplayAlertTitleError"],
-                (string) Application.Current.Resources["DisplayAlertMessageColorException"],
+                (string)Application.Current.Resources["DisplayAlertMessageColorException"],
                 (string)Application.Current.Resources["DisplayAlertCancelAccept"]
             );
         }
@@ -150,10 +150,8 @@ namespace MPS.ViewModel
 
         protected override void Subscribe()
         {
-            MessagingCenter.Subscribe<MainPageModel, DisplayColors>(
-                this,
-                MessengerKeys.Colours,
-                OnColoursReceived);
+            //MessagingCenter.Subscribe<MainPageModel, DisplayColors>(this, MessengerKeys.Colours, OnColoursReceived);
+            MessagingCenter.Subscribe<PasswordPopupModel, DisplayColors>(this, MessengerKeys.Colours, OnColoursReceived);
         }
     }
 }

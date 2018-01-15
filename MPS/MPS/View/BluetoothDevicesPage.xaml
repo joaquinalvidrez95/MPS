@@ -20,8 +20,8 @@
                 local:ItemTappedAttached.Command="{Binding ItemTappedCommand}"
                 Header="sds"
                 SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"    >
-          
-            
+
+
             <ListView.HeaderTemplate>
                 <DataTemplate>
                     <Label                                                        
@@ -35,9 +35,11 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Label VerticalTextAlignment="Center"
-                               Margin="{StaticResource MarginLeft}" 
+
+                        <Label VerticalTextAlignment="Center"                         
+                                    Margin="{StaticResource MarginLeft}"
                                    Text="{Binding Name}" TextColor="{StaticResource ColorPrimaryText}"/>
+
                     </ViewCell>
                 </DataTemplate>
 
