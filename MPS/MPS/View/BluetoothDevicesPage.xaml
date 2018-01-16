@@ -47,4 +47,13 @@
         </ListView>
 
     </ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Order="Primary"
+            Icon="{StaticResource IconBluetooth}"
+            Text="Escanear"
+            Priority="0"
+            Command="{Binding BluetoothConnectionCommand}"/>
+       
+    </ContentPage.ToolbarItems>
 </ContentPage>

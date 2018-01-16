@@ -29,7 +29,7 @@ namespace MPS.ViewModel
         public ICommand AboutCommand { get; }
         //private INavigation Navigation { get; }
 
-        private const int Timeout = 1500;
+        //private const int Timeout = 1500;
 
         public MainPageModel()
         {
@@ -62,7 +62,7 @@ namespace MPS.ViewModel
 
         private async void OnDeviceSelected(BluetoothDevicesPageModel arg1, IDevice device)
         {
-          
+
             try
             {
                 await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(device);
@@ -91,8 +91,9 @@ namespace MPS.ViewModel
 
         private void OnDeviceSelected(PasswordPopupModel arg1, IDevice arg2)
         {
+            _isFixingControls = false;
             CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
-            _connectedDevice = arg2;           
+            _connectedDevice = arg2;
             MessagingCenter.Send(this, MessengerKeys.DeviceStatus, arg2);
         }
 
@@ -205,7 +206,7 @@ namespace MPS.ViewModel
         }
 
         private void OnDeviceStateChanged(object sender, DeviceEventArgs e)
-        {            
+        {
             switch (e.Device.State)
             {
                 case DeviceState.Disconnected:
@@ -224,7 +225,6 @@ namespace MPS.ViewModel
 
 
             }
-            MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
         }
 
         private void OnSpeedReceived(MessagePageModel messagePageModel, int arg2)
@@ -291,6 +291,7 @@ namespace MPS.ViewModel
         {
             MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
             MessagingCenter.Subscribe<PasswordPopupModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
+            MessagingCenter.Subscribe<PasswordPopupModel>(this, MessengerKeys.FeedbackStarted, OnControlsFixed);                
             MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power, OnPowerStatusReceived);
             MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, OnViewReceived);
             MessagingCenter.Subscribe<MessagePageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
@@ -301,8 +302,12 @@ namespace MPS.ViewModel
             MessagingCenter.Subscribe<VisibilityPageModel, DisplayVisibility>(this, MessengerKeys.Visibilities, OnDisplayVisibilityReceived);
             MessagingCenter.Subscribe<VisibilityPageModel, TimeFormat>(this, MessengerKeys.TimeFormat, OnTimeFormatReceived);
             MessagingCenter.Subscribe<VisibilityPageModel, ViewMode>(this, MessengerKeys.ViewMode, OnViewModeReceived);
+            
         }
 
-
+        private void OnControlsFixed(PasswordPopupModel passwordPopupModel)
+        {
+            _isFixingControls = true;
+        }
     }
 }

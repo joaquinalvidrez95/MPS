@@ -28,7 +28,7 @@ namespace MPS.ViewModel
         private bool _isWaitingForRequest;
         private string _connectionEror;
         private bool _hasFeedbackPin;
-        private const int Timeout = 1500;
+        private const int Timeout = 2000;
         private int _numberOfTrials;
         private const int TimeoutForFixingControls = 100;
         private readonly PopupPage page;
@@ -92,7 +92,7 @@ namespace MPS.ViewModel
 
         private async void ClosePopup()
         {
-            CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;            
+            CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
 
             //await PopupNavigation.PopAsync();
             await PopupNavigation.RemovePageAsync(page);
@@ -100,6 +100,7 @@ namespace MPS.ViewModel
 
         private void StartConnection()
         {
+            SubcribeRead(_connectedDevice);
             _numberOfTrials = 0;
             IsErrorMessageVisible = false;
             AskForPin(_connectedDevice);
@@ -136,7 +137,7 @@ namespace MPS.ViewModel
 
         }
 
-        private async void OnDeviceSelected(MainPageModel sender, IDevice device)
+        private  void OnDeviceSelected(MainPageModel sender, IDevice device)
         {
             if (device == null)
             {
@@ -144,17 +145,13 @@ namespace MPS.ViewModel
             }
 
             _connectedDevice = device;
-
-            var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-            characteristic.ValueUpdated += OnDataReceived;
-            await characteristic.StartUpdatesAsync();
-
+                   
+           
         }
 
-        private async void OnDataReceived(object sender, CharacteristicUpdatedEventArgs characteristicUpdatedEventArgs)
+        private void OnDataReceived(object sender, CharacteristicUpdatedEventArgs characteristicUpdatedEventArgs)
         {
-            
+
             var bytes = characteristicUpdatedEventArgs.Characteristic.Value;
 
             var x = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
@@ -172,24 +169,42 @@ namespace MPS.ViewModel
                     {
                         IsErrorMessageVisible = true;
                         IsWaitingForRequest = false;
+                        UnsubcribeRead();
                     }
 
                     break;
+
                 case BluetoothHelper.BluetoothContract.Feedback:
                     IsWaitingForRequest = false;
-                    SendUiParameters(bytes);
-                    var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-                    var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-                    characteristic.ValueUpdated -= OnDataReceived;
+                    UnsubcribeRead();
+                    MessagingCenter.Send(this, MessengerKeys.FeedbackStarted);
+                    SendUiParameters(bytes);                   
                     Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForFixingControls), () =>
                     {
+                        Debug.WriteLine("Se acabó este pedo");
                         MessagingCenter.Send(this, MessengerKeys.DeviceSelected, _connectedDevice);
                         ClosePopup();
                         return false;
                     });
-                    
+
                     break;
             }
+        }
+
+        private async void UnsubcribeRead()
+        {
+            var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+            characteristic.ValueUpdated -= OnDataReceived;
+            await characteristic.StopUpdatesAsync();
+        }
+
+        private async void SubcribeRead(IDevice device)
+        {
+            var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+            characteristic.ValueUpdated += OnDataReceived;
+            await characteristic.StartUpdatesAsync();
         }
 
         private void RequestParameters()

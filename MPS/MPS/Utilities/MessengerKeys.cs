@@ -18,9 +18,8 @@ namespace MPS.Utilities
         public const string CurrentView = "P";
         public const string Speed = "V";
 
-        //public const string QuickMessage = "QuickMessage";
-        public const string DeviceSelected = "DeviceSelected";                
-        public const string DeviceStatus = "DeviceStatus";                        
-        //public const string NewMessage = "NewMessage";
+        public const string DeviceSelected = "DeviceSelected";
+        public const string DeviceStatus = "DeviceStatus";
+        public const string FeedbackStarted = "FeedbackStarted";
     }
 }
