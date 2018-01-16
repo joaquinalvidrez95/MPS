@@ -32,11 +32,17 @@ namespace MPS.ViewModel
         private int _numberOfTrials;
         private const int TimeoutForFixingControls = 100;
         private readonly PopupPage page;
+        private bool _canConnect;
 
         public bool IsWaitingForRequest
         {
             get => _isWaitingForRequest;
-            set { _isWaitingForRequest = value; OnPropertyChanged(); }
+            set
+            {
+                _isWaitingForRequest = value;
+                CanConnect = !value;
+                OnPropertyChanged();
+            }
         }
 
         public string ConnectionEror
@@ -44,6 +50,13 @@ namespace MPS.ViewModel
             get => _connectionEror;
             set { _connectionEror = value; OnPropertyChanged(); }
         }
+
+        public bool CanConnect
+        {
+            get => !IsWaitingForRequest && Password?.Length == (int)Application.Current.Resources["PasswordLength"];
+            set { _canConnect = value; OnPropertyChanged(); }
+        }
+
 
         public bool IsErrorMessageVisible
         {
@@ -56,8 +69,10 @@ namespace MPS.ViewModel
             get => _password;
             set
             {
-                IsErrorMessageVisible = false;
                 _password = value;
+                
+                CanConnect = Password?.Length == (int)Application.Current.Resources["PasswordLength"];
+                IsErrorMessageVisible = false;
                 OnPropertyChanged();
             }
         }
@@ -68,7 +83,7 @@ namespace MPS.ViewModel
 
         public PasswordPopupModel(PopupPage page)
         {
-            Password = "";
+            Password = Settings.Password;
             DoneCommand = new Command(StartConnection);
             CancelCommand = new Command(CancelConnection);
             //CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
@@ -137,7 +152,7 @@ namespace MPS.ViewModel
 
         }
 
-        private  void OnDeviceSelected(MainPageModel sender, IDevice device)
+        private void OnDeviceSelected(MainPageModel sender, IDevice device)
         {
             if (device == null)
             {
@@ -145,8 +160,8 @@ namespace MPS.ViewModel
             }
 
             _connectedDevice = device;
-                   
-           
+
+
         }
 
         private void OnDataReceived(object sender, CharacteristicUpdatedEventArgs characteristicUpdatedEventArgs)
@@ -175,10 +190,11 @@ namespace MPS.ViewModel
                     break;
 
                 case BluetoothHelper.BluetoothContract.Feedback:
+                    Settings.Password = Password;
                     IsWaitingForRequest = false;
                     UnsubcribeRead();
                     MessagingCenter.Send(this, MessengerKeys.FeedbackStarted);
-                    SendUiParameters(bytes);                   
+                    SendUiParameters(bytes);
                     Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForFixingControls), () =>
                     {
                         Debug.WriteLine("Se acabó este pedo");

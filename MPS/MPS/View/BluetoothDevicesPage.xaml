@@ -50,10 +50,10 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem 
             Order="Primary"
-            Icon="{StaticResource IconBluetooth}"
+            Icon="{StaticResource IconRefresh}"
             Text="Escanear"
             Priority="0"
-            Command="{Binding BluetoothConnectionCommand}"/>
-       
+            Command="{Binding ScanCommand}"/>
+
     </ContentPage.ToolbarItems>
 </ContentPage>

@@ -66,6 +66,8 @@
             <x:String x:Key="IconPower">ic_power_settings_blue.png</x:String>
             <x:String x:Key="IconRadioButton">ic_radio_button_checked_black_24dp.png</x:String>
             <x:String x:Key="IconBluetooth">ic_bluetooth_searching_white_24dp.png</x:String>
+            <x:String x:Key="IconRefresh">ic_refresh_white_24dp.png</x:String>
+
 
 
             <x:Int32 x:Key="MaxMessageLength">180</x:Int32>

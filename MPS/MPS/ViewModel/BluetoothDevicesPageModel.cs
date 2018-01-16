@@ -25,6 +25,7 @@ namespace MPS.ViewModel
         private IDevice _selectedDevice;
 
         public ICommand ItemTappedCommand { get; }
+        public ICommand ScanCommand { get; }
 
         public ObservableCollection<IDevice> Devices
         {
@@ -35,6 +36,7 @@ namespace MPS.ViewModel
                 OnPropertyChanged();
             }
         }
+
         public IDevice SelectedDevice
         {
             get => null;
@@ -50,7 +52,15 @@ namespace MPS.ViewModel
             _navigation = navigation;
             _devices = new ObservableCollection<IDevice>();
             ItemTappedCommand = new Command(SelectDeviceAsync);
+            ScanCommand=new Command(ScanDevices);
             SetupBluetoothAsync();
+        }
+
+        private async void ScanDevices()
+        {
+            await CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();
+            _devices.Clear();
+            await CrossBluetoothLE.Current.Adapter.StartScanningForDevicesAsync();
         }
 
         private async void SetupBluetoothAsync()
