@@ -85,15 +85,15 @@ namespace MPS.ViewModel
         private async void DeleteMessage(Message messageSelected)
         {
             if (!await Application.Current.MainPage.DisplayAlert(
-                (string)Application.Current.Resources["DisplayAlertTitleConfirmation"],
+                (string)Application.Current.Resources["DisplayAlertTitleDeleteMessage"],
                 (string)Application.Current.Resources["DisplayAlertMessageMessageDeletedQuestion"],
-                (string)Application.Current.Resources["DisplayAlertAcceptYes"],
+                (string)Application.Current.Resources["DisplayAlertAcceptDeleteMessage"],
                 (string)Application.Current.Resources["DisplayAlertCancelNo"]
                 )) return;
 
             new MessagesRepository().DeleteMessage(messageSelected);
             Messages = new ObservableCollection<Message>(new MessagesRepository().GetMessagesSorted());
-
+            
         }
 
         private async void EditMessage()

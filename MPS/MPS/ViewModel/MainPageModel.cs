@@ -27,9 +27,7 @@ namespace MPS.ViewModel
         private const int TimeoutForFixingControls = 20;
         public ICommand BluetoothConnectionCommand { get; }
         public ICommand AboutCommand { get; }
-        //private INavigation Navigation { get; }
-
-        //private const int Timeout = 1500;
+        //private INavigation Navigation { get; }       
 
         public MainPageModel()
         {
@@ -46,7 +44,7 @@ namespace MPS.ViewModel
         private void OnDeviceConnectionLost(object sender, DeviceErrorEventArgs e)
         {
             Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
-                (string)Application.Current.Resources["DisplayAlertTitleError"],
+                "",
                  (string)Application.Current.Resources["DisplayAlertMessageConexionLost"] + e.Device.Name,
                 (string)Application.Current.Resources["DisplayAlertCancelAccept"]
             ));
@@ -81,6 +79,7 @@ namespace MPS.ViewModel
                 //    }
                 //    return !_hasFeedback;
                 //});
+
             }
             catch (DeviceConnectionException)
             {
@@ -127,41 +126,41 @@ namespace MPS.ViewModel
         //    }
         //}
 
-        private void SendUiParameters(byte[] bytes)
-        {
-            MessagingCenter.Send(this, MessengerKeys.Power, bytes[1] - 48 == 1);
-            MessagingCenter.Send(this, MessengerKeys.Speed, bytes[2] - 48);
-            MessagingCenter.Send(this, MessengerKeys.CurrentView, bytes[3] - 48);
-            MessagingCenter.Send(this, MessengerKeys.TimeFormat, (TimeFormat)(bytes[4] - 48));
+        //private void SendUiParameters(byte[] bytes)
+        //{
+        //    MessagingCenter.Send(this, MessengerKeys.Power, bytes[1] - 48 == 1);
+        //    MessagingCenter.Send(this, MessengerKeys.Speed, bytes[2] - 48);
+        //    MessagingCenter.Send(this, MessengerKeys.CurrentView, bytes[3] - 48);
+        //    MessagingCenter.Send(this, MessengerKeys.TimeFormat, (TimeFormat)(bytes[4] - 48));
 
-            var display = new DisplayColors
-            {
-                ColorUpperLineRgb =
-                {
-                    ColorCode = (bytes[5] - 48).ToString()+ (bytes[6] - 48)+(bytes[7] - 48)
-                },
-                ColorLowerLineRgb =
-                {
-                    ColorCode = (bytes[8] - 48).ToString()+ (bytes[9] - 48)+(bytes[10] - 48)
-                },
-                ColorBackgroundRgb =
-                {
-                    ColorCode = (bytes[11] - 48).ToString()+ (bytes[12] - 48)+(bytes[13] - 48)
-                }
-            };
-            MessagingCenter.Send(this, MessengerKeys.Colours, display);
+        //    var display = new DisplayColors
+        //    {
+        //        ColorUpperLineRgb =
+        //        {
+        //            ColorCode = (bytes[5] - 48).ToString()+ (bytes[6] - 48)+(bytes[7] - 48)
+        //        },
+        //        ColorLowerLineRgb =
+        //        {
+        //            ColorCode = (bytes[8] - 48).ToString()+ (bytes[9] - 48)+(bytes[10] - 48)
+        //        },
+        //        ColorBackgroundRgb =
+        //        {
+        //            ColorCode = (bytes[11] - 48).ToString()+ (bytes[12] - 48)+(bytes[13] - 48)
+        //        }
+        //    };
+        //    MessagingCenter.Send(this, MessengerKeys.Colours, display);
 
-            MessagingCenter.Send(this, MessengerKeys.ViewMode, (ViewMode)(bytes[14] - 48));
-            var displayVisibility = new DisplayVisibility
-            {
-                IsTimeVisible = bytes[15] - 48 == 1,
-                IsTemperatureVisible = bytes[16] - 48 == 1,
-                IsDateVisible = bytes[17] - 48 == 1,
-            };
-            MessagingCenter.Send(this, MessengerKeys.Visibilities, displayVisibility);
-        }
+        //    MessagingCenter.Send(this, MessengerKeys.ViewMode, (ViewMode)(bytes[14] - 48));
+        //    var displayVisibility = new DisplayVisibility
+        //    {
+        //        IsTimeVisible = bytes[15] - 48 == 1,
+        //        IsTemperatureVisible = bytes[16] - 48 == 1,
+        //        IsDateVisible = bytes[17] - 48 == 1,
+        //    };
+        //    MessagingCenter.Send(this, MessengerKeys.Visibilities, displayVisibility);
+        //}
 
-      
+
         private void OnPowerStatusReceived(MainParametersPageModel arg1, bool arg2)
         {
             string data = MessengerKeys.Power + (arg2 ? 1 : 0) + '\n';
@@ -217,7 +216,7 @@ namespace MPS.ViewModel
                 case DeviceState.Connecting:
                     break;
                 case DeviceState.Connected:
-                    CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;                    
+                    CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
                     Device.BeginInvokeOnMainThread(async () =>
                     {
                         await PopupNavigation.PushAsync(new PasswordPopup());
@@ -284,8 +283,7 @@ namespace MPS.ViewModel
 
         private async void GoToBluetoothDevicesPageAsync()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new BluetoothDevicesPage());
-            //CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceDisconnected;
+            await Application.Current.MainPage.Navigation.PushAsync(new BluetoothDevicesPage());            
         }
 
 

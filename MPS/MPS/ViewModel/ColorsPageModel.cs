@@ -135,7 +135,7 @@ namespace MPS.ViewModel
         private async void DisplayColorError()
         {
             await Application.Current.MainPage.DisplayAlert(
-                (string)Application.Current.Resources["DisplayAlertTitleError"],
+                "",
                 (string)Application.Current.Resources["DisplayAlertMessageColorException"],
                 (string)Application.Current.Resources["DisplayAlertCancelAccept"]
             );

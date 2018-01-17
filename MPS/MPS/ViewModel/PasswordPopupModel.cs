@@ -85,9 +85,7 @@ namespace MPS.ViewModel
         {
             Password = Settings.Password;
             DoneCommand = new Command(StartConnection);
-            CancelCommand = new Command(CancelConnection);
-            //CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
-            //CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
+            CancelCommand = new Command(CancelConnection);                        
             CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
             this.page = page;
         }
@@ -96,7 +94,8 @@ namespace MPS.ViewModel
         {
             Debug.WriteLine("-------Se ha desconectado--------");
             CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
-            await PopupNavigation.PopAsync();
+            //await PopupNavigation.PopAsync();
+            await PopupNavigation.RemovePageAsync(page);
         }
 
         private async void CancelConnection()

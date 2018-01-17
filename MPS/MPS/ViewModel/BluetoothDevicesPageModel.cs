@@ -75,7 +75,7 @@ namespace MPS.ViewModel
             else
             {
                 await Application.Current.MainPage.DisplayAlert(
-                    (string)Application.Current.Resources["DisplayAlertTitleError"],
+                    "",
                     (string)Application.Current.Resources["DisplayAlertMessageBluetoothOff"],
                     (string)Application.Current.Resources["DisplayAlertCancelAccept"]
                 );
@@ -112,6 +112,7 @@ namespace MPS.ViewModel
             if (_devices.Contains(e.Device)) return;
             if (e.Device.Name == null) return;
             _devices.Add(e.Device);
+            Debug.WriteLine(e.Device.Id);
 
         }
 

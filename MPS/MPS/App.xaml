@@ -40,15 +40,17 @@
             <x:String x:Key="TextPasswordIncorrect">Pin incorrecto</x:String>
             <x:String x:Key="TextTimeExpired">Se ha expirado el tiempo de respuesta, intente de nuevo</x:String>
 
-            <x:String x:Key="DisplayAlertTitleError">Error</x:String>
+            <!--<x:String x:Key="DisplayAlertTitleError">Error</x:String>-->
             <x:String x:Key="DisplayAlertTitleConfirmation">Confirmación</x:String>
+            <x:String x:Key="DisplayAlertTitleDeleteMessage">¿Borrar?</x:String>
             <x:String x:Key="DisplayAlertAcceptYes">Sí</x:String>
+            <x:String x:Key="DisplayAlertAcceptDeleteMessage">Borrar</x:String>
             <x:String x:Key="DisplayAlertCancelAccept">Aceptar</x:String>
-            <x:String x:Key="DisplayAlertCancelNo">No</x:String>
-            <x:String x:Key="DisplayAlertMessageBluetoothOff">Habilite su conexión bluetooth.</x:String>
+            <x:String x:Key="DisplayAlertCancelNo">Cancelar</x:String>
+            <x:String x:Key="DisplayAlertMessageBluetoothOff">Para buscar dispositivos necesita habilitar su conexión bluetooth.</x:String>
             <x:String x:Key="DisplayAlertMessageConexionLost">Se ha desconectado de: "</x:String>
             <x:String x:Key="DisplayAlertMessageColorException">No es posible tener un color de fondo igual al del texto.</x:String>
-            <x:String x:Key="DisplayAlertMessageMessageDeletedQuestion">¿Está seguro de eliminar el mensaje?</x:String>
+            <x:String x:Key="DisplayAlertMessageMessageDeletedQuestion">El mensaje se perderá para siempre.</x:String>
 
             <x:String x:Key="ErrorTitleRepeated">Título repetido</x:String>
 
