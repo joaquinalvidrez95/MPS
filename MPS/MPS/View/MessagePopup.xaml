@@ -22,23 +22,15 @@
 
     <pages:PopupPage.Resources>
         <ResourceDictionary>
-            <converters:DoubleToLeftCharactersConverter x:Key="DoubleToLeftCharactersConverter" />
+            <converters:TextStringToLeftCharactersConverter x:Key="TextStringToLeftCharactersConverter" />
         </ResourceDictionary>
     </pages:PopupPage.Resources>
     <StackLayout Style="{StaticResource StyleStackLayoutPopup}" >
 
         <Label Style="{StaticResource StyleLabelDialogTitle}" Text="{Binding PopupTitle}"  />
-       
 
-        <Entry                            
-                VerticalOptions="Center"     
-            Placeholder="Título"
-                Text="{Binding Title}"
-                HorizontalOptions="FillAndExpand">
-            <Entry.Behaviors>
-                <behaviour:EntryLengthValidatorBehavior MaxLength="{StaticResource MaxTitleLength}" />
-            </Entry.Behaviors>
-        </Entry>
+
+        <Entry VerticalOptions="Center" Placeholder="Título" Text="{Binding Title}" HorizontalOptions="FillAndExpand" />
 
         <Label 
             Text="{StaticResource ErrorTitleRepeated}"
@@ -53,7 +45,7 @@
             </Editor.Behaviors>
         </Editor>
         <Label
-            Text="{Binding LeftCharacters, Converter={StaticResource DoubleToLeftCharactersConverter}}"
+            Text="{Binding Text, Converter={StaticResource TextStringToLeftCharactersConverter}}"
             HorizontalOptions="End"/>
         <StackLayout Style="{StaticResource StyleStackLayoutDialogButtonContainer}">
 

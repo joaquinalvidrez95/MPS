@@ -14,7 +14,7 @@
     
     <pages:PopupPage.Resources>
         <ResourceDictionary>
-            <converters:DoubleToLeftCharactersConverter x:Key="DoubleToLeftCharactersConverter" />
+            <converters:TextStringToLeftCharactersConverter x:Key="TextStringToLeftCharactersConverter" />
                       
         </ResourceDictionary>
     </pages:PopupPage.Resources>
@@ -28,8 +28,9 @@
                 <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
             </Editor.Behaviors>
         </Editor>
+     
         <Label
-            Text="{Binding LeftCharacters, Converter={StaticResource DoubleToLeftCharactersConverter}}"
+            Text="{Binding Text, Converter={StaticResource TextStringToLeftCharactersConverter}}"
             HorizontalOptions="End"/>
         <StackLayout Style="{StaticResource StyleStackLayoutDialogButtonContainer}">
             <Button VerticalOptions="Center"

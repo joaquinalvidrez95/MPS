@@ -14,8 +14,6 @@ namespace MPS.ViewModel
     public class QuickMessagePopupModel : BaseViewModel
     {
         private string _text;
-        private int _leftCharacters;
-
 
         public ICommand DoneCommand
         {
@@ -30,26 +28,15 @@ namespace MPS.ViewModel
             set
             {
                 _text = value;
-                LeftCharacters = (int)Application.Current.Resources["MaxMessageLength"] - Text.Length;
                 OnPropertyChanged();
             }
         }
 
-        public int LeftCharacters
-        {
-            get => _text == null ? (int)Application.Current.Resources["MaxMessageLength"] : _leftCharacters;
-            set { _leftCharacters = value; OnPropertyChanged(); }
-        }
 
         public QuickMessagePopupModel()
         {
             DoneCommand = new Command(FinishMessage);
             CancelCommand = new Command(CancelMessage);
-            //_text = "";
-            //for (int i = 0; i < 195; i++)
-            //{
-            //    Text += "9";
-            //}
         }
 
         private async void CancelMessage()
@@ -61,14 +48,9 @@ namespace MPS.ViewModel
         {
             if (string.IsNullOrEmpty(Text)) return;
             await PopupNavigation.PopAsync();
-            Message m = new Message {Text = Text};
-            //MessagingCenter.Send(this, MessengerKeys.QuickMessage, m);
+            Message m = new Message { Text = Text };
             MessagingCenter.Send(this, MessengerKeys.Message, m);
         }
-
-        protected override void Subscribe()
-        {
-            
-        }
+        
     }
 }

@@ -50,6 +50,7 @@
     <Compile Include="Converters\DoubleToLeftCharactersConverter.cs" />
     <Compile Include="Converters\DoubleToSliderStringConverter.cs" />
     <Compile Include="Converters\StringTextToBoolEnabledConverter.cs" />
+    <Compile Include="Converters\TextStringToLeftCharactersConverter.cs" />
     <Compile Include="Data\MessageDatabase.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Model\ColorException.cs" />

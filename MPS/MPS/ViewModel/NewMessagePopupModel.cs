@@ -10,7 +10,7 @@ namespace MPS.ViewModel
 
         public NewMessagePopupModel(ICollection<Message> messages) : base(messages)
         {            
-            PopupTitle = "Agregar Mensaje";            
+            PopupTitle = "Agregar mensaje";            
         }
 
         protected override void ValidateTitle(string value)

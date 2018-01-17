@@ -14,14 +14,7 @@ namespace MPS.ViewModel
         private bool _isErrorMessageVisible;
         protected readonly Message MessageToSent;
         private string _title;
-        private int _leftCharacters;
         private string _text;
-
-        public int LeftCharacters
-        {
-            get => _text == null ? (int)Application.Current.Resources["MaxMessageLength"] : _leftCharacters;
-            set { _leftCharacters = value; OnPropertyChanged(); }
-        }
 
         public string Title
         {
@@ -33,14 +26,12 @@ namespace MPS.ViewModel
             }
         }
 
-
         public string Text
         {
             get => _text;
             set
-            {            
+            {
                 _text = value;
-                LeftCharacters = (int)Application.Current.Resources["MaxMessageLength"] - Text.Length;
                 OnPropertyChanged();
             }
         }
@@ -86,12 +77,11 @@ namespace MPS.ViewModel
             if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Text) || IsErrorMessageVisible) return;
             await PopupNavigation.PopAsync();
             MessageToSent.Text = Text;
-            MessageToSent.Title = Title;
-            //MessagingCenter.Send(this, MessengerKeys.NewMessage, MessageToSent);
+            MessageToSent.Title = Title;         
             MessagingCenter.Send(this, MessengerKeys.Message, MessageToSent);
         }
 
         protected abstract void ValidateTitle(string value);
-        
+
     }
 }
