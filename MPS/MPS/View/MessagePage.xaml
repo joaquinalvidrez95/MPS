@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"                          
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
-             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"            
-             xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
+             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"                        
              xmlns:abstractions="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              Style="{StaticResource StyleMessagesPage}"
              x:Class="MPS.MessagePage">
@@ -11,17 +10,13 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewModel:MessagePageModel x:Key="ViewModel" />
-            <!--<Style TargetType="Button">
-                <Setter Property="BackgroundColor"
-                        Value="{StaticResource ColorAccent}"/>
-            </Style>-->
+
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource ColorPrimaryText}"/>
             </Style>
             <!--<converters:DoubleToSliderStringConverter x:Key="DoubleToSliderStringConverter" />-->
         </ResourceDictionary>
     </ContentPage.Resources>
-    <!--behaviour:ItemTappedAttached.Command="{Binding ItemTappedCommand}"-->
 
     <ContentPage.Content>
         <StackLayout BindingContext="{StaticResource ViewModel}">
@@ -40,16 +35,11 @@
                     Grid.Row="0" Grid.Column="0" 
                     Source="{StaticResource IconFastForward}"/>
                 <Label Grid.Row="0" Grid.Column="1" Text="Velocidad" VerticalOptions="Center"/>
-                <Slider  
-                    VerticalOptions="Start"
-                    HorizontalOptions="Fill"
+                <Slider                                       
                     Grid.Row="1" Grid.Column="1"
                     Style="{StaticResource StyleSliderSpeed}"                                                                     
                     Value="{Binding Speed}">
-
-                    <Slider.Behaviors>
-                        <behaviour:DiscreteSliderBehaviour />
-                    </Slider.Behaviors>
+                   
                 </Slider>
 
             </Grid>

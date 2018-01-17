@@ -46,8 +46,6 @@
     <Compile Include="Bluetooth\BluetoothHelper.cs" />
     <Compile Include="Converters\BoolToBluetoothStatusColor.cs" />
     <Compile Include="Converters\BoolToPowerColorConverter.cs" />
-    <Compile Include="Converters\BoolToPowerImage.cs" />
-    <Compile Include="Converters\DoubleToLeftCharactersConverter.cs" />
     <Compile Include="Converters\DoubleToSliderStringConverter.cs" />
     <Compile Include="Converters\StringTextToBoolEnabledConverter.cs" />
     <Compile Include="Converters\TextStringToLeftCharactersConverter.cs" />
