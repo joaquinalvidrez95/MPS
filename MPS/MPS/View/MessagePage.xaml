@@ -38,9 +38,7 @@
                 <Slider                                       
                     Grid.Row="1" Grid.Column="1"
                     Style="{StaticResource StyleSliderSpeed}"                                                                     
-                    Value="{Binding Speed}">
-                   
-                </Slider>
+                    Value="{Binding Speed}" />
 
             </Grid>
 

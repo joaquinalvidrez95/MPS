@@ -69,7 +69,7 @@ namespace MPS.ViewModel
         public MessagePageModel()
         {
             ItemTappedCommand = new Command(EditMessage);
-            Messages = new ObservableCollection<Message>(new MessagesRepository().Messages.ToList());
+            Messages = new ObservableCollection<Message>(new MessagesRepository().GetMessagesSorted());
             DeleteCommand = new Command<Message>(DeleteMessage);
             SendCommand = new Command<Message>(SendMessage);
             AddMessageCommand = new Command(OpenNewPopupMessage);
@@ -92,7 +92,7 @@ namespace MPS.ViewModel
                 )) return;
 
             new MessagesRepository().DeleteMessage(messageSelected);
-            Messages = new ObservableCollection<Message>(new MessagesRepository().Messages);
+            Messages = new ObservableCollection<Message>(new MessagesRepository().GetMessagesSorted());
 
         }
 
@@ -105,10 +105,12 @@ namespace MPS.ViewModel
         {
             message.Text = message.Text.TrimEnd();
             if (Messages.Contains(message))
-                Messages = new ObservableCollection<Message>(Messages.ToList());
+                //Messages = new ObservableCollection<Message>(Messages.ToList());
+                SortMessagesByTitle();
             else
             {
                 Messages.Add(message);
+                SortMessagesByTitle();
             }
 
             new MessagesRepository().AddMessage(message);
@@ -130,6 +132,14 @@ namespace MPS.ViewModel
         private void OnSpeedReceived(PasswordPopupModel passwordPopupModel, int i)
         {
             Speed = i % ((double)Application.Current.Resources["MaxSliderSpeed"] + 1);
+        }
+
+        private void SortMessagesByTitle()
+        {
+            var y = from element in Messages
+                    orderby element.Title
+                    select element;
+            Messages = new ObservableCollection<Message>(y);
         }
     }
 }

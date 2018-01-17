@@ -25,5 +25,14 @@ namespace MPS.Model
         {
             App.Database.DeleteMessageAsync(message);
         }
+
+        public IOrderedEnumerable<Message> GetMessagesSorted()
+        {
+
+            var y = from element in Messages
+                orderby element.Title
+                select element;
+            return y;
+        }
     }
 }

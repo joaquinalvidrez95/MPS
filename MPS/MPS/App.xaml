@@ -94,6 +94,7 @@
             <Thickness x:Key="PaddingVertical">0,8,0,0</Thickness>
 
             <Thickness x:Key="MarginLeft">16,0,0,0</Thickness>
+            <Thickness x:Key="MarginRight">0,0,16,0</Thickness>
             <Thickness x:Key="MarginLeftOneControl">72,0,0,0</Thickness>
             <Thickness x:Key="MarginRightIcon">0,0,32,0</Thickness>
             <Thickness x:Key="MarginLeftIcon">56,0,0,0</Thickness>
@@ -148,25 +149,26 @@
                 <Setter Property="Minimum" Value="3"/>
             </Style>
 
-            <Style x:Key="StylePaddingContentPage" TargetType="ContentPage">
+            <Style x:Key="StyleContentPage" TargetType="ContentPage" >
                 <Setter Property="Padding" Value="{StaticResource PaddingHorizontalVertical}"/>
             </Style>
 
-            <Style x:Key="StyleMainParametersPage" BasedOn="{StaticResource StylePaddingContentPage}" TargetType="ContentPage">
+            <Style x:Key="StyleMainParametersPage" BasedOn="{StaticResource StyleContentPage}" TargetType="ContentPage">
                 <Setter Property="Icon" Value="{StaticResource IconHome}"/>
             </Style>
 
-            <Style x:Key="StyleMessagesPage" BasedOn="{StaticResource StylePaddingContentPage}" TargetType="ContentPage">
+            <Style x:Key="StyleMessagesPage" BasedOn="{StaticResource StyleContentPage}" TargetType="ContentPage">
                 <Setter Property="Icon" Value="{StaticResource IconMessage}"/>
                 <Setter Property="Padding" Value="{StaticResource PaddingVertical}"/>
             </Style>
 
-            <Style x:Key="StyleColoursPage" BasedOn="{StaticResource StylePaddingContentPage}" TargetType="ContentPage">
+            <Style x:Key="StyleColoursPage" BasedOn="{StaticResource StyleContentPage}" TargetType="ContentPage">
                 <Setter Property="Icon" Value="{StaticResource IconColours}"/>
             </Style>
 
-            <Style x:Key="StyleVisibilityPage" BasedOn="{StaticResource StylePaddingContentPage}" TargetType="ContentPage">
+            <Style x:Key="StyleVisibilityPage" TargetType="ContentPage">
                 <Setter Property="Icon" Value="{StaticResource IconEye}"/>
+                <Setter Property="Padding" Value="{StaticResource PaddingVertical}"/>
             </Style>
 
 

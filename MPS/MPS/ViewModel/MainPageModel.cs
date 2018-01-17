@@ -22,7 +22,7 @@ namespace MPS.ViewModel
     public class MainPageModel : BaseViewModel
     {
         private IDevice _connectedDevice;
-        private bool _hasFeedback;
+        //private bool _hasFeedback;
         private bool _isFixingControls;
         private const int TimeoutForFixingControls = 20;
         public ICommand BluetoothConnectionCommand { get; }

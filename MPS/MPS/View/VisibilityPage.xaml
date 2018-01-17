@@ -21,11 +21,11 @@
                 HasUnevenRows="True"           
                 Intent="Form" >
             <TableRoot>
-                <TableSection
-                        Title="Formato de hora">
+                <TableSection Title="Formato de hora">
                     <ViewCell>
                         <Picker                   
                             HorizontalOptions="Start"
+                            Margin="{StaticResource MarginLeft}"
                             Title="Seleccione formato"   
                             SelectedIndex="{Binding TimeFormatSelected}" >
 
@@ -38,20 +38,18 @@
                         </Picker>
                     </ViewCell>
                 </TableSection>
-                <TableSection 
-                     Title="Mostrar">
+                <TableSection Title="Mostrar">
                     <SwitchCell Text="Hora" On="{Binding IsTimeVisible}"/>
                     <SwitchCell Text="Fecha" On="{Binding IsDateVisible}"/>
                     <SwitchCell Text="Temperatura" On="{Binding IsTemperatureVisible}"/>
                 </TableSection>
-                <TableSection
-                        Title="Modo de desplegar">
+                <TableSection Title="Modo de desplegar">
                     <ViewCell>
-                        <Picker                           
+                        <Picker                         
+                            Margin="{StaticResource MarginLeft}"
                             Title="Seleccione modo"  
                             HorizontalOptions="Start"
-                            SelectedIndex="{Binding ViewModeSelected}"
-                            >
+                            SelectedIndex="{Binding ViewModeSelected}">
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
                                     <x:String>Fijo</x:String>
