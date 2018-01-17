@@ -5,109 +5,138 @@
              xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
              xmlns:converters="clr-namespace:MPS.Converters;assembly=MPS"
              xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
+             xmlns:abstractions="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              Style="{StaticResource StyleMessagesPage}"
              x:Class="MPS.MessagePage">
-   
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewModel:MessagePageModel x:Key="ViewModel" />
-            <Style TargetType="Button">
+            <!--<Style TargetType="Button">
                 <Setter Property="BackgroundColor"
                         Value="{StaticResource ColorAccent}"/>
+            </Style>-->
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource ColorPrimaryText}"/>
             </Style>
-            <converters:DoubleToSliderStringConverter x:Key="DoubleToSliderStringConverter" />
+            <!--<converters:DoubleToSliderStringConverter x:Key="DoubleToSliderStringConverter" />-->
         </ResourceDictionary>
     </ContentPage.Resources>
     <!--behaviour:ItemTappedAttached.Command="{Binding ItemTappedCommand}"-->
 
     <ContentPage.Content>
         <StackLayout BindingContext="{StaticResource ViewModel}">
-            <Button
-                Command="{Binding AddMessageCommand}"
-                HorizontalOptions="Center"           
-                Image="{StaticResource IconAdd}"/>
-            
-            <Label TextColor="{StaticResource ColorAccent}" Text="Velocidad" />
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                
-                <Slider                     
-                    Style="{StaticResource StyleSliderSpeed}"                    
-                    Margin="0,0,0,10"                              
-                    Value="{Binding Speed}"
-                 >
+            <Grid Padding="{StaticResource PaddingHorizontalVertical}"  ColumnSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Image 
+                    Margin="{StaticResource MarginRightIcon}"
+                    Opacity="{StaticResource OpacityUnfocusedIcon}" 
+                    Grid.Row="0" Grid.Column="0" 
+                    Source="{StaticResource IconFastForward}"/>
+                <Label Grid.Row="0" Grid.Column="1" Text="Velocidad" VerticalOptions="Center"/>
+                <Slider  
+                    VerticalOptions="Start"
+                    HorizontalOptions="Fill"
+                    Grid.Row="1" Grid.Column="1"
+                    Style="{StaticResource StyleSliderSpeed}"                                                                     
+                    Value="{Binding Speed}">
+
                     <Slider.Behaviors>
                         <behaviour:DiscreteSliderBehaviour />
                     </Slider.Behaviors>
                 </Slider>
 
-                <Label Text="{Binding Speed, Converter={StaticResource DoubleToSliderStringConverter}}" VerticalOptions="Center"/>
-            </StackLayout>
-           
-            <ListView 
-                ItemsSource="{Binding Messages}"                    
-                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"                      
-                Header="sds"
-                HasUnevenRows="True">
-                
-                <behaviors:Interaction.Behaviors>
-                    <behaviors:BehaviorCollection>
-                        <behaviors:EventToCommand                             
+            </Grid>
+
+            <AbsoluteLayout VerticalOptions="FillAndExpand">
+                <ListView 
+                    RowHeight="{StaticResource HeightListViewCell}"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,1,1,1"
+                    ItemsSource="{Binding Messages}"                    
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"           
+                    SeparatorColor="{StaticResource ColorDivider}"
+                    Header="sds" >
+
+                    <behaviors:Interaction.Behaviors>
+                        <behaviors:BehaviorCollection>
+                            <behaviors:EventToCommand                             
                             EventName="ItemTapped"                               
                             Command="{Binding ItemTappedCommand}">
-                        </behaviors:EventToCommand>
-                    </behaviors:BehaviorCollection>
-                </behaviors:Interaction.Behaviors>
-                
-                <ListView.HeaderTemplate>
-                    <DataTemplate>
-                        <StackLayout Orientation="Vertical">
-                            <Label 
-                                Text="Lista de mensajes"
-                                TextColor="{StaticResource ColorAccent}"/>
-                            <BoxView 
-                                Style="{StaticResource StyleBoxViewDivider}"/>
-                        </StackLayout>
-                    </DataTemplate>
-                </ListView.HeaderTemplate>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout 
-                                Orientation="Horizontal">
-                                <Label 
-                                    Text="{Binding Title}"
-                                    VerticalOptions="Center"                                       
-                                    HorizontalOptions="StartAndExpand" />
-                                
-                                <Image 
-                                    Opacity="{StaticResource OpacityUnfocusedIcon}"
-                                    Source="{StaticResource IconDelete}"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="End">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding Source={StaticResource ViewModel}, Path=DeleteCommand}"
-                                            CommandParameter="{Binding .}"/>
-                                    </Image.GestureRecognizers>
-                                </Image>
+                            </behaviors:EventToCommand>
+                        </behaviors:BehaviorCollection>
+                    </behaviors:Interaction.Behaviors>
 
-                                <Image 
-                                    Opacity="{StaticResource OpacityUnfocusedIcon}"
-                                    Margin="10,0,0,0"
-                                    Source="{StaticResource IconMessageBlack}"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="End">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding Source={StaticResource ViewModel}, Path=SendCommand}"
-                                            CommandParameter="{Binding .}"/>
-                                    </Image.GestureRecognizers>
-                                </Image>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                    <ListView.HeaderTemplate>
+                        <DataTemplate>
+                            <Label                                                        
+                                VerticalTextAlignment="Center"
+                                Margin="{StaticResource MarginLeft}"
+                                HeightRequest="{StaticResource HeightListViewHeader}"
+                                Text="Lista de mensajes" 
+                                TextColor="{StaticResource ColorPrimary}"/>
+
+                        </DataTemplate>
+                    </ListView.HeaderTemplate>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout Margin="16,0,0,0" VerticalOptions="Center" HorizontalOptions="StartAndExpand" >
+                                        <Label LineBreakMode="TailTruncation"  Text="{Binding Title}" VerticalOptions="Center" />
+                                        <Label LineBreakMode="TailTruncation" Text="{Binding Text}" VerticalOptions="Center" 
+                                               TextColor="{StaticResource ColorSecondaryText}"  />
+                                    </StackLayout>
+
+                                    <Image 
+                                        Opacity="{StaticResource OpacityUnfocusedIcon}"
+                                        Source="{StaticResource IconDelete}"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="End">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                Command="{Binding Source={StaticResource ViewModel}, Path=DeleteCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                            </Image.GestureRecognizers>
+                                    </Image>
+
+                                    <Image 
+                                        Opacity="{StaticResource OpacityUnfocusedIcon}"
+                                        Margin="10,0,16,0"
+                                        Source="{StaticResource IconMessageBlack}"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="End">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                Command="{Binding Source={StaticResource ViewModel}, Path=SendCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <abstractions:TintedImage                 
+                    Margin="0,0,0,16"                    
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="0.5,1.0,-1,-1"                                    
+                    Source="{StaticResource IconAddRound}"
+                    TintColor="{StaticResource ColorAccent}" >
+                    <abstractions:TintedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AddMessageCommand}" />
+                    </abstractions:TintedImage.GestureRecognizers>
+                </abstractions:TintedImage>
+            </AbsoluteLayout>
+
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -8,31 +8,37 @@
         <ResourceDictionary>
             <Style TargetType="Label">
                 <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="TextColor" Value="{StaticResource ColorSecondaryText}"/>
+            </Style>
+            <Style x:Key="StyleLabelLarge" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSizeTitle}"/>
+                <Setter Property="TextColor" Value="{StaticResource ColorPrimaryText}"/>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
-            <Image 
-                Source="{StaticResource IconCitsaLogo}" 
-                WidthRequest="{StaticResource DimensionCitsaLogo}"
-                HorizontalOptions="Center"
-                HeightRequest="{StaticResource DimensionCitsaLogo}"></Image>
 
-            <Label 
-                Text="Citsa Digital ®"
-                FontSize="20"
-                FontAttributes="Bold"
-                TextColor="{StaticResource ColorPrimary}"/>
-            <BoxView                
-                Style="{StaticResource StyleBoxViewDivider}"             
-                Margin="0,5,0,5"/>
+    <ContentPage.Content>
+        <StackLayout>
+            <Image                
+                Source="{StaticResource IconCitsaLogo}"                            
+                HeightRequest="{StaticResource DimensionCitsaLogo}" />
+
+            <Image 
+                Source="{StaticResource IconCitsa40}" 
+                HeightRequest="{StaticResource DimensionCitsaLogo40}"             
+                Margin="0,0,0,10"
+            />
+            <Label Text="CITSA DIGITAL®" Style="{StaticResource StyleLabelLarge}" />
+            <Label Text="{StaticResource AppName}" Style="{StaticResource StyleLabelLarge}" />
+            <Label Text="{StaticResource VersionApplication}" Style="{StaticResource StyleLabelLarge}"/>
+
+            <BoxView Style="{StaticResource StyleBoxViewDivider}" Margin="0,5,0,5"/>
             <Label Text="www.citsadigital.com"/>
             <Label Text="Tels: (81) 8478-7965 y 66"/>
             <Label Text="soporte@citsadigital.com"/>
             <Label Text="disenoelectronico@citsadigital.com"/>
-            <Label Text="Desarrollado por: Joaquín Alan Alvidrez Soto" LineBreakMode="NoWrap"/>
+            <!--<Label Text="Desarrollado por: Joaquín Alan Alvidrez Soto" LineBreakMode="NoWrap"/>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -242,7 +242,14 @@ namespace MPS.ViewModel
             var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
             var array = Encoding.UTF8.GetBytes(data);
-            await characteristic.WriteAsync(array);
+            try
+            {
+                await characteristic.WriteAsync(array);
+            }
+            catch (InvalidOperationException)
+            {
+                Debug.WriteLine("No se pudo escribir");
+            }
             Debug.WriteLine("Written data: " + data);
         }
 
