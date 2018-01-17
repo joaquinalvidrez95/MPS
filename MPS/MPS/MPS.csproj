@@ -47,6 +47,9 @@
     <Compile Include="Converters\BoolToBluetoothStatusColor.cs" />
     <Compile Include="Converters\BoolToPowerColorConverter.cs" />
     <Compile Include="Converters\DoubleToSliderStringConverter.cs" />
+    <Compile Include="Converters\LoginStateToActivityIndicatorVisibleConverter.cs" />
+    <Compile Include="Converters\LoginStateToErrorVisibleConverter.cs" />
+    <Compile Include="Converters\LoginStateToErrorTextConverter.cs" />
     <Compile Include="Converters\StringTextToBoolEnabledConverter.cs" />
     <Compile Include="Converters\TextStringToLeftCharactersConverter.cs" />
     <Compile Include="Data\MessageDatabase.cs" />
@@ -54,9 +57,11 @@
     <Compile Include="Model\ColorException.cs" />
     <Compile Include="Model\DisplayVisibility.cs" />
     <Compile Include="Model\MessagesRepository.cs" />
+    <Compile Include="Model\PasswordLoginState.cs" />
     <Compile Include="Model\TimeFormat.cs" />
     <Compile Include="Model\ViewMode.cs" />
     <Compile Include="Services\IFileHelper.cs" />
+    <Compile Include="Utilities\Feedbacker.cs" />
     <Compile Include="Utilities\Settings.cs" />
     <Compile Include="ViewModel\EditableMessagePopupModel.cs" />
     <Compile Include="ViewModel\NewMessagePopupModel.cs" />

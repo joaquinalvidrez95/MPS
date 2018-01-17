@@ -84,25 +84,25 @@ namespace MPS.ViewModel
         protected override void Subscribe()
         {
             //MessagingCenter.Subscribe<MainPageModel, DisplayVisibility>(this, MessengerKeys.Visibilities, OnVisibilityReceived);
-            MessagingCenter.Subscribe<PasswordPopupModel, DisplayVisibility>(this, MessengerKeys.Visibilities, OnVisibilityReceived);
+            MessagingCenter.Subscribe<Feedbacker, DisplayVisibility>(this, MessengerKeys.Visibilities, OnVisibilityReceived);
             //MessagingCenter.Subscribe<MainPageModel, TimeFormat>(this, MessengerKeys.TimeFormat, OnTimeFormatReceived);
-            MessagingCenter.Subscribe<PasswordPopupModel, TimeFormat>(this, MessengerKeys.TimeFormat, OnTimeFormatReceived);
+            MessagingCenter.Subscribe<Feedbacker, TimeFormat>(this, MessengerKeys.TimeFormat, OnTimeFormatReceived);
             //MessagingCenter.Subscribe<MainPageModel, ViewMode>(this, MessengerKeys.ViewMode, OnViewModeReceived);
-            MessagingCenter.Subscribe<PasswordPopupModel, ViewMode>(this, MessengerKeys.ViewMode, OnViewModeReceived);
+            MessagingCenter.Subscribe<Feedbacker, ViewMode>(this, MessengerKeys.ViewMode, OnViewModeReceived);
         }
 
-        private void OnViewModeReceived(PasswordPopupModel passwordPopupModel, ViewMode viewMode)
+        private void OnViewModeReceived(Feedbacker feedbacker, ViewMode viewMode)
         {
             ViewModeSelected = (int)viewMode;
         }
 
-        private void OnTimeFormatReceived(PasswordPopupModel passwordPopupModel, TimeFormat timeFormat)
+        private void OnTimeFormatReceived(Feedbacker feedbacker, TimeFormat timeFormat)
         {
             TimeFormatSelected = (int)timeFormat;
 
         }
 
-        private void OnVisibilityReceived(PasswordPopupModel passwordPopupModel, DisplayVisibility displayVisibility)
+        private void OnVisibilityReceived(Feedbacker feedbacker, DisplayVisibility displayVisibility)
         {
             IsDateVisible = displayVisibility.IsDateVisible;
             IsTemperatureVisible = displayVisibility.IsTemperatureVisible;

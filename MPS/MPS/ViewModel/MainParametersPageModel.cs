@@ -3,14 +3,13 @@ using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MPS.Model;
 using MPS.View;
-using Rg.Plugins.Popup.IOS;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 
@@ -80,7 +79,7 @@ namespace MPS.ViewModel
 
         }
 
-        private void UpdatePowerFromFeedback(PasswordPopupModel passwordPopupModel, bool b)
+        private void UpdatePowerFromFeedback(Feedbacker feedbacker, bool b)
         {
             IsDisplayEnabled = b;
         }
@@ -91,7 +90,7 @@ namespace MPS.ViewModel
             MessagingCenter.Send(this, MessengerKeys.Power, IsDisplayEnabled);
         }
 
-        private void UpdateView(PasswordPopupModel passwordPopupModel, int arg2)
+        private void UpdateView(Feedbacker feedbacker, int arg2)
         {
             _currentView = arg2;
         }      
@@ -119,7 +118,7 @@ namespace MPS.ViewModel
         }
 
         private void UpdateDateTime()
-        {
+        {           
             DateTime now = DateTime.Now.ToLocalTime();
             if (DateTime.Now.IsDaylightSavingTime())
             {
@@ -139,9 +138,9 @@ namespace MPS.ViewModel
         {
             MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);         
             //MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.CurrentView, UpdateView);
-            MessagingCenter.Subscribe<PasswordPopupModel, int>(this, MessengerKeys.CurrentView, UpdateView);
+            MessagingCenter.Subscribe<Feedbacker, int>(this, MessengerKeys.CurrentView, UpdateView);
             //MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
-            MessagingCenter.Subscribe<PasswordPopupModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
+            MessagingCenter.Subscribe<Feedbacker, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
         }
     }
 }

@@ -126,10 +126,10 @@ namespace MPS.ViewModel
         {
             MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.Message, OnMessageAdded);
             //MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
-            MessagingCenter.Subscribe<PasswordPopupModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
+            MessagingCenter.Subscribe<Feedbacker, int>(this, MessengerKeys.Speed, OnSpeedReceived);
         }
 
-        private void OnSpeedReceived(PasswordPopupModel passwordPopupModel, int i)
+        private void OnSpeedReceived(Feedbacker feedbacker, int i)
         {
             Speed = i % ((double)Application.Current.Resources["MaxSliderSpeed"] + 1);
         }

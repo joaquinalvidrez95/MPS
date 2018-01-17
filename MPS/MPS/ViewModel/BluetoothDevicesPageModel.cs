@@ -112,7 +112,7 @@ namespace MPS.ViewModel
             if (_devices.Contains(e.Device)) return;
             if (e.Device.Name == null) return;
             _devices.Add(e.Device);
-            Debug.WriteLine(e.Device.Id);
+            Debug.WriteLine("GUID: " + e.Device.Id);
 
         }
 

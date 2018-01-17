@@ -1,4 +1,5 @@
-﻿using Plugin.Settings;
+﻿using System;
+using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 
 namespace MPS.Utilities
@@ -21,21 +22,23 @@ namespace MPS.Utilities
         #region Setting Constants
 
         private const string PasswordKey = "password_key";
-        private static readonly string SettingsDefault = string.Empty;
+        private const string LastDeviceGuidKey = "lastdeviceguid_key";
+        private static readonly string PasswordDefault = string.Empty;
+        private const string LastDeviceGuidDefault = "00000000-0000-0000-0000-f0c77f868a9c";
 
         #endregion
 
 
         public static string Password
         {
-            get
-            {
-                return AppSettings.GetValueOrDefault(PasswordKey, SettingsDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue(PasswordKey, value);
-            }
+            get => AppSettings.GetValueOrDefault(PasswordKey, PasswordDefault);
+            set => AppSettings.AddOrUpdateValue(PasswordKey, value);
+        }
+
+        public static Guid LastDeviceGuid
+        {
+            get => new Guid(AppSettings.GetValueOrDefault(LastDeviceGuidKey, LastDeviceGuidDefault));
+            set => AppSettings.AddOrUpdateValue(LastDeviceGuidKey, value);
         }
 
     }

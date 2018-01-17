@@ -23,46 +23,47 @@ namespace MPS.ViewModel
     public class PasswordPopupModel : BaseViewModel
     {
         private string _password;
-        private bool _isErrorMessageVisible;
-        private IDevice _connectedDevice;
-        private bool _isWaitingForRequest;
-        private string _connectionEror;
-        private bool _hasFeedbackPin;
-        private const int Timeout = 2000;
-        private int _numberOfTrials;
-        private const int TimeoutForFixingControls = 100;
+        //private bool _isErrorMessageVisible;
+        //private IDevice _connectedDevice;
+        //private bool _isWaitingForRequest;
+        //private string _connectionEror;
+        //private bool _hasFeedbackPin;
+        //private const int Timeout = 2000;
+        //private int _numberOfTrials;
+        //private const int TimeoutForFixingControls = 100;
         private readonly PopupPage page;
         private bool _canConnect;
+        private PasswordLoginState _loginState;
 
-        public bool IsWaitingForRequest
+        public PasswordLoginState LoginState
         {
-            get => _isWaitingForRequest;
+            get => _loginState;
             set
             {
-                _isWaitingForRequest = value;
-                CanConnect = !value;
+                if (_loginState == value) return;
+                _loginState = value;
+                CanConnect = value != PasswordLoginState.WaitingForRequest;
                 OnPropertyChanged();
             }
         }
 
-        public string ConnectionEror
-        {
-            get => _connectionEror;
-            set { _connectionEror = value; OnPropertyChanged(); }
-        }
+        //public bool IsWaitingForRequest
+        //{
+        //    get => _isWaitingForRequest;
+        //    set
+        //    {
+        //        _isWaitingForRequest = value;
+        //        CanConnect = !value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         public bool CanConnect
         {
-            get => !IsWaitingForRequest && Password?.Length == (int)Application.Current.Resources["PasswordLength"];
+            get => LoginState != PasswordLoginState.WaitingForRequest && Password?.Length == (int)Application.Current.Resources["PasswordLength"];
             set { _canConnect = value; OnPropertyChanged(); }
         }
-
-
-        public bool IsErrorMessageVisible
-        {
-            get => _isErrorMessageVisible;
-            set { _isErrorMessageVisible = value; OnPropertyChanged(); }
-        }
+        
 
         public string Password
         {
@@ -70,9 +71,9 @@ namespace MPS.ViewModel
             set
             {
                 _password = value;
-                
                 CanConnect = Password?.Length == (int)Application.Current.Resources["PasswordLength"];
-                IsErrorMessageVisible = false;
+                //IsErrorMessageVisible = false;
+                LoginState = PasswordLoginState.Normal;
                 OnPropertyChanged();
             }
         }
@@ -85,205 +86,169 @@ namespace MPS.ViewModel
         {
             Password = Settings.Password;
             DoneCommand = new Command(StartConnection);
-            CancelCommand = new Command(CancelConnection);                        
-            CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
+            CancelCommand = new Command(CancelConnection);          
             this.page = page;
-        }
-
-        private async void OnDeviceConnectionLost(object sender, DeviceErrorEventArgs e)
-        {
-            Debug.WriteLine("-------Se ha desconectado--------");
-            CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
-            //await PopupNavigation.PopAsync();
-            await PopupNavigation.RemovePageAsync(page);
-        }
+        }       
 
         private async void CancelConnection()
         {
-            ClosePopup();
-            await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_connectedDevice);
-        }
-
-        private async void ClosePopup()
-        {
-            CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
-
-            //await PopupNavigation.PopAsync();
+            //ClosePopup();
+            MessagingCenter.Send(this, MessengerKeys.OnLoginCancelled);
             await PopupNavigation.RemovePageAsync(page);
+            //await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_connectedDevice);
         }
 
         private void StartConnection()
         {
-            SubcribeRead(_connectedDevice);
-            _numberOfTrials = 0;
-            IsErrorMessageVisible = false;
-            AskForPin(_connectedDevice);
-            IsWaitingForRequest = true;
-            Device.StartTimer(TimeSpan.FromMilliseconds(Timeout), () =>
-            {
-                if (!_hasFeedbackPin)
-                {
-                    _numberOfTrials++;
-                    if (_numberOfTrials > 1)
-                    {
-                        ConnectionEror = (string)Application.Current.Resources["TextTimeExpired"];
-                        IsErrorMessageVisible = true;
-                        IsWaitingForRequest = false;
-                    }
-                    else
-                    {
-                        AskForPin(_connectedDevice);
-                    }
+            //SubcribeRead(_connectedDevice);
+            //_numberOfTrials = 0;
+            //IsErrorMessageVisible = false;
+            //AskForPin(_connectedDevice);
+            //IsWaitingForRequest = true;
+            //Device.StartTimer(TimeSpan.FromMilliseconds(Timeout), () =>
+            //{
+            //    if (!_hasFeedbackPin)
+            //    {
+            //        _numberOfTrials++;
+            //        if (_numberOfTrials > 1)
+            //        {
+            //            ConnectionEror = (string)Application.Current.Resources["TextTimeExpired"];
+            //            IsErrorMessageVisible = true;
+            //            IsWaitingForRequest = false;
+            //        }
+            //        else
+            //        {
+            //            AskForPin(_connectedDevice);
+            //        }
 
-                }
-                return !_hasFeedbackPin && _numberOfTrials > 1;
-            });
-
+            //    }
+            //    return !_hasFeedbackPin && _numberOfTrials > 1;
+            //});
+            MessagingCenter.Send(this, MessengerKeys.PasswordLogin, Password);
 
         }
 
         protected override void Subscribe()
         {
-            MessagingCenter.Subscribe<MainPageModel, IDevice>(
-                this,
-                MessengerKeys.DeviceSelected,
-                OnDeviceSelected);
+            //MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
+            MessagingCenter.Subscribe<MainPageModel>(this, MessengerKeys.ClosePasswordLogin, CloseLogin);
+            //MessagingCenter.Subscribe<MainPageModel>(this, MessengerKeys.PasswordInvalid, OnPasswordInvalid);
+            MessagingCenter.Subscribe<MainPageModel, PasswordLoginState>(this, MessengerKeys.LoginState, OnLoginStateChanged);
+            //MessagingCenter.Subscribe<MainPageModel>(this, MessengerKeys.LoginTimeoutExpired, OnTimeoutConnectionExpired);
+            //MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.IsWaitingForRequest, (model, b) =>
+            //    {
+            //        IsWaitingForRequest = b;
+            //    });
 
         }
 
-        private void OnDeviceSelected(MainPageModel sender, IDevice device)
+        private void OnLoginStateChanged(MainPageModel mainPageModel, PasswordLoginState passwordLoginState)
         {
-            if (device == null)
-            {
-                return;
-            }
-
-            _connectedDevice = device;
-
-
+            LoginState = passwordLoginState;
+            Debug.WriteLine(LoginState);
         }
 
-        private void OnDataReceived(object sender, CharacteristicUpdatedEventArgs characteristicUpdatedEventArgs)
+
+
+        private async void CloseLogin(MainPageModel mainPageModel)
         {
-
-            var bytes = characteristicUpdatedEventArgs.Characteristic.Value;
-
-            var x = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-            Debug.WriteLine("Inbox: " + x);
-            switch (x[0].ToString())
-            {
-                case BluetoothHelper.BluetoothContract.PinOk:
-                    _hasFeedbackPin = true;
-                    ConnectionEror = (string)Application.Current.Resources["TextPasswordIncorrect"];
-                    if (x[1] - 48 != 0)
-                    {
-                        RequestParameters();
-                    }
-                    else
-                    {
-                        IsErrorMessageVisible = true;
-                        IsWaitingForRequest = false;
-                        UnsubcribeRead();
-                    }
-
-                    break;
-
-                case BluetoothHelper.BluetoothContract.Feedback:
-                    Settings.Password = Password;
-                    IsWaitingForRequest = false;
-                    UnsubcribeRead();
-                    MessagingCenter.Send(this, MessengerKeys.FeedbackStarted);
-                    SendUiParameters(bytes);
-                    Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForFixingControls), () =>
-                    {
-                        Debug.WriteLine("Se acabó este pedo");
-                        MessagingCenter.Send(this, MessengerKeys.DeviceSelected, _connectedDevice);
-                        ClosePopup();
-                        return false;
-                    });
-
-                    break;
-            }
+            await PopupNavigation.RemovePageAsync(page);
         }
 
-        private async void UnsubcribeRead()
-        {
-            var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-            characteristic.ValueUpdated -= OnDataReceived;
-            await characteristic.StopUpdatesAsync();
-        }
+        //private void OnDeviceSelected(MainPageModel sender, IDevice device)
+        //{
+        //    if (device == null)
+        //    {
+        //        return;
+        //    }
 
-        private async void SubcribeRead(IDevice device)
-        {
-            var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-            characteristic.ValueUpdated += OnDataReceived;
-            await characteristic.StartUpdatesAsync();
-        }
+        //    _connectedDevice = device;
 
-        private void RequestParameters()
-        {
-            WriteData(_connectedDevice, BluetoothHelper.BluetoothContract.Request + '\n');
-        }
 
-        private void AskForPin(IDevice device)
-        {
-            WriteData(device, BluetoothHelper.BluetoothContract.Pin + Password + '\n');
-        }
+        //}
 
-        private async void WriteData(IDevice device, string data)
-        {
-            if (device?.State != DeviceState.Connected)
-            {
-                return;
-            }
-            var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-            var array = Encoding.UTF8.GetBytes(data);
-            try
-            {
-                await characteristic.WriteAsync(array);
-            }
-            catch (InvalidOperationException)
-            {
-                Debug.WriteLine("No se pudo escribir");
-            }
-            Debug.WriteLine("Written data: " + data);
-        }
+        //private void OnDataReceived(object sender, CharacteristicUpdatedEventArgs characteristicUpdatedEventArgs)
+        //{
 
-        private void SendUiParameters(byte[] bytes)
-        {
-            MessagingCenter.Send(this, MessengerKeys.Power, bytes[1] - 48 == 1);
-            MessagingCenter.Send(this, MessengerKeys.Speed, bytes[2] - 48);
-            MessagingCenter.Send(this, MessengerKeys.CurrentView, bytes[3] - 48);
-            MessagingCenter.Send(this, MessengerKeys.TimeFormat, (TimeFormat)(bytes[4] - 48));
+        //    var bytes = characteristicUpdatedEventArgs.Characteristic.Value;
 
-            var display = new DisplayColors
-            {
-                ColorUpperLineRgb =
-                {
-                    ColorCode = (bytes[5] - 48).ToString()+ (bytes[6] - 48)+(bytes[7] - 48)
-                },
-                ColorLowerLineRgb =
-                {
-                    ColorCode = (bytes[8] - 48).ToString()+ (bytes[9] - 48)+(bytes[10] - 48)
-                },
-                ColorBackgroundRgb =
-                {
-                    ColorCode = (bytes[11] - 48).ToString()+ (bytes[12] - 48)+(bytes[13] - 48)
-                }
-            };
-            MessagingCenter.Send(this, MessengerKeys.Colours, display);
+        //    var x = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+        //    Debug.WriteLine("Inbox: " + x);
+        //    switch (x[0].ToString())
+        //    {
+        //        case BluetoothHelper.BluetoothContract.PinOk:
+        //            _hasFeedbackPin = true;
+        //            ConnectionEror = (string)Application.Current.Resources["TextPasswordIncorrect"];
+        //            if (x[1] - 48 != 0)
+        //            {
+        //                RequestParameters();
+        //            }
+        //            else
+        //            {
+        //                IsErrorMessageVisible = true;
+        //                IsWaitingForRequest = false;
+        //                UnsubcribeRead();
+        //            }
 
-            MessagingCenter.Send(this, MessengerKeys.ViewMode, (ViewMode)(bytes[14] - 48));
-            var displayVisibility = new DisplayVisibility
-            {
-                IsTimeVisible = bytes[15] - 48 == 1,
-                IsTemperatureVisible = bytes[16] - 48 == 1,
-                IsDateVisible = bytes[17] - 48 == 1,
-            };
-            MessagingCenter.Send(this, MessengerKeys.Visibilities, displayVisibility);
-        }
+        //            break;
+
+        //        case BluetoothHelper.BluetoothContract.Feedback:
+        //            Settings.LastDeviceGuid = _connectedDevice.Id;
+        //            Settings.Password = Password;
+        //            IsWaitingForRequest = false;
+        //            UnsubcribeRead();
+        //            MessagingCenter.Send(this, MessengerKeys.FeedbackStarted);
+        //            SendUiParameters(bytes);
+        //            Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForFixingControls), () =>
+        //            {
+        //                Debug.WriteLine("Se acabó este pedo");
+        //                MessagingCenter.Send(this, MessengerKeys.DeviceSelected, _connectedDevice);
+        //                ClosePopup();
+        //                return false;
+        //            });
+
+        //            break;
+        //    }
+        //}
+
+        //private async void UnsubcribeRead()
+        //{
+        //    var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+        //    var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+        //    characteristic.ValueUpdated -= OnDataReceived;
+        //    await characteristic.StopUpdatesAsync();
+        //}
+
+        //private async void SubcribeRead(IDevice device)
+        //{
+        //    var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+        //    var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+        //    characteristic.ValueUpdated += OnDataReceived;
+        //    await characteristic.StartUpdatesAsync();
+        //}
+       
+
+
+        //private async void WriteData(IDevice device, string data)
+        //{
+        //    if (device?.State != DeviceState.Connected)
+        //    {
+        //        return;
+        //    }
+        //    var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+        //    var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+        //    var array = Encoding.UTF8.GetBytes(data);
+        //    try
+        //    {
+        //        await characteristic.WriteAsync(array);
+        //    }
+        //    catch (InvalidOperationException)
+        //    {
+        //        Debug.WriteLine("No se pudo escribir");
+        //    }
+        //    Debug.WriteLine("Written data: " + data);
+        //}
+
+
     }
 }

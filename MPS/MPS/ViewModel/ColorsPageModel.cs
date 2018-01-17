@@ -113,7 +113,7 @@ namespace MPS.ViewModel
 
         }
 
-        private void OnColoursReceived(PasswordPopupModel passwordPopupModel, DisplayColors arg2)
+        private void OnColoursReceived(Feedbacker feedbacker, DisplayColors arg2)
         {
             _displayColors = arg2;
             UpdateRgbColors();
@@ -151,7 +151,7 @@ namespace MPS.ViewModel
         protected override void Subscribe()
         {
             //MessagingCenter.Subscribe<MainPageModel, DisplayColors>(this, MessengerKeys.Colours, OnColoursReceived);
-            MessagingCenter.Subscribe<PasswordPopupModel, DisplayColors>(this, MessengerKeys.Colours, OnColoursReceived);
+            MessagingCenter.Subscribe<Feedbacker, DisplayColors>(this, MessengerKeys.Colours, OnColoursReceived);
         }
     }
 }
