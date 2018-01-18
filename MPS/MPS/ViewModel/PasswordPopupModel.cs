@@ -63,7 +63,7 @@ namespace MPS.ViewModel
             get => LoginState != PasswordLoginState.WaitingForRequest && Password?.Length == (int)Application.Current.Resources["PasswordLength"];
             set { _canConnect = value; OnPropertyChanged(); }
         }
-        
+
 
         public string Password
         {
@@ -86,16 +86,23 @@ namespace MPS.ViewModel
         {
             Password = Settings.Password;
             DoneCommand = new Command(StartConnection);
-            CancelCommand = new Command(CancelConnection);          
+            CancelCommand = new Command(CancelConnection);
             this.page = page;
-        }       
+        }
 
-        private async void CancelConnection()
+        private void CancelConnection()
         {
-            //ClosePopup();
             MessagingCenter.Send(this, MessengerKeys.OnLoginCancelled);
+            ClosePopup();
+        }
+
+        private async void ClosePopup()
+        {
+            MessagingCenter.Unsubscribe<MainPageModel>(this, MessengerKeys.ClosePasswordLogin);
+      
+            MessagingCenter.Unsubscribe<MainPageModel>(this, MessengerKeys.LoginState);
+
             await PopupNavigation.RemovePageAsync(page);
-            //await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_connectedDevice);
         }
 
         private void StartConnection()
@@ -150,9 +157,9 @@ namespace MPS.ViewModel
 
 
 
-        private async void CloseLogin(MainPageModel mainPageModel)
-        {
-            await PopupNavigation.RemovePageAsync(page);
+        private void CloseLogin(MainPageModel mainPageModel)
+        {      
+            ClosePopup();
         }
 
         //private void OnDeviceSelected(MainPageModel sender, IDevice device)
@@ -226,7 +233,7 @@ namespace MPS.ViewModel
         //    characteristic.ValueUpdated += OnDataReceived;
         //    await characteristic.StartUpdatesAsync();
         //}
-       
+
 
 
         //private async void WriteData(IDevice device, string data)
