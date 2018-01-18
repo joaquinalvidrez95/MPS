@@ -81,41 +81,14 @@ namespace MPS.ViewModel
 
         private async void ClosePopup()
         {
-            MessagingCenter.Unsubscribe<MainPageModel>(this, MessengerKeys.ClosePasswordLogin);
-      
+            MessagingCenter.Unsubscribe<MainPageModel>(this, MessengerKeys.ClosePasswordLogin);      
             MessagingCenter.Unsubscribe<MainPageModel>(this, MessengerKeys.LoginState);
-
             await PopupNavigation.RemovePageAsync(_page);
         }
 
         private void StartConnection()
-        {
-            //SubcribeRead(_connectedDevice);
-            //_numberOfTrials = 0;
-            //IsErrorMessageVisible = false;
-            //AskForPin(_connectedDevice);
-            //IsWaitingForRequest = true;
-            //Device.StartTimer(TimeSpan.FromMilliseconds(Timeout), () =>
-            //{
-            //    if (!_hasFeedbackPin)
-            //    {
-            //        _numberOfTrials++;
-            //        if (_numberOfTrials > 1)
-            //        {
-            //            ConnectionEror = (string)Application.Current.Resources["TextTimeExpired"];
-            //            IsErrorMessageVisible = true;
-            //            IsWaitingForRequest = false;
-            //        }
-            //        else
-            //        {
-            //            AskForPin(_connectedDevice);
-            //        }
-
-            //    }
-            //    return !_hasFeedbackPin && _numberOfTrials > 1;
-            //});
+        {        
             MessagingCenter.Send(this, MessengerKeys.PasswordLogin, Password);
-
         }
 
         protected override void Subscribe()
@@ -130,96 +103,10 @@ namespace MPS.ViewModel
             Debug.WriteLine(LoginState);
         }
 
-
-
         private void CloseLogin(MainPageModel mainPageModel)
         {      
             ClosePopup();
-        }
-      
-
-        //private void OnDataReceived(object sender, CharacteristicUpdatedEventArgs characteristicUpdatedEventArgs)
-        //{
-
-        //    var bytes = characteristicUpdatedEventArgs.Characteristic.Value;
-
-        //    var x = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-        //    Debug.WriteLine("Inbox: " + x);
-        //    switch (x[0].ToString())
-        //    {
-        //        case BluetoothHelper.BluetoothContract.PinOk:
-        //            _hasFeedbackPin = true;
-        //            ConnectionEror = (string)Application.Current.Resources["TextPasswordIncorrect"];
-        //            if (x[1] - 48 != 0)
-        //            {
-        //                RequestParameters();
-        //            }
-        //            else
-        //            {
-        //                IsErrorMessageVisible = true;
-        //                IsWaitingForRequest = false;
-        //                UnsubcribeRead();
-        //            }
-
-        //            break;
-
-        //        case BluetoothHelper.BluetoothContract.Feedback:
-        //            Settings.LastDeviceGuid = _connectedDevice.Id;
-        //            Settings.Password = Password;
-        //            IsWaitingForRequest = false;
-        //            UnsubcribeRead();
-        //            MessagingCenter.Send(this, MessengerKeys.FeedbackStarted);
-        //            SendUiParameters(bytes);
-        //            Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForFixingControls), () =>
-        //            {
-        //                Debug.WriteLine("Se acabó este pedo");
-        //                MessagingCenter.Send(this, MessengerKeys.DeviceSelected, _connectedDevice);
-        //                ClosePopup();
-        //                return false;
-        //            });
-
-        //            break;
-        //    }
-        //}
-
-        //private async void UnsubcribeRead()
-        //{
-        //    var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-        //    var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-        //    characteristic.ValueUpdated -= OnDataReceived;
-        //    await characteristic.StopUpdatesAsync();
-        //}
-
-        //private async void SubcribeRead(IDevice device)
-        //{
-        //    var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-        //    var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-        //    characteristic.ValueUpdated += OnDataReceived;
-        //    await characteristic.StartUpdatesAsync();
-        //}
-
-
-
-        //private async void WriteData(IDevice device, string data)
-        //{
-        //    if (device?.State != DeviceState.Connected)
-        //    {
-        //        return;
-        //    }
-        //    var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-        //    var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-        //    var array = Encoding.UTF8.GetBytes(data);
-        //    try
-        //    {
-        //        await characteristic.WriteAsync(array);
-        //    }
-        //    catch (InvalidOperationException)
-        //    {
-        //        Debug.WriteLine("No se pudo escribir");
-        //    }
-        //    Debug.WriteLine("Written data: " + data);
-        //}
-
+        }                 
 
     }
 }

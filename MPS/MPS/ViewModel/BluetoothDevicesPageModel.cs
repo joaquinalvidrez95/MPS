@@ -23,7 +23,7 @@ namespace MPS.ViewModel
         private readonly INavigation _navigation;
         private ObservableCollection<IDevice> _devices;
         private IDevice _selectedDevice;
-        private IDevice _deviceToDisconnect;
+        //private IDevice _deviceToDisconnect;
 
         public ICommand ItemTappedCommand { get; }
         public ICommand ScanCommand { get; }
@@ -83,30 +83,6 @@ namespace MPS.ViewModel
             }
         }
 
-
-        //private void OnDeviceStateChanged(object sender, DeviceEventArgs e)
-        //{
-        //    switch (e.Device.State)
-        //    {
-        //        case DeviceState.Disconnected:
-        //            break;
-
-        //        case DeviceState.Connected:
-        //            Debug.WriteLine("--------Conectado-------");
-        //            CrossBluetoothLE.Current.Adapter.DeviceConnected -= OnDeviceStateChanged;
-        //            Device.BeginInvokeOnMainThread(async () =>
-        //            {
-        //                var popup = new PasswordPopup();
-        //                //popup.Closed += (o, args) => CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
-        //                await PopupNavigation.PushAsync(popup);
-        //                MessagingCenter.Send(this, MessengerKeys.DeviceSelected, e.Device);
-        //            });
-
-        //            break;
-
-        //    }
-        //}
-
         private void OnDeviceDiscovered(object sender, DeviceEventArgs e)
         {
             if (_devices.Contains(e.Device)) return;
@@ -122,32 +98,22 @@ namespace MPS.ViewModel
             {
                 return;
             }
-            try
-            {
-                await CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();
-                Debug.WriteLine("Dispositivo seleccionado: " + _selectedDevice.Name + _selectedDevice.State);
 
-                if (CrossBluetoothLE.Current.Adapter.ConnectedDevices != null)
+            await CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();
+            Debug.WriteLine("Dispositivo seleccionado: " + _selectedDevice.Name + _selectedDevice.State);
+
+            if (CrossBluetoothLE.Current.Adapter.ConnectedDevices != null)
+            {
+                if (CrossBluetoothLE.Current.Adapter.ConnectedDevices.Count > 0)
                 {
-                    Debug.WriteLine("La lista no es nula");
-                    if (CrossBluetoothLE.Current.Adapter.ConnectedDevices.Count > 0)
-                    {
-                        Debug.WriteLine("Número de devices " + CrossBluetoothLE.Current.Adapter.ConnectedDevices.Count);
-                        _deviceToDisconnect = CrossBluetoothLE.Current.Adapter.ConnectedDevices[0];
-                        Debug.WriteLine("Desconectándome de: " + _deviceToDisconnect.Name);
-                        MessagingCenter.Send(this, MessengerKeys.DeviceToDisconnect, _deviceToDisconnect);
-                    }
+                    var _deviceToDisconnect = CrossBluetoothLE.Current.Adapter.ConnectedDevices[0];
+                    Debug.WriteLine("Desconectándome de: " + _deviceToDisconnect.Name);
+                    MessagingCenter.Send(this, MessengerKeys.DeviceToDisconnect, _deviceToDisconnect);
                 }
-
-                MessagingCenter.Send(this, MessengerKeys.DeviceSelected, _selectedDevice);
-                await _navigation.PopAsync();
-
-            }
-            catch (DeviceConnectionException)
-            {
-                Debug.WriteLine(GetType() + "Error al conectar");
             }
 
+            MessagingCenter.Send(this, MessengerKeys.DeviceSelected, _selectedDevice);
+            await _navigation.PopAsync();
 
         }
 

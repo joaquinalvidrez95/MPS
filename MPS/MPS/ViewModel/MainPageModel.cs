@@ -45,6 +45,7 @@ namespace MPS.ViewModel
 
         private async void AutoConnect()
         {
+            if (!CrossBluetoothLE.Current.IsOn) return;
             try
             {
                 await CrossBluetoothLE.Current.Adapter.ConnectToKnownDeviceAsync(Settings.LastDeviceGuid);
