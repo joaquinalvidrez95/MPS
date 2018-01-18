@@ -39,6 +39,7 @@
 
             <x:String x:Key="TextPasswordIncorrect">Pin incorrecto</x:String>
             <x:String x:Key="TextTimeExpired">Se ha expirado el tiempo de respuesta, intente de nuevo</x:String>
+            <x:String x:Key="TextUnnamedDevice">Sin nombre</x:String>
 
             <!--<x:String x:Key="DisplayAlertTitleError">Error</x:String>-->
             <x:String x:Key="DisplayAlertTitleConfirmation">Confirmación</x:String>
@@ -87,8 +88,6 @@
             <x:Int32 x:Key="HeightListViewSingleCell">48</x:Int32>
             <x:Double x:Key="HeightListViewHeader">48</x:Double>
             <x:Int32 x:Key="HeightListViewCell">72</x:Int32>
-
-
 
             <GridLength x:Key="GridLengthColorButtons">40</GridLength>
             <Thickness x:Key="PaddingPopup">24,24,24,0</Thickness>

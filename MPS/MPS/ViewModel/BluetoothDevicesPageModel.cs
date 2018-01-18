@@ -85,11 +85,10 @@ namespace MPS.ViewModel
 
         private void OnDeviceDiscovered(object sender, DeviceEventArgs e)
         {
+            Debug.WriteLine("GUID: " + e.Device.Id);
             if (_devices.Contains(e.Device)) return;
             if (e.Device.Name == null) return;
-            _devices.Add(e.Device);
-            Debug.WriteLine("GUID: " + e.Device.Id);
-
+            _devices.Add(e.Device);        
         }
 
         private async void SelectDeviceAsync()

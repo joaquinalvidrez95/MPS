@@ -16,15 +16,24 @@ namespace MPS.ViewModel
         private bool _isTemperatureVisible;
         private int _timeFormatSelected;
         private int _viewModeSelected;
+        private bool _isFixingControls;
 
         public bool IsTimeVisible
         {
             get => _isTimeVisible;
             set
             {
-                _isTimeVisible = value;                
+                _isTimeVisible = value;
                 OnPropertyChanged();
-                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
+                if (_isFixingControls)
+                {
+                    _isFixingControls = false;
+                }
+                else
+                {
+                    MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
+                }
+
             }
         }
 
@@ -38,9 +47,17 @@ namespace MPS.ViewModel
             get => _isDateVisible;
             set
             {
-                _isDateVisible = value;                
+                _isDateVisible = value;
                 OnPropertyChanged();
-                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
+                if (_isFixingControls)
+                {
+                    _isFixingControls = false;
+                }
+                else
+                {
+                    MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
+                }
+
             }
         }
 
@@ -49,9 +66,17 @@ namespace MPS.ViewModel
             get => _isTemperatureVisible;
             set
             {
-                _isTemperatureVisible = value;                
+                _isTemperatureVisible = value;
                 OnPropertyChanged();
-                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
+                if (_isFixingControls)
+                {
+                    _isFixingControls = false;
+                }
+                else
+                {
+                    MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
+                }
+                
             }
         }
 
@@ -61,8 +86,17 @@ namespace MPS.ViewModel
             set
             {
                 _timeFormatSelected = value;
-                MessagingCenter.Send(this, MessengerKeys.TimeFormat, (TimeFormat)value);
+                
                 OnPropertyChanged();
+                if (_isFixingControls)
+                {
+                    _isFixingControls = false;
+                }
+                else
+                {
+                    MessagingCenter.Send(this, MessengerKeys.TimeFormat, (TimeFormat)value);
+                }
+                
             }
         }
 
@@ -72,8 +106,15 @@ namespace MPS.ViewModel
             set
             {
                 _viewModeSelected = value;
-                MessagingCenter.Send(this, MessengerKeys.ViewMode, (ViewMode)value);
                 OnPropertyChanged();
+                if (_isFixingControls)
+                {
+                    _isFixingControls = false;
+                }
+                else
+                {
+                    MessagingCenter.Send(this, MessengerKeys.ViewMode, (ViewMode)value);
+                }                               
             }
         }
 
@@ -83,29 +124,30 @@ namespace MPS.ViewModel
 
         protected override void Subscribe()
         {
-            //MessagingCenter.Subscribe<MainPageModel, DisplayVisibility>(this, MessengerKeys.Visibilities, OnVisibilityReceived);
             MessagingCenter.Subscribe<Feedbacker, DisplayVisibility>(this, MessengerKeys.Visibilities, OnVisibilityReceived);
-            //MessagingCenter.Subscribe<MainPageModel, TimeFormat>(this, MessengerKeys.TimeFormat, OnTimeFormatReceived);
             MessagingCenter.Subscribe<Feedbacker, TimeFormat>(this, MessengerKeys.TimeFormat, OnTimeFormatReceived);
-            //MessagingCenter.Subscribe<MainPageModel, ViewMode>(this, MessengerKeys.ViewMode, OnViewModeReceived);
             MessagingCenter.Subscribe<Feedbacker, ViewMode>(this, MessengerKeys.ViewMode, OnViewModeReceived);
         }
 
         private void OnViewModeReceived(Feedbacker feedbacker, ViewMode viewMode)
         {
+            _isFixingControls = true;
             ViewModeSelected = (int)viewMode;
         }
 
         private void OnTimeFormatReceived(Feedbacker feedbacker, TimeFormat timeFormat)
         {
+            _isFixingControls = true;
             TimeFormatSelected = (int)timeFormat;
-
         }
 
         private void OnVisibilityReceived(Feedbacker feedbacker, DisplayVisibility displayVisibility)
         {
+            _isFixingControls = true;
             IsDateVisible = displayVisibility.IsDateVisible;
+            _isFixingControls = true;
             IsTemperatureVisible = displayVisibility.IsTemperatureVisible;
+            _isFixingControls = true;
             IsTimeVisible = displayVisibility.IsTimeVisible;
         }
     }

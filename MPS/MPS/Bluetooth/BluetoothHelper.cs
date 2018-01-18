@@ -17,8 +17,8 @@ namespace MPS.Bluetooth
         public class BluetoothContract
         {           
             public const string Request = "R";
-            public const string Feedback = "S";
-            public const string PinOk = "J";
+            public const string OnFeedbackReceived = "S";
+            public const string OnPinStatusReceived = "J";
             public const string Pin = "N";
 
         }

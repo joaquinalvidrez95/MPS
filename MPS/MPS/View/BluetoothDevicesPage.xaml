@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MPS.Behaviour"
-          
+             xmlns:converters="clr-namespace:MPS.Converters;assembly=MPS"
              x:Class="MPS.View.BluetoothDevicesPage"
              Padding="{StaticResource PaddingVertical}"
              Title="Seleccione dispositivo">
@@ -10,11 +10,17 @@
     <!--<ContentPage.BindingContext>
         <viewModel:BluetoothDevicesPageModel/>
     </ContentPage.BindingContext>-->
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:GuidToStringConverter x:Key="GuidToStringConverter"/>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
-
-
         <ListView 
-                RowHeight="{StaticResource HeightListViewSingleCell}"
+                RowHeight="{StaticResource HeightListViewCell}"
                 ItemsSource="{Binding Devices}"    
                 SeparatorColor="{StaticResource ColorDivider}"
                 local:ItemTappedAttached.Command="{Binding ItemTappedCommand}"
@@ -35,10 +41,10 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-
-                        <Label VerticalTextAlignment="Center"                         
-                                    Margin="{StaticResource MarginLeft}"
-                                   Text="{Binding Name}" TextColor="{StaticResource ColorPrimaryText}"/>
+                        <StackLayout Margin="{StaticResource MarginLeft}" VerticalOptions="Center">
+                            <Label Text="{Binding Name}" TextColor="{StaticResource ColorPrimaryText}"/>
+                            <Label Text="{Binding Id, Converter={StaticResource GuidToStringConverter}}" TextColor="{StaticResource ColorSecondaryText}"/>
+                        </StackLayout>
 
                     </ViewCell>
                 </DataTemplate>

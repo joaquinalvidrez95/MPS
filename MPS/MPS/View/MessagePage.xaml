@@ -34,7 +34,7 @@
                     Opacity="{StaticResource OpacityUnfocusedIcon}" 
                     Grid.Row="0" Grid.Column="0" 
                     Source="{StaticResource IconFastForward}"/>
-                <Label Grid.Row="0" Grid.Column="1" Text="Velocidad" VerticalOptions="Center"/>
+                <Label Grid.Row="0" Grid.Column="1" Text="Velocidad del mensaje" VerticalOptions="Center"/>
                 <Slider                                       
                     Grid.Row="1" Grid.Column="1"
                     Style="{StaticResource StyleSliderSpeed}"                                                                     
