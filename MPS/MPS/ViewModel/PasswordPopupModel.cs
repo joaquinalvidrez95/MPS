@@ -22,18 +22,11 @@ namespace MPS.ViewModel
 {
     public class PasswordPopupModel : BaseViewModel
     {
-        private string _password;
-        //private bool _isErrorMessageVisible;
-        //private IDevice _connectedDevice;
-        //private bool _isWaitingForRequest;
-        //private string _connectionEror;
-        //private bool _hasFeedbackPin;
-        //private const int Timeout = 2000;
-        //private int _numberOfTrials;
-        //private const int TimeoutForFixingControls = 100;
-        private readonly PopupPage page;
-        private bool _canConnect;
+        private string _password;        
+        private readonly PopupPage _page;
+        //private bool _canConnect;
         private PasswordLoginState _loginState;
+        
 
         public PasswordLoginState LoginState
         {
@@ -45,23 +38,12 @@ namespace MPS.ViewModel
                 CanConnect = value != PasswordLoginState.WaitingForRequest;
                 OnPropertyChanged();
             }
-        }
-
-        //public bool IsWaitingForRequest
-        //{
-        //    get => _isWaitingForRequest;
-        //    set
-        //    {
-        //        _isWaitingForRequest = value;
-        //        CanConnect = !value;
-        //        OnPropertyChanged();
-        //    }
-        //}
+        }       
 
         public bool CanConnect
         {
             get => LoginState != PasswordLoginState.WaitingForRequest && Password?.Length == (int)Application.Current.Resources["PasswordLength"];
-            set { _canConnect = value; OnPropertyChanged(); }
+            set => OnPropertyChanged();
         }
 
 
@@ -71,8 +53,7 @@ namespace MPS.ViewModel
             set
             {
                 _password = value;
-                CanConnect = Password?.Length == (int)Application.Current.Resources["PasswordLength"];
-                //IsErrorMessageVisible = false;
+                CanConnect = Password?.Length == (int)Application.Current.Resources["PasswordLength"];                
                 LoginState = PasswordLoginState.Normal;
                 OnPropertyChanged();
             }
@@ -87,8 +68,10 @@ namespace MPS.ViewModel
             Password = Settings.Password;
             DoneCommand = new Command(StartConnection);
             CancelCommand = new Command(CancelConnection);
-            this.page = page;
+            this._page = page;
+          
         }
+     
 
         private void CancelConnection()
         {
@@ -102,7 +85,7 @@ namespace MPS.ViewModel
       
             MessagingCenter.Unsubscribe<MainPageModel>(this, MessengerKeys.LoginState);
 
-            await PopupNavigation.RemovePageAsync(page);
+            await PopupNavigation.RemovePageAsync(_page);
         }
 
         private void StartConnection()
@@ -136,17 +119,9 @@ namespace MPS.ViewModel
         }
 
         protected override void Subscribe()
-        {
-            //MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
-            MessagingCenter.Subscribe<MainPageModel>(this, MessengerKeys.ClosePasswordLogin, CloseLogin);
-            //MessagingCenter.Subscribe<MainPageModel>(this, MessengerKeys.PasswordInvalid, OnPasswordInvalid);
-            MessagingCenter.Subscribe<MainPageModel, PasswordLoginState>(this, MessengerKeys.LoginState, OnLoginStateChanged);
-            //MessagingCenter.Subscribe<MainPageModel>(this, MessengerKeys.LoginTimeoutExpired, OnTimeoutConnectionExpired);
-            //MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.IsWaitingForRequest, (model, b) =>
-            //    {
-            //        IsWaitingForRequest = b;
-            //    });
-
+        {           
+            MessagingCenter.Subscribe<MainPageModel>(this, MessengerKeys.ClosePasswordLogin, CloseLogin);            
+            MessagingCenter.Subscribe<MainPageModel, PasswordLoginState>(this, MessengerKeys.LoginState, OnLoginStateChanged);         
         }
 
         private void OnLoginStateChanged(MainPageModel mainPageModel, PasswordLoginState passwordLoginState)
@@ -161,18 +136,7 @@ namespace MPS.ViewModel
         {      
             ClosePopup();
         }
-
-        //private void OnDeviceSelected(MainPageModel sender, IDevice device)
-        //{
-        //    if (device == null)
-        //    {
-        //        return;
-        //    }
-
-        //    _connectedDevice = device;
-
-
-        //}
+      
 
         //private void OnDataReceived(object sender, CharacteristicUpdatedEventArgs characteristicUpdatedEventArgs)
         //{

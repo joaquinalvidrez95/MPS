@@ -4,22 +4,16 @@
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
              x:Class="MPS.View.VisibilityPage"           
              Style="{StaticResource StyleVisibilityPage}">
+   
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <viewModel:VisibilityPageModel x:Key="ViewModel" />
-        </ResourceDictionary>
-
-    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <viewModel:VisibilityPageModel />
+    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
-        <!--<StackLayout 
-            VerticalOptions="Fill"
-            Orientation="Vertical">-->
-        <TableView                
-            BindingContext="{StaticResource ViewModel}"
-                VerticalOptions="Fill"
-                HasUnevenRows="True"           
-                Intent="Form" >
+     
+        <TableView  VerticalOptions="Fill" HasUnevenRows="True" Intent="Menu" >                                                                   
+                
             <TableRoot>
                 <TableSection Title="Formato de hora">
                     <ViewCell>
@@ -61,6 +55,5 @@
                 </TableSection>
             </TableRoot>
         </TableView>
-        <!--</StackLayout>-->
     </ContentPage.Content>
 </ContentPage>

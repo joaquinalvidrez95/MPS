@@ -29,7 +29,7 @@ namespace MPS.ViewModel
         private const int TimeoutForFixingControls = 20;
         private const int Timeout = 2000;
         private string _password;
-        private bool _isConnectionAutomatic=true;
+        private bool _isConnectionAutomatic = true;
         public ICommand BluetoothConnectionCommand { get; }
         public ICommand AboutCommand { get; }
 
@@ -76,6 +76,7 @@ namespace MPS.ViewModel
 
         private void Connect(string password)
         {
+            _hasFeedbackPin = false;
             _numberOfTrials = 0;
             _password = password;
             AskForPin(password);
@@ -120,7 +121,7 @@ namespace MPS.ViewModel
                     {
                         Connect(Settings.Password);
                     }
-                                        
+
                     _connectedDevice = e.Device;
                     break;
 
@@ -140,7 +141,7 @@ namespace MPS.ViewModel
             {
                 await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(device);
                 _connectedDevice = device;
-                _isConnectionAutomatic = false;              
+                _isConnectionAutomatic = false;
 
             }
             catch (DeviceConnectionException)
@@ -154,7 +155,7 @@ namespace MPS.ViewModel
         {
             await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(device);
 
-        }        
+        }
 
         private async void OnDataReceived(object sender, CharacteristicUpdatedEventArgs e)
         {
@@ -172,7 +173,7 @@ namespace MPS.ViewModel
                         RequestParameters();
                     }
                     else
-                    {                     
+                    {
                         MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.PasswordInvalid);
                         if (_isConnectionAutomatic)
                         {
@@ -206,7 +207,7 @@ namespace MPS.ViewModel
             string data = MessengerKeys.Power + (arg2 ? 1 : 0) + '\n';
             WriteData(data);
         }
-        
+
 
         private void OnQuickMessageReceived(QuickMessagePopupModel quickMessagePopupModel, Message message)
         {
@@ -298,7 +299,14 @@ namespace MPS.ViewModel
             var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
             var array = Encoding.UTF8.GetBytes(data);
-            await characteristic.WriteAsync(array);
+            try
+            {
+                await characteristic.WriteAsync(array);
+            }
+            catch (InvalidOperationException)
+            {
+                Debug.WriteLine("No se pudo escribir");
+            }
             Debug.WriteLine(GetType() + "Se envío: " + data);
         }
 
@@ -311,11 +319,9 @@ namespace MPS.ViewModel
         protected override void Subscribe()
         {
             MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
-            MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceToDisconnect, OnDeviceToDisconnectReceived);
-            //MessagingCenter.Subscribe<PasswordPopupModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
+            MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceToDisconnect, OnDeviceToDisconnectReceived);            
             MessagingCenter.Subscribe<PasswordPopupModel, string>(this, MessengerKeys.PasswordLogin, OnPasswordReceived);
-            MessagingCenter.Subscribe<PasswordPopupModel>(this, MessengerKeys.OnLoginCancelled, OnLoginCancelledAsync);
-            //MessagingCenter.Subscribe<PasswordPopupModel>(this, MessengerKeys.FeedbackStarted, OnControlsFixed);
+            MessagingCenter.Subscribe<PasswordPopupModel>(this, MessengerKeys.OnLoginCancelled, OnLoginCancelledAsync);       
             MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power, OnPowerStatusReceived);
             MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, OnViewReceived);
             MessagingCenter.Subscribe<MessagePageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
@@ -334,7 +340,7 @@ namespace MPS.ViewModel
             await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_connectedDevice);
         }
 
-        
+
 
         private void AskForPin(string password)
         {

@@ -21,13 +21,9 @@ namespace MPS.Utilities
         public const string DeviceSelected = "DeviceSelected";
         public const string DeviceToDisconnect = "DeviceToDisconnect";
         public const string DeviceStatus = "DeviceStatus";
-        public const string FeedbackStarted = "FeedbackStarted";
         public const string ClosePasswordLogin = "ClosePasswordLogin";
-        public const string PasswordLogin = "Login";
-        public const string LoginState = "LoginState";
-        public const string IsWaitingForRequest = "IsWaitingForRequest";
-        public const string LoginTimeoutExpired = "LoginTimeoutExpired";
-        public const string PasswordInvalid = "PasswordInvalid";
+        public const string PasswordLogin = "PasswordLogin";
+        public const string LoginState = "LoginState";   
         public const string OnLoginCancelled = "OnLoginCancelled";
     }
 }
