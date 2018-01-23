@@ -60,14 +60,14 @@ namespace MPS.ViewModel
 
         private void OnDeviceConnectionLost(object sender, DeviceErrorEventArgs e)
         {
+            MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
+            if (!e.Device.Equals(_connectedDevice)) return;
             var name = e.Device.Name ?? (string)Application.Current.Resources["TextUnnamedDevice"];
             Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
                 "",
-                 (string)Application.Current.Resources["DisplayAlertMessageConexionLost"] + name,
+                (string)Application.Current.Resources["DisplayAlertMessageConexionLost"] + name,
                 (string)Application.Current.Resources["DisplayAlertCancelAccept"]
             ));
-
-            MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
             MessagingCenter.Send(this, MessengerKeys.ClosePasswordLogin);
         }
 
@@ -86,7 +86,7 @@ namespace MPS.ViewModel
             {
                 MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.WaitingForRequest);
             }
-            
+
             Device.StartTimer(TimeSpan.FromMilliseconds(Timeout), () =>
             {
                 if (!_hasFeedbackPin)
@@ -97,7 +97,7 @@ namespace MPS.ViewModel
                         if (!_isConnectionAutomatic)
                         {
                             MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.TimeoutExpired);
-                        }                        
+                        }
                     }
                     else
                     {
@@ -151,7 +151,7 @@ namespace MPS.ViewModel
                 _isConnectionAutomatic = false;
                 await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(device);
                 _connectedDevice = device;
-               
+
             }
             catch (DeviceConnectionException)
             {
@@ -339,7 +339,7 @@ namespace MPS.ViewModel
             MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
             MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceToDisconnect, OnDeviceToDisconnectReceived);
             MessagingCenter.Subscribe<PasswordPopupModel, string>(this, MessengerKeys.PasswordLogin, OnPasswordReceived);
-            MessagingCenter.Subscribe<PasswordPopupModel>(this, MessengerKeys.OnLoginCancelled, OnLoginCancelledAsync);           
+            MessagingCenter.Subscribe<PasswordPopupModel>(this, MessengerKeys.OnLoginCancelled, OnLoginCancelledAsync);
         }
 
         private void SubscribeConstrols()
@@ -373,7 +373,7 @@ namespace MPS.ViewModel
         private async void OnLoginCancelledAsync(PasswordPopupModel passwordPopupModel)
         {
             await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_connectedDevice);
-        }      
+        }
 
         private void RequestParameters(string password)
         {

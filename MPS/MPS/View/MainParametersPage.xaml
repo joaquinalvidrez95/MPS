@@ -41,35 +41,22 @@
                 Text="Enviar"
                 Command="{Binding QuickMessageCommand}"/>
 
-                <StackLayout 
-                HorizontalOptions="Center"
-                Orientation="Horizontal">
-
-                    <StackLayout
-                        VerticalOptions="Center"
-                        HorizontalOptions="StartAndExpand"
-                        Orientation="Horizontal">
-
-                        <controls:TintedImage                  
+                <StackLayout  HorizontalOptions="Center" Orientation="Horizontal">
+                    <controls:TintedImage                  
                             VerticalOptions="Center"
                             TintColor="{Binding IsBluetoothConnected, Converter={StaticResource BoolToBluetoothStatusColor}}"
                             Source="{StaticResource IconRadioButton}" />
 
-                        <Label Text="Conexión" VerticalOptions="Center"/>
-
-                    </StackLayout>
+                    <Label Text="Conexión" VerticalOptions="Center" TextColor="{StaticResource ColorPrimaryText}"/>
 
                     <controls:TintedImage
                         WidthRequest="{StaticResource DimensionButtonPower}"
                         HeightRequest="{StaticResource DimensionButtonPower}"
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="Center"
+                        VerticalOptions="Center"                        
                         Source="{StaticResource IconPower}"
                         TintColor="{Binding IsDisplayEnabled, Converter={StaticResource BoolToPowerColorConverter}}" >
                         <controls:TintedImage.GestureRecognizers>
-                            <TapGestureRecognizer
-                            Command="{Binding Source={StaticResource ViewModel}, Path=PowerCommand}"
-                        />
+                            <TapGestureRecognizer Command="{Binding Source={StaticResource ViewModel}, Path=PowerCommand}"/>
                         </controls:TintedImage.GestureRecognizers>
 
                     </controls:TintedImage>

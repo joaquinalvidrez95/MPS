@@ -63,6 +63,8 @@
     <Compile Include="Model\TimeFormat.cs" />
     <Compile Include="Model\ViewMode.cs" />
     <Compile Include="Services\IFileHelper.cs" />
+    <Compile Include="Trigger\FlatButtonPressedTrigger.cs" />
+    <Compile Include="Trigger\FlatButtonReleasedTrigger.cs" />
     <Compile Include="Utilities\Feedbacker.cs" />
     <Compile Include="Utilities\Settings.cs" />
     <Compile Include="ViewModel\EditableMessagePopupModel.cs" />
