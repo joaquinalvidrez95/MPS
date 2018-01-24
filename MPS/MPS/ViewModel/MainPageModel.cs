@@ -28,7 +28,7 @@ namespace MPS.ViewModel
         private bool _hasFeedbackPin;
         private bool _isFixingControls;
         private const int TimeoutForFixingControls = 20;
-        private const int Timeout = 2000;
+        private const int Timeout = 3000;
         private string _password = Settings.Password;
         private bool _isConnectionAutomatic = true;
         public ICommand BluetoothConnectionCommand { get; }
@@ -98,6 +98,10 @@ namespace MPS.ViewModel
                         {
                             MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.TimeoutExpired);
                         }
+                        //else
+                        //{
+
+                        //}
                     }
                     else
                     {
@@ -105,7 +109,8 @@ namespace MPS.ViewModel
 
                     }
                 }
-                return !_hasFeedbackPin && _numberOfTrials > MaxNumberOfTrials;
+                //return !_hasFeedbackPin && _numberOfTrials > MaxNumberOfTrials;
+                return _numberOfTrials < MaxNumberOfTrials;
             });
         }
 
@@ -167,6 +172,7 @@ namespace MPS.ViewModel
 
         private async void OnDataReceived(object sender, CharacteristicUpdatedEventArgs e)
         {
+            if (!e.Characteristic.CanRead) return;
             var bytes = e.Characteristic.Value;
 
             Debug.WriteLine("Inbox: " + e.Characteristic.StringValue + '\n');
@@ -299,22 +305,24 @@ namespace MPS.ViewModel
                 MessagingCenter.Send(this, MessengerKeys.DeviceStatus, _connectedDevice);
                 return;
             }
-            //var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-            //var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-            //var array = Encoding.UTF8.GetBytes(data);
-            //try
-            //{
-            //    await characteristic.WriteAsync(array);
-            //}
-            //catch (InvalidOperationException)
-            //{
-            //    Debug.WriteLine("No se pudo escribir");
-            //}
-            Device.BeginInvokeOnMainThread((async () =>
+
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                var service = await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-                var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+                try
+                {
+                    var service =
+                        await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+                    var characteristic =
+                        await service.GetCharacteristicAsync(
+                            Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+
+                }
+                catch (Exception)
+                {
+                    
+                }
                 var array = Encoding.UTF8.GetBytes(data);
+                if (!characteristic.CanWrite) return;
                 try
                 {
                     await characteristic.WriteAsync(array);
@@ -323,8 +331,8 @@ namespace MPS.ViewModel
                 {
                     Debug.WriteLine("No se pudo escribir");
                 }
-                Debug.WriteLine(GetType() + " Se envío: " + data);
-            }));
+                Debug.WriteLine(GetType() + " Se envío: " + data + '\n');
+            });
 
         }
 
@@ -386,7 +394,7 @@ namespace MPS.ViewModel
             var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
             characteristic.ValueUpdated += OnDataReceived;
-            await characteristic.StartUpdatesAsync();
+            Device.BeginInvokeOnMainThread(async () => await characteristic.StartUpdatesAsync());
         }
 
         private async void UnsubcribeRead(IDevice device)
@@ -394,7 +402,8 @@ namespace MPS.ViewModel
             var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
             characteristic.ValueUpdated -= OnDataReceived;
-            await characteristic.StopUpdatesAsync();
+
+            Device.BeginInvokeOnMainThread(async () => await characteristic.StopUpdatesAsync());
         }
     }
 }
