@@ -122,7 +122,7 @@ namespace MPS.ViewModel
         {
         }
 
-        protected override void Subscribe()
+        protected override void SubscribeMessagingCenter()
         {
             MessagingCenter.Subscribe<Feedbacker, DisplayVisibility>(this, MessengerKeys.Visibilities, OnVisibilityReceived);
             MessagingCenter.Subscribe<Feedbacker, TimeFormat>(this, MessengerKeys.TimeFormat, OnTimeFormatReceived);

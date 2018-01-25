@@ -85,7 +85,7 @@ namespace MPS.ViewModel
             MessagingCenter.Send(this, MessengerKeys.PasswordLogin, Password);
         }
 
-        protected override void Subscribe()
+        protected override void SubscribeMessagingCenter()
         {           
             MessagingCenter.Subscribe<MainPageModel>(this, MessengerKeys.ClosePasswordLogin, CloseLogin);            
             MessagingCenter.Subscribe<MainPageModel, PasswordLoginState>(this, MessengerKeys.LoginState, OnLoginStateChanged);         

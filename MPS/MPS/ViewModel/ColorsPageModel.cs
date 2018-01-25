@@ -148,7 +148,7 @@ namespace MPS.ViewModel
             BlueValue = _displayColors.GetBlueByIndex(SelectedIndex);
         }
 
-        protected override void Subscribe()
+        protected override void SubscribeMessagingCenter()
         {
             //MessagingCenter.Subscribe<MainPageModel, DisplayColors>(this, MessengerKeys.Colours, OnColoursReceived);
             MessagingCenter.Subscribe<Feedbacker, DisplayColors>(this, MessengerKeys.Colours, OnColoursReceived);

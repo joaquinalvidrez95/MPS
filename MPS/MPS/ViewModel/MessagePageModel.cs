@@ -122,7 +122,7 @@ namespace MPS.ViewModel
         }
 
 
-        protected override void Subscribe()
+        protected override void SubscribeMessagingCenter()
         {
             MessagingCenter.Subscribe<MessagePopupModel, Message>(this, MessengerKeys.Message, OnMessageAdded);
             //MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);

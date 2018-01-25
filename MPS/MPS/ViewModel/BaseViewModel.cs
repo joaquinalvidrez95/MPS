@@ -12,7 +12,7 @@ namespace MPS.ViewModel
     {
         protected BaseViewModel()
         {
-            Subscribe();
+            SubscribeMessagingCenter();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -28,7 +28,7 @@ namespace MPS.ViewModel
 
 
 
-        protected virtual void Subscribe()
+        protected virtual void SubscribeMessagingCenter()
         {
             
         }

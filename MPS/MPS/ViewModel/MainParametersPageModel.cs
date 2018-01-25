@@ -137,7 +137,7 @@ namespace MPS.ViewModel
             await PopupNavigation.PushAsync(new QuickMessagePopup());
         }
 
-        protected override void Subscribe()
+        protected override void SubscribeMessagingCenter()
         {
             MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);         
             //MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.CurrentView, UpdateView);

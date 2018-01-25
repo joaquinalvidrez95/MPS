@@ -39,10 +39,7 @@ namespace MPS.ViewModel
         public MainPageModel()
         {
             BluetoothConnectionCommand = new Command(GoToBluetoothDevicesPageAsync);
-            AboutCommand = new Command(GoToAboutPage);          
-            //CrossBluetoothLE.Current.Adapter.DeviceConnected -= OnDeviceStateChanged;
-            //CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
-            //CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;            
+            AboutCommand = new Command(GoToAboutPage);                              
             CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;           
             AutoConnect();
         }
@@ -102,8 +99,7 @@ namespace MPS.ViewModel
                     CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
                     CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
                     SubcribeRead(e.Device, true);
-                    _connectedDevice = e.Device;
-                    //_isSubscribedToDeviceConnected = true;
+                    _connectedDevice = e.Device;          
                     if (_isConnectionAutomatic)
                         Device.StartTimer(TimeSpan.FromMilliseconds(DelayForConnectionAutomatically), () =>
                         {
@@ -234,19 +230,14 @@ namespace MPS.ViewModel
                         if (!_isConnectionAutomatic)
                         {
                             MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.TimeoutExpired);
-                        }
-                        //else
-                        //{
-
-                        //}
+                        }                       
                     }
                     else
                     {
                         RequestParameters(password);
 
                     }
-                }
-                //return !_hasFeedbackPin && _numberOfTrials > MaxNumberOfTrials;
+                }               
                 return !_hasFeedbackPassword && _numberOfTrials < MaxNumberOfTrials;
             });
         }
@@ -356,7 +347,6 @@ namespace MPS.ViewModel
 
             Device.BeginInvokeOnMainThread(async () =>
             {
-
                 try
                 {
                     var service =
@@ -391,7 +381,7 @@ namespace MPS.ViewModel
 
 
         #region Subscriptions
-        protected override void Subscribe()
+        protected override void SubscribeMessagingCenter()
         {
             MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
             MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceToDisconnect, OnDeviceToDisconnectReceived);
@@ -441,15 +431,14 @@ namespace MPS.ViewModel
         {
             var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+            characteristic.ValueUpdated -= OnDataReceived;
             if (subscribe)
-            {
-                characteristic.ValueUpdated -= OnDataReceived;
+            {              
                 characteristic.ValueUpdated += OnDataReceived;
                 Device.BeginInvokeOnMainThread(async () => await characteristic.StartUpdatesAsync());
             }
             else
-            {
-                characteristic.ValueUpdated -= OnDataReceived;
+            {               
                 Device.BeginInvokeOnMainThread(async () => await characteristic.StopUpdatesAsync());
             }
 

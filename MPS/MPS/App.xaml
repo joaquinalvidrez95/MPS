@@ -52,7 +52,7 @@
             <x:String x:Key="DisplayAlertCancelAccept">Aceptar</x:String>
             <x:String x:Key="DisplayAlertCancelNo">Cancelar</x:String>
             <x:String x:Key="DisplayAlertMessageBluetoothOff">Para buscar dispositivos necesita habilitar su conexión bluetooth.</x:String>
-            <x:String x:Key="DisplayAlertMessageConexionLost">Se ha desconectado de: </x:String>
+            <x:String x:Key="DisplayAlertMessageConexionLost">Se ha desconectado de:</x:String>
             <x:String x:Key="DisplayAlertMessageColorException">No es posible tener un color de fondo igual al del texto.</x:String>
             <x:String x:Key="DisplayAlertMessageMessageDeletedQuestion">El mensaje se perderá para siempre.</x:String>
 
