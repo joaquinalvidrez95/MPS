@@ -25,10 +25,11 @@ namespace MPS.ViewModel
         private IDevice _connectedDevice;
         private int _numberOfTrials;
         private const int MaxNumberOfTrials = 3;
-        private bool _hasFeedbackPin;
+        private bool _hasFeedbackPassword;
         private bool _isFixingControls;
         private const int TimeoutForFixingControls = 20;
-        private const int Timeout = 3000;
+        private const int DelayForConnectionAutomatically = 7000;
+        private const int Timeout = 2500;
         private string _password = Settings.Password;
         private bool _isConnectionAutomatic = true;
         public ICommand BluetoothConnectionCommand { get; }
@@ -73,12 +74,12 @@ namespace MPS.ViewModel
 
         private void OnPasswordReceived(PasswordPopupModel passwordPopupModel, string password)
         {
-            Connect(password);
+            ConnectWithPassword(password);
         }
 
-        private void Connect(string password)
+        private void ConnectWithPassword(string password)
         {
-            _hasFeedbackPin = false;
+            _hasFeedbackPassword = false;
             _numberOfTrials = 0;
             _password = password;
             RequestParameters(password);
@@ -89,7 +90,7 @@ namespace MPS.ViewModel
 
             Device.StartTimer(TimeSpan.FromMilliseconds(Timeout), () =>
             {
-                if (!_hasFeedbackPin)
+                if (!_hasFeedbackPassword)
                 {
                     _numberOfTrials++;
                     if (_numberOfTrials > MaxNumberOfTrials)
@@ -110,7 +111,7 @@ namespace MPS.ViewModel
                     }
                 }
                 //return !_hasFeedbackPin && _numberOfTrials > MaxNumberOfTrials;
-                return _numberOfTrials < MaxNumberOfTrials;
+                return !_hasFeedbackPassword && _numberOfTrials < MaxNumberOfTrials;
             });
         }
 
@@ -135,9 +136,12 @@ namespace MPS.ViewModel
                     }
                     else
                     {
-                        Connect(Settings.Password);
-                    }
-
+                        Device.StartTimer(TimeSpan.FromMilliseconds(DelayForConnectionAutomatically), () =>
+                        {
+                            ConnectWithPassword(Settings.Password);
+                            return false;
+                        });
+                    }                
 
                     break;
 
@@ -181,7 +185,7 @@ namespace MPS.ViewModel
                 case BluetoothHelper.BluetoothContract.OnPinStatusReceived:
                     if (e.Characteristic.StringValue[1] - 48 == 0)
                     {
-                        _hasFeedbackPin = true;
+                        _hasFeedbackPassword = true;
                         MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.PasswordInvalid);
                         if (_isConnectionAutomatic)
                         {
@@ -192,7 +196,7 @@ namespace MPS.ViewModel
                     break;
 
                 case BluetoothHelper.BluetoothContract.OnFeedbackReceived:
-                    _hasFeedbackPin = true;
+                    _hasFeedbackPassword = true;
                     UnsubcribeRead(_connectedDevice);
                     Settings.LastDeviceGuid = _connectedDevice.Id;
                     Settings.Password = _password;
@@ -308,6 +312,7 @@ namespace MPS.ViewModel
 
             Device.BeginInvokeOnMainThread(async () =>
             {
+
                 try
                 {
                     var service =
@@ -316,20 +321,17 @@ namespace MPS.ViewModel
                         await service.GetCharacteristicAsync(
                             Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
 
-                }
-                catch (Exception)
-                {
-                    
-                }
-                var array = Encoding.UTF8.GetBytes(data);
-                if (!characteristic.CanWrite) return;
-                try
-                {
+                    var array = Encoding.UTF8.GetBytes(data);
+                    if (!characteristic.CanWrite) return;
                     await characteristic.WriteAsync(array);
                 }
                 catch (InvalidOperationException)
                 {
                     Debug.WriteLine("No se pudo escribir");
+                }
+                catch (Exception)
+                {
+
                 }
                 Debug.WriteLine(GetType() + " Se envío: " + data + '\n');
             });
@@ -387,7 +389,6 @@ namespace MPS.ViewModel
         {
             WriteData(BluetoothHelper.BluetoothContract.Request + password + '\n');
         }
-
 
         private async void SubcribeRead(IDevice device)
         {
