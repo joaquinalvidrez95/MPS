@@ -55,7 +55,6 @@
     <Compile Include="Converters\StringToDeviceNameConverter.cs" />
     <Compile Include="Converters\TextStringToLeftCharactersConverter.cs" />
     <Compile Include="Data\MessageDatabase.cs" />
-    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Model\ColorException.cs" />
     <Compile Include="Model\DisplayVisibility.cs" />
     <Compile Include="Model\MessagesRepository.cs" />
@@ -65,8 +64,8 @@
     <Compile Include="Services\IFileHelper.cs" />
     <Compile Include="Trigger\FlatButtonPressedTrigger.cs" />
     <Compile Include="Trigger\FlatButtonReleasedTrigger.cs" />
-    <Compile Include="Utilities\Feedbacker.cs" />
-    <Compile Include="Utilities\Settings.cs" />
+    <Compile Include="Helper\Feedbacker.cs" />
+    <Compile Include="Helper\Settings.cs" />
     <Compile Include="ViewModel\EditableMessagePopupModel.cs" />
     <Compile Include="ViewModel\NewMessagePopupModel.cs" />
     <Compile Include="Model\DisplayColorRGB.cs" />
@@ -82,7 +81,7 @@
     <Compile Include="View\MessagePopup.xaml.cs">
       <DependentUpon>MessagePopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\MessengerKeys.cs" />
+    <Compile Include="Helper\MessengerKeys.cs" />
     <Compile Include="ViewModel\BluetoothDevicesPageModel.cs" />
     <Compile Include="ViewModel\ColorsPageModel.cs" />
     <Compile Include="ViewModel\MainParametersPageModel.cs" />
@@ -231,6 +230,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

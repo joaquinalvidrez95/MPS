@@ -25,7 +25,7 @@ namespace MPS.Droid
             base.OnCreate(bundle);
             
             //Rg.Plugins.Popup.Popup.Init(this, bundle);
-            Forms.SetFlags("FastRenderers_Experimental");
+            //Forms.SetFlags("FastRenderers_Experimental");
             global::Xamarin.Forms.Forms.Init(this, bundle);
             TintedImageRenderer.Init();
             LoadApplication(new App());

@@ -1,5 +1,4 @@
-﻿using MPS.Utilities;
-using Plugin.BLE.Abstractions;
+﻿using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MPS.Helper;
 using MPS.View;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
@@ -104,6 +104,9 @@ namespace MPS.ViewModel
                     IsBluetoothConnected = true;
                     break;
                 case DeviceState.Disconnected:
+                    IsBluetoothConnected = false;
+                    break;                
+                case DeviceState.Limited:
                     IsBluetoothConnected = false;
                     break;
             }

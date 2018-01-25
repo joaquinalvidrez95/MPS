@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MPS.Utilities
+﻿namespace MPS.Helper
 {
     public class MessengerKeys
     {
@@ -25,5 +19,6 @@ namespace MPS.Utilities
         public const string PasswordLogin = "PasswordLogin";
         public const string LoginState = "LoginState";   
         public const string OnLoginCancelled = "OnLoginCancelled";
+        public const string OnBackButtonPressed = "OnBackButtonPressed";
     }
 }

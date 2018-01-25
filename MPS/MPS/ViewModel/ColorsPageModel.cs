@@ -1,5 +1,4 @@
 ﻿using MPS.Model;
-using MPS.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MPS.Helper;
 using Xamarin.Forms;
 
 namespace MPS.ViewModel

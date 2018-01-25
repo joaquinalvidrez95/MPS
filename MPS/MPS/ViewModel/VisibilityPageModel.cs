@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MPS.Helper;
 using MPS.Model;
-using MPS.Utilities;
 using Xamarin.Forms;
 
 namespace MPS.ViewModel

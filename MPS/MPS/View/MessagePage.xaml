@@ -4,6 +4,7 @@
              xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
              xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"                        
              xmlns:abstractions="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
+             xmlns:behaviour="clr-namespace:MPS.Behaviour;assembly=MPS"
              Style="{StaticResource StyleMessagesPage}"
              x:Class="MPS.MessagePage">
 
@@ -29,16 +30,20 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Velocidad del mensaje"/>
                 <Image 
                     Margin="{StaticResource MarginRightIcon}"
                     Opacity="{StaticResource OpacityUnfocusedIcon}" 
-                    Grid.Row="0" Grid.Column="0" 
+                    Grid.Row="1" Grid.Column="0" 
                     Source="{StaticResource IconFastForward}"/>
-                <Label Grid.Row="0" Grid.Column="1" Text="Velocidad del mensaje" VerticalOptions="Center"/>
                 <Slider                                       
                     Grid.Row="1" Grid.Column="1"
-                    Style="{StaticResource StyleSliderSpeed}"                                                                     
-                    Value="{Binding Speed}" />
+                    Maximum="{StaticResource MaxSliderSpeed}" Minimum="3"                                                                                 
+                    Value="{Binding Speed}">
+                    <Slider.Behaviors>
+                        <behaviour:DiscreteSliderBehaviour />
+                    </Slider.Behaviors>
+                </Slider>
 
             </Grid>
 

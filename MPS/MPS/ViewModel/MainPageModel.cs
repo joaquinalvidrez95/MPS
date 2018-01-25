@@ -1,5 +1,4 @@
 ﻿using MPS.Bluetooth;
-using MPS.Utilities;
 using MPS.View;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions;
@@ -13,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MPS.Helper;
 using Xamarin.Forms;
 using Plugin.BLE.Abstractions.EventArgs;
 using MPS.Model;
@@ -28,9 +28,10 @@ namespace MPS.ViewModel
         private bool _hasFeedbackPassword;
         private bool _isFixingControls;
         private const int TimeoutForFixingControls = 20;
-        private const int DelayForConnectionAutomatically = 7000;
-        private const int Timeout = 2500;
+        private const int DelayForConnectionAutomatically = 5000;
+        private const int TimeoutForRequesting = 2500;
         private string _password = Settings.Password;
+     
         private bool _isConnectionAutomatic = true;
         public ICommand BluetoothConnectionCommand { get; }
         public ICommand AboutCommand { get; }
@@ -38,35 +39,44 @@ namespace MPS.ViewModel
         public MainPageModel()
         {
             BluetoothConnectionCommand = new Command(GoToBluetoothDevicesPageAsync);
-            AboutCommand = new Command(GoToAboutPage);
-            CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
-            CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
-            CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
+            AboutCommand = new Command(GoToAboutPage);          
+            //CrossBluetoothLE.Current.Adapter.DeviceConnected -= OnDeviceStateChanged;
+            //CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
+            //CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;            
+            CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;           
             AutoConnect();
         }
 
         private async void AutoConnect()
         {
             if (!CrossBluetoothLE.Current.IsOn) return;
+            //CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
+
             try
             {
+                CrossBluetoothLE.Current.Adapter.DeviceConnected -= OnDeviceStateChanged;
+                CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
                 await CrossBluetoothLE.Current.Adapter.ConnectToKnownDeviceAsync(Settings.LastDeviceGuid);
                 _isConnectionAutomatic = true;
+
             }
             catch (DeviceConnectionException)
             {
+                CrossBluetoothLE.Current.Adapter.DeviceConnected -= OnDeviceStateChanged;
                 Debug.WriteLine("No se pudo autoconectar");
             }
-        }
+        }  
 
+        #region Callbacks
         private void OnDeviceConnectionLost(object sender, DeviceErrorEventArgs e)
         {
+            CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
             MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
             if (!e.Device.Equals(_connectedDevice)) return;
             var name = e.Device.Name ?? (string)Application.Current.Resources["TextUnnamedDevice"];
             Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
                 "",
-                (string)Application.Current.Resources["DisplayAlertMessageConexionLost"] + name,
+                (string)Application.Current.Resources["DisplayAlertMessageConexionLost"] + " " + name,
                 (string)Application.Current.Resources["DisplayAlertCancelAccept"]
             ));
             MessagingCenter.Send(this, MessengerKeys.ClosePasswordLogin);
@@ -77,93 +87,57 @@ namespace MPS.ViewModel
             ConnectWithPassword(password);
         }
 
-        private void ConnectWithPassword(string password)
-        {
-            _hasFeedbackPassword = false;
-            _numberOfTrials = 0;
-            _password = password;
-            RequestParameters(password);
-            if (!_isConnectionAutomatic)
-            {
-                MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.WaitingForRequest);
-            }
-
-            Device.StartTimer(TimeSpan.FromMilliseconds(Timeout), () =>
-            {
-                if (!_hasFeedbackPassword)
-                {
-                    _numberOfTrials++;
-                    if (_numberOfTrials > MaxNumberOfTrials)
-                    {
-                        if (!_isConnectionAutomatic)
-                        {
-                            MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.TimeoutExpired);
-                        }
-                        //else
-                        //{
-
-                        //}
-                    }
-                    else
-                    {
-                        RequestParameters(password);
-
-                    }
-                }
-                //return !_hasFeedbackPin && _numberOfTrials > MaxNumberOfTrials;
-                return !_hasFeedbackPassword && _numberOfTrials < MaxNumberOfTrials;
-            });
-        }
-
         private void OnDeviceStateChanged(object sender, DeviceEventArgs e)
         {
             switch (e.Device.State)
             {
                 case DeviceState.Disconnected:
+                    CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
                     MessagingCenter.Send(this, MessengerKeys.DeviceStatus, e.Device);
                     break;
                 case DeviceState.Connecting:
                     break;
                 case DeviceState.Connected:
-                    SubcribeRead(e.Device);
+                    CrossBluetoothLE.Current.Adapter.DeviceConnected -= OnDeviceStateChanged;
+                    CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
+                    CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
+                    SubcribeRead(e.Device, true);
                     _connectedDevice = e.Device;
-                    if (!_isConnectionAutomatic)
-                    {
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            await PopupNavigation.PushAsync(new PasswordPopup());
-                        });
-                    }
-                    else
-                    {
+                    //_isSubscribedToDeviceConnected = true;
+                    if (_isConnectionAutomatic)
                         Device.StartTimer(TimeSpan.FromMilliseconds(DelayForConnectionAutomatically), () =>
                         {
                             ConnectWithPassword(Settings.Password);
                             return false;
                         });
-                    }                
+                    //else
+                    //    Device.BeginInvokeOnMainThread(async () =>
+                    //    {
+                    //        await PopupNavigation.PushAsync(new PasswordPopup());
+                    //    });
 
                     break;
 
             }
-        }
-
-        private async void GoToAboutPage()
-        {
-            await Application.Current.MainPage.Navigation.PushAsync(new AboutPage());
         }
 
         private async void OnDeviceSelected(BluetoothDevicesPageModel arg1, IDevice device)
         {
             try
             {
-                _isConnectionAutomatic = false;
-                await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(device);
+                _isConnectionAutomatic = false;           
+                await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(device);             
                 _connectedDevice = device;
-
+                CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
+                CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
+                SubcribeRead(device, true);
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await PopupNavigation.PushAsync(new PasswordPopup());
+                });
             }
             catch (DeviceConnectionException)
-            {
+            {               
                 Debug.WriteLine("Error al conectar");
             }
         }
@@ -197,16 +171,16 @@ namespace MPS.ViewModel
 
                 case BluetoothHelper.BluetoothContract.OnFeedbackReceived:
                     _hasFeedbackPassword = true;
-                    UnsubcribeRead(_connectedDevice);
+                    SubcribeRead(_connectedDevice, false);
                     Settings.LastDeviceGuid = _connectedDevice.Id;
                     Settings.Password = _password;
                     _isFixingControls = true;
-                    UnsubscribeConstrols();
+                    SubscribeConstrols(false);
                     new Feedbacker().SendUiParameters(bytes);
                     Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForFixingControls), () =>
                     {
                         Debug.WriteLine("Conexión exitosa");
-                        SubscribeConstrols();
+                        SubscribeConstrols(true);
                         MessagingCenter.Send(this, MessengerKeys.ClosePasswordLogin);
                         _isFixingControls = false;
                         return false;
@@ -215,6 +189,76 @@ namespace MPS.ViewModel
                     break;
             }
         }
+
+        private void OnBackButtonPressed(MainPage mainPage)
+        {
+            MessagingCenter.Unsubscribe<MainPage>(this, MessengerKeys.OnBackButtonPressed);
+            SubscribeConstrols(false);
+            CrossBluetoothLE.Current.Adapter.DeviceConnected -= OnDeviceStateChanged;
+            CrossBluetoothLE.Current.Adapter.DeviceDisconnected -= OnDeviceStateChanged;
+            CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
+
+            MessagingCenter.Unsubscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected);
+            MessagingCenter.Unsubscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceToDisconnect);
+            MessagingCenter.Unsubscribe<PasswordPopupModel, string>(this, MessengerKeys.PasswordLogin);
+            MessagingCenter.Unsubscribe<PasswordPopupModel>(this, MessengerKeys.OnLoginCancelled);
+
+        }
+
+        private async void OnLoginCancelledAsync(PasswordPopupModel passwordPopupModel)
+        {
+            await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_connectedDevice);
+        }
+
+        #endregion
+
+
+        private void ConnectWithPassword(string password)
+        {
+            _hasFeedbackPassword = false;
+            _numberOfTrials = 0;
+            _password = password;
+            RequestParameters(password);
+            if (!_isConnectionAutomatic)
+            {
+                MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.WaitingForRequest);
+            }
+
+            Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForRequesting), () =>
+            {
+                if (!_hasFeedbackPassword)
+                {
+                    _numberOfTrials++;
+                    if (_numberOfTrials > MaxNumberOfTrials)
+                    {
+                        if (!_isConnectionAutomatic)
+                        {
+                            MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.TimeoutExpired);
+                        }
+                        //else
+                        //{
+
+                        //}
+                    }
+                    else
+                    {
+                        RequestParameters(password);
+
+                    }
+                }
+                //return !_hasFeedbackPin && _numberOfTrials > MaxNumberOfTrials;
+                return !_hasFeedbackPassword && _numberOfTrials < MaxNumberOfTrials;
+            });
+        }
+
+
+
+        private async void GoToAboutPage()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new AboutPage());
+        }
+
+
         #region Send Data
         private void OnPowerStatusReceived(MainParametersPageModel arg1, bool arg2)
         {
@@ -344,67 +388,84 @@ namespace MPS.ViewModel
             await Application.Current.MainPage.Navigation.PushAsync(new BluetoothDevicesPage());
         }
 
+
+
+        #region Subscriptions
         protected override void Subscribe()
         {
             MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceSelected, OnDeviceSelected);
             MessagingCenter.Subscribe<BluetoothDevicesPageModel, IDevice>(this, MessengerKeys.DeviceToDisconnect, OnDeviceToDisconnectReceived);
             MessagingCenter.Subscribe<PasswordPopupModel, string>(this, MessengerKeys.PasswordLogin, OnPasswordReceived);
             MessagingCenter.Subscribe<PasswordPopupModel>(this, MessengerKeys.OnLoginCancelled, OnLoginCancelledAsync);
+            MessagingCenter.Subscribe<MainPage>(this, MessengerKeys.OnBackButtonPressed, OnBackButtonPressed);
+        }
+        private void SubscribeConstrols(bool subscribe)
+        {
+            if (subscribe)
+            {
+                MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power,
+                    OnPowerStatusReceived);
+                MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView,
+                    OnViewReceived);
+                MessagingCenter.Subscribe<MessagePageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
+                MessagingCenter.Subscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime,
+                    OnDateTimeReceived);
+                MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.Message,
+                    OnQuickMessageReceived);
+                MessagingCenter.Subscribe<MessagePageModel, Message>(this, MessengerKeys.Message,
+                    OnMessageStoredReceived);
+                MessagingCenter.Subscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours,
+                    OnColoursReceived);
+                MessagingCenter.Subscribe<VisibilityPageModel, DisplayVisibility>(this, MessengerKeys.Visibilities,
+                    OnDisplayVisibilityReceived);
+                MessagingCenter.Subscribe<VisibilityPageModel, TimeFormat>(this, MessengerKeys.TimeFormat,
+                    OnTimeFormatReceived);
+                MessagingCenter.Subscribe<VisibilityPageModel, ViewMode>(this, MessengerKeys.ViewMode,
+                    OnViewModeReceived);
+            }
+            else
+            {
+                MessagingCenter.Unsubscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power);
+                MessagingCenter.Unsubscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView);
+                MessagingCenter.Unsubscribe<MessagePageModel, int>(this, MessengerKeys.Speed);
+                MessagingCenter.Unsubscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime);
+                MessagingCenter.Unsubscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.Message);
+                MessagingCenter.Unsubscribe<MessagePageModel, Message>(this, MessengerKeys.Message);
+                MessagingCenter.Unsubscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours);
+                MessagingCenter.Unsubscribe<VisibilityPageModel, DisplayVisibility>(this, MessengerKeys.Visibilities);
+                MessagingCenter.Unsubscribe<VisibilityPageModel, TimeFormat>(this, MessengerKeys.TimeFormat);
+                MessagingCenter.Unsubscribe<VisibilityPageModel, ViewMode>(this, MessengerKeys.ViewMode);
+            }
+        }
+        private async void SubcribeRead(IDevice device, bool subscribe)
+        {
+            var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+            if (subscribe)
+            {
+                characteristic.ValueUpdated -= OnDataReceived;
+                characteristic.ValueUpdated += OnDataReceived;
+                Device.BeginInvokeOnMainThread(async () => await characteristic.StartUpdatesAsync());
+            }
+            else
+            {
+                characteristic.ValueUpdated -= OnDataReceived;
+                Device.BeginInvokeOnMainThread(async () => await characteristic.StopUpdatesAsync());
+            }
+
         }
 
-        private void SubscribeConstrols()
-        {
-            MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power, OnPowerStatusReceived);
-            MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, OnViewReceived);
-            MessagingCenter.Subscribe<MessagePageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
-            MessagingCenter.Subscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime, OnDateTimeReceived);
-            MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.Message, OnQuickMessageReceived);
-            MessagingCenter.Subscribe<MessagePageModel, Message>(this, MessengerKeys.Message, OnMessageStoredReceived);
-            MessagingCenter.Subscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours, OnColoursReceived);
-            MessagingCenter.Subscribe<VisibilityPageModel, DisplayVisibility>(this, MessengerKeys.Visibilities, OnDisplayVisibilityReceived);
-            MessagingCenter.Subscribe<VisibilityPageModel, TimeFormat>(this, MessengerKeys.TimeFormat, OnTimeFormatReceived);
-            MessagingCenter.Subscribe<VisibilityPageModel, ViewMode>(this, MessengerKeys.ViewMode, OnViewModeReceived);
-        }
+        #endregion
 
-        private void UnsubscribeConstrols()
-        {
-            MessagingCenter.Unsubscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power);
-            MessagingCenter.Unsubscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView);
-            MessagingCenter.Unsubscribe<MessagePageModel, int>(this, MessengerKeys.Speed);
-            MessagingCenter.Unsubscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime);
-            MessagingCenter.Unsubscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.Message);
-            MessagingCenter.Unsubscribe<MessagePageModel, Message>(this, MessengerKeys.Message);
-            MessagingCenter.Unsubscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours);
-            MessagingCenter.Unsubscribe<VisibilityPageModel, DisplayVisibility>(this, MessengerKeys.Visibilities);
-            MessagingCenter.Unsubscribe<VisibilityPageModel, TimeFormat>(this, MessengerKeys.TimeFormat);
-            MessagingCenter.Unsubscribe<VisibilityPageModel, ViewMode>(this, MessengerKeys.ViewMode);
-        }
 
-        private async void OnLoginCancelledAsync(PasswordPopupModel passwordPopupModel)
-        {
-            await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_connectedDevice);
-        }
+
 
         private void RequestParameters(string password)
         {
             WriteData(BluetoothHelper.BluetoothContract.Request + password + '\n');
         }
 
-        private async void SubcribeRead(IDevice device)
-        {
-            var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-            characteristic.ValueUpdated += OnDataReceived;
-            Device.BeginInvokeOnMainThread(async () => await characteristic.StartUpdatesAsync());
-        }
 
-        private async void UnsubcribeRead(IDevice device)
-        {
-            var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
-            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
-            characteristic.ValueUpdated -= OnDataReceived;
 
-            Device.BeginInvokeOnMainThread(async () => await characteristic.StopUpdatesAsync());
-        }
     }
 }

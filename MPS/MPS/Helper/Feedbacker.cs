@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MPS.Model;
+﻿using MPS.Model;
 using Xamarin.Forms;
 
-namespace MPS.Utilities
+namespace MPS.Helper
 {
     public class Feedbacker
     {

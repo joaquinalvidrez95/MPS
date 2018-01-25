@@ -1,5 +1,4 @@
-﻿using MPS.Utilities;
-using Plugin.BLE;
+﻿using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MPS.Helper;
 using MPS.View;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.EventArgs;
