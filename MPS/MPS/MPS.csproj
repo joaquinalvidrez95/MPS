@@ -51,9 +51,10 @@
     <Compile Include="Converters\LoginStateToActivityIndicatorVisibleConverter.cs" />
     <Compile Include="Converters\LoginStateToErrorVisibleConverter.cs" />
     <Compile Include="Converters\LoginStateToErrorTextConverter.cs" />
+    <Compile Include="Converters\MinTextLengthToBoolConverter.cs" />
     <Compile Include="Converters\StringTextToBoolEnabledConverter.cs" />
     <Compile Include="Converters\StringToDeviceNameConverter.cs" />
-    <Compile Include="Converters\TextStringToLeftCharactersConverter.cs" />
+    <Compile Include="Converters\TextLengthToLeftCharactersConverter.cs" />
     <Compile Include="Data\MessageDatabase.cs" />
     <Compile Include="Model\ColorException.cs" />
     <Compile Include="Model\DisplayVisibility.cs" />
@@ -231,9 +232,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

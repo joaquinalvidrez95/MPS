@@ -22,6 +22,7 @@ namespace MPS.ViewModel
             set
             {
                 _title = value;
+                OnPropertyChanged();
                 ValidateTitle(value);
             }
         }
@@ -53,7 +54,9 @@ namespace MPS.ViewModel
         {
             MessageToSent = new Message();
             Messages = messages;
-            DoneCommand = new Command(FinishMessage);
+            Text = "";
+            Title = "";
+            DoneCommand = new Command(FinishMessage, () => false);
             CancelCommand = new Command(CancelMessage);
         }
 
@@ -63,7 +66,7 @@ namespace MPS.ViewModel
             MessageToSent = message;
             Title = message.Title;
             Text = message.Text;
-            DoneCommand = new Command(FinishMessage);
+            DoneCommand = new Command(FinishMessage, () => false);
             CancelCommand = new Command(CancelMessage);
         }
 

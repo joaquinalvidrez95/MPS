@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -35,10 +36,10 @@ namespace MPS.Behaviour
         }
 
         private bool IsTextValid(string e)
-        {
+        {           
             return e.Length <= MaxLength 
                 && !e.Contains("\n")
-                && (Regex.IsMatch(e, @"^[ -Za-zñ]+$") || e == "");                
+                && (Regex.IsMatch(e, @"^[ -Za-zñÑ]+$") || e == "");                
         }
     }
 }

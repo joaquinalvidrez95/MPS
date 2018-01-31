@@ -23,7 +23,7 @@ namespace MPS
         protected override bool OnBackButtonPressed()
         {
 
-            Debug.WriteLine("OnBackButtonPressed------\n");
+            //Debug.WriteLine("OnBackButtonPressed------\n");
             MessagingCenter.Send(this, MessengerKeys.OnBackButtonPressed);
             return base.OnBackButtonPressed();
             

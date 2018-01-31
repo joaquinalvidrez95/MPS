@@ -34,16 +34,13 @@
                         </Picker>
                     </ViewCell>
                 </TableSection>
-                <TableSection Title="Mostrar">
-                    <!--<SwitchCell Text="Hora" On="{Binding IsTimeVisible}"/>-->
-                    <!--<SwitchCell Text="Fecha" On="{Binding IsDateVisible}"/>-->
-                    <!--<SwitchCell Text="Temperatura" On="{Binding IsTemperatureVisible}"/>-->
+                <TableSection Title="Visibilidad">
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" Padding="{StaticResource PaddingHorizontal}" HeightRequest="{StaticResource HeightCellSingle}">
                             <Image Source="ic_access_time_black_24dp.png"    
                                    Margin="{StaticResource MarginRightIcon}"
                                    Opacity="{StaticResource OpacityUnfocusedIcon}"/>
-                            <Label Text="Hora" HorizontalOptions="StartAndExpand" VerticalOptions="Center" TextColor="{StaticResource ColorPrimaryText}"/>
+                            <Label Text="Mostrar hora" HorizontalOptions="StartAndExpand" VerticalOptions="Center" TextColor="{StaticResource ColorPrimaryText}"/>
                             <Switch  IsToggled="{Binding IsTimeVisible}" />
 
                         </StackLayout>
@@ -53,7 +50,7 @@
                             <Image Source="ic_date_range_black_24dp.png"    
                                    Margin="{StaticResource MarginRightIcon}"
                                    Opacity="{StaticResource OpacityUnfocusedIcon}"/>
-                            <Label Text="Fecha" HorizontalOptions="StartAndExpand" VerticalOptions="Center" TextColor="{StaticResource ColorPrimaryText}"/>
+                            <Label Text="Mostrar fecha" HorizontalOptions="StartAndExpand" VerticalOptions="Center" TextColor="{StaticResource ColorPrimaryText}"/>
 
                             <Switch  IsToggled="{Binding IsDateVisible}" />
 
@@ -64,7 +61,7 @@
                             <Image Source="ic_wb_sunny_black_24dp.png"    
                                    Margin="{StaticResource MarginRightIcon}"
                                    Opacity="{StaticResource OpacityUnfocusedIcon}"/>
-                            <Label Text="Temperatura" HorizontalOptions="StartAndExpand" VerticalOptions="Center" TextColor="{StaticResource ColorPrimaryText}"/>
+                            <Label Text="Mostrar temperatura" HorizontalOptions="StartAndExpand" VerticalOptions="Center" TextColor="{StaticResource ColorPrimaryText}"/>
 
                             <Switch  IsToggled="{Binding IsTemperatureVisible}" />
 

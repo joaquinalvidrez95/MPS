@@ -31,7 +31,7 @@ namespace MPS.ViewModel
         private const int DelayForConnectionAutomatically = 5000;
         private const int TimeoutForRequesting = 2500;
         private string _password = Settings.Password;
-     
+
         private bool _isConnectionAutomatic = true;
         public ICommand BluetoothConnectionCommand { get; }
         public ICommand AboutCommand { get; }
@@ -39,8 +39,8 @@ namespace MPS.ViewModel
         public MainPageModel()
         {
             BluetoothConnectionCommand = new Command(GoToBluetoothDevicesPageAsync);
-            AboutCommand = new Command(GoToAboutPage);                              
-            CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;           
+            AboutCommand = new Command(GoToAboutPage);
+            CrossBluetoothLE.Current.Adapter.DeviceDisconnected += OnDeviceStateChanged;
             AutoConnect();
         }
 
@@ -60,9 +60,9 @@ namespace MPS.ViewModel
             catch (DeviceConnectionException)
             {
                 CrossBluetoothLE.Current.Adapter.DeviceConnected -= OnDeviceStateChanged;
-                Debug.WriteLine("No se pudo autoconectar");
+                //  Debug.WriteLine("No se pudo autoconectar");
             }
-        }  
+        }
 
         #region Callbacks
         private void OnDeviceConnectionLost(object sender, DeviceErrorEventArgs e)
@@ -99,18 +99,13 @@ namespace MPS.ViewModel
                     CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
                     CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
                     SubcribeRead(e.Device, true);
-                    _connectedDevice = e.Device;          
+                    _connectedDevice = e.Device;
                     if (_isConnectionAutomatic)
                         Device.StartTimer(TimeSpan.FromMilliseconds(DelayForConnectionAutomatically), () =>
                         {
                             ConnectWithPassword(Settings.Password);
                             return false;
                         });
-                    //else
-                    //    Device.BeginInvokeOnMainThread(async () =>
-                    //    {
-                    //        await PopupNavigation.PushAsync(new PasswordPopup());
-                    //    });
 
                     break;
 
@@ -121,8 +116,8 @@ namespace MPS.ViewModel
         {
             try
             {
-                _isConnectionAutomatic = false;           
-                await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(device);             
+                _isConnectionAutomatic = false;
+                await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(device);
                 _connectedDevice = device;
                 CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
                 CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
@@ -133,8 +128,8 @@ namespace MPS.ViewModel
                 });
             }
             catch (DeviceConnectionException)
-            {               
-                Debug.WriteLine("Error al conectar");
+            {
+                //   Debug.WriteLine("Error al conectar");
             }
         }
 
@@ -149,7 +144,7 @@ namespace MPS.ViewModel
             if (!e.Characteristic.CanRead) return;
             var bytes = e.Characteristic.Value;
 
-            Debug.WriteLine("Inbox: " + e.Characteristic.StringValue + '\n');
+            //     Debug.WriteLine("Inbox: " + e.Characteristic.StringValue + '\n');
             switch (e.Characteristic.StringValue[0].ToString())
             {
                 case BluetoothHelper.BluetoothContract.OnPinStatusReceived:
@@ -175,7 +170,7 @@ namespace MPS.ViewModel
                     new Feedbacker().SendUiParameters(bytes);
                     Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForFixingControls), () =>
                     {
-                        Debug.WriteLine("Conexión exitosa");
+                        // Debug.WriteLine("Conexión exitosa");
                         SubscribeConstrols(true);
                         MessagingCenter.Send(this, MessengerKeys.ClosePasswordLogin);
                         _isFixingControls = false;
@@ -212,9 +207,10 @@ namespace MPS.ViewModel
         private void ConnectWithPassword(string password)
         {
             _hasFeedbackPassword = false;
-            _numberOfTrials = 0;
+            //_numberOfTrials = 0;
             _password = password;
             RequestParameters(password);
+            _numberOfTrials = 1;
             if (!_isConnectionAutomatic)
             {
                 MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.WaitingForRequest);
@@ -230,15 +226,15 @@ namespace MPS.ViewModel
                         if (!_isConnectionAutomatic)
                         {
                             MessagingCenter.Send(this, MessengerKeys.LoginState, PasswordLoginState.TimeoutExpired);
-                        }                       
+                        }
                     }
                     else
                     {
                         RequestParameters(password);
 
                     }
-                }               
-                return !_hasFeedbackPassword && _numberOfTrials < MaxNumberOfTrials;
+                }
+                return !_hasFeedbackPassword && _numberOfTrials <= MaxNumberOfTrials;
             });
         }
 
@@ -269,7 +265,22 @@ namespace MPS.ViewModel
 
         private void SendMessage(string message)
         {
-            var data = MessengerKeys.Message + message + "   " + '\n';
+            var strBuilder = new StringBuilder(message);
+            for (var j = 0; j < strBuilder.Length; j++)
+            {
+                if (strBuilder[j] != 'ñ' && strBuilder[j] != 'Ñ') continue;
+                
+                strBuilder[j] = '\x00D1';
+                strBuilder[j] = '\u00D1';
+                strBuilder[j] = (char) 68;
+            }
+            string m="";
+            for (int x = 161; x < 210; x++)
+            {
+                m += (char) x;
+            }
+            //var data = MessengerKeys.Message + strBuilder + "   " + '\n';
+            var data = MessengerKeys.Message + m + "   " + '\n';
             int i;
             const int max = 15;
             for (i = 0; i < data.Length / max; i++)
@@ -361,13 +372,13 @@ namespace MPS.ViewModel
                 }
                 catch (InvalidOperationException)
                 {
-                    Debug.WriteLine("No se pudo escribir");
+                    //   Debug.WriteLine("No se pudo escribir");
                 }
                 catch (Exception)
                 {
 
                 }
-                Debug.WriteLine(GetType() + " Se envío: " + data + '\n');
+                  Debug.WriteLine(GetType() + " Se envío: " + data + '\n');
             });
 
         }
@@ -433,12 +444,12 @@ namespace MPS.ViewModel
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
             characteristic.ValueUpdated -= OnDataReceived;
             if (subscribe)
-            {              
+            {
                 characteristic.ValueUpdated += OnDataReceived;
                 Device.BeginInvokeOnMainThread(async () => await characteristic.StartUpdatesAsync());
             }
             else
-            {               
+            {
                 Device.BeginInvokeOnMainThread(async () => await characteristic.StopUpdatesAsync());
             }
 

@@ -85,7 +85,7 @@ namespace MPS.ViewModel
 
         private void OnDeviceDiscovered(object sender, DeviceEventArgs e)
         {
-            Debug.WriteLine("GUID: " + e.Device.Id);
+            //Debug.WriteLine("GUID: " + e.Device.Id);
             if (_devices.Contains(e.Device)) return;
             if (e.Device.Name == null) return;
             _devices.Add(e.Device);        
@@ -99,14 +99,14 @@ namespace MPS.ViewModel
             }
 
             await CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();
-            Debug.WriteLine("Dispositivo seleccionado: " + _selectedDevice.Name + _selectedDevice.State);
+          //  Debug.WriteLine("Dispositivo seleccionado: " + _selectedDevice.Name + _selectedDevice.State);
 
             if (CrossBluetoothLE.Current.Adapter.ConnectedDevices != null)
             {
                 if (CrossBluetoothLE.Current.Adapter.ConnectedDevices.Count > 0)
                 {
                     var _deviceToDisconnect = CrossBluetoothLE.Current.Adapter.ConnectedDevices[0];
-                    Debug.WriteLine("Desconectándome de: " + _deviceToDisconnect.Name);
+                 //   Debug.WriteLine("Desconectándome de: " + _deviceToDisconnect.Name);
                     MessagingCenter.Send(this, MessengerKeys.DeviceToDisconnect, _deviceToDisconnect);
                 }
             }

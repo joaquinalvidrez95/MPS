@@ -17,8 +17,7 @@ namespace MPS.ViewModel
     public class PasswordPopupModel : BaseViewModel
     {
         private string _password;        
-        private readonly PopupPage _page;
-        //private bool _canConnect;
+        private readonly PopupPage _page;      
         private PasswordLoginState _loginState;
         
 
@@ -66,7 +65,6 @@ namespace MPS.ViewModel
           
         }
      
-
         private void CancelConnection()
         {
             MessagingCenter.Send(this, MessengerKeys.OnLoginCancelled);

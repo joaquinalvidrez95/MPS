@@ -22,31 +22,34 @@
 
     <pages:PopupPage.Resources>
         <ResourceDictionary>
-            <converters:TextStringToLeftCharactersConverter x:Key="TextStringToLeftCharactersConverter" />
+            <!--<converters:TextStringToLeftCharactersConverter x:Key="TextStringToLeftCharactersConverter" />-->
+            <converters:MinTextLengthToBoolConverter x:Key="MinTextLengthToBoolConverter" MinLength="1"/>
+
         </ResourceDictionary>
     </pages:PopupPage.Resources>
     <StackLayout Style="{StaticResource StyleStackLayoutPopup}" >
-
         <Label Style="{StaticResource StyleLabelDialogTitle}" Text="{Binding PopupTitle}"  />
-
-
-        <Entry VerticalOptions="Center" Placeholder="Título" Text="{Binding Title}" HorizontalOptions="FillAndExpand" />
+        <Entry x:Name="EntryTitle" VerticalOptions="Center" Placeholder="Título" Text="{Binding Title}" HorizontalOptions="FillAndExpand" />
 
         <Label 
             Text="{StaticResource ErrorTitleRepeated}"
             IsVisible="{Binding IsErrorMessageVisible}"            
             TextColor="{StaticResource ColorAccent}"/>
 
-
-        <Editor  HeightRequest="{StaticResource HeightEditor}" Text="{Binding Text}">
-
+        <Editor HeightRequest="{StaticResource HeightEditor}" Text="{Binding Text}" x:Name="EditorText">
             <Editor.Behaviors>
                 <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
             </Editor.Behaviors>
         </Editor>
-        <Label
-            Text="{Binding Text, Converter={StaticResource TextStringToLeftCharactersConverter}}"
-            HorizontalOptions="End"/>
+        <Label HorizontalOptions="End">
+            <Label.Text>
+                <Binding Path="Text.Length">
+                    <Binding.Converter>
+                        <converters:TextLengthToLeftCharactersConverter MaxMessageLength="{StaticResource MaxMessageLength}" />
+                    </Binding.Converter>
+                </Binding>
+            </Label.Text>
+        </Label>
         <StackLayout Style="{StaticResource StyleStackLayoutDialogButtonContainer}">
 
             <Button 
@@ -57,7 +60,20 @@
                 Style="{StaticResource StyleButtonFlat}"
 
                 Text="Guardar"        
-                Command="{Binding DoneCommand}"/>
+                Command="{Binding DoneCommand}">
+                <Button.Triggers>
+                    <MultiTrigger TargetType="Button">
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding Source={x:Reference EntryTitle}, Path=Text.Length, Converter={StaticResource MinTextLengthToBoolConverter}}"                               
+                                              Value="True" />
+                            <BindingCondition Binding="{Binding Source={x:Reference EditorText}, Path=Text.Length, Converter={StaticResource MinTextLengthToBoolConverter}}"
+                                              Value="True" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="IsEnabled" Value="True" />
+                    </MultiTrigger>
+
+                </Button.Triggers>
+            </Button>
 
         </StackLayout>
     </StackLayout>

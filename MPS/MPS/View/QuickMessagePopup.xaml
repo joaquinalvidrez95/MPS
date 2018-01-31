@@ -9,29 +9,34 @@
              Style="{StaticResource StylePaddingPopup}">
 
     <pages:PopupPage.BindingContext>
-        <viewModel:QuickMessagePopupModel/>
+        <viewModel:QuickMessagePopupModel Text=""/>
     </pages:PopupPage.BindingContext>
-    
-    <pages:PopupPage.Resources>
+
+    <!--<pages:PopupPage.Resources>
         <ResourceDictionary>
-            <converters:TextStringToLeftCharactersConverter x:Key="TextStringToLeftCharactersConverter" />
-                      
+
         </ResourceDictionary>
-    </pages:PopupPage.Resources>
+    </pages:PopupPage.Resources>-->
 
     <StackLayout Style="{StaticResource StyleStackLayoutPopup}" >
 
         <Label Text="Mensaje instantáneo" Style="{StaticResource StyleLabelDialogTitle}"/>
 
-        <Editor HeightRequest="{StaticResource HeightEditor}" Text="{Binding Text}">
+        <Editor x:Name="Editor" HeightRequest="{StaticResource HeightEditor}" Text="{Binding Text}">
             <Editor.Behaviors>
                 <behaviour:EditorLengthValidatorBehavior MaxLength="{StaticResource MaxMessageLength}"/>
             </Editor.Behaviors>
         </Editor>
-     
-        <Label
-            Text="{Binding Text, Converter={StaticResource TextStringToLeftCharactersConverter}}"
-            HorizontalOptions="End"/>
+
+        <Label HorizontalOptions="End">
+            <Label.Text>
+                <Binding Path="Text.Length">
+                    <Binding.Converter>
+                        <converters:TextLengthToLeftCharactersConverter MaxMessageLength="{StaticResource MaxMessageLength}"/>
+                    </Binding.Converter>
+                </Binding>
+            </Label.Text>
+        </Label>
         <StackLayout Style="{StaticResource StyleStackLayoutDialogButtonContainer}">
             <Button VerticalOptions="Center"
                 Style="{StaticResource StyleButtonFlat}"
@@ -40,8 +45,16 @@
             <Button 
                 Style="{StaticResource StyleButtonFlat}"
                 Text="Enviar"                                                          
-                Command="{Binding DoneCommand}"/>
-        
+                Command="{Binding DoneCommand}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" 
+                                 Binding="{Binding Source={x:Reference Editor}, Path=Text.Length}"
+                                 Value="0">
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
         </StackLayout>
 
 
