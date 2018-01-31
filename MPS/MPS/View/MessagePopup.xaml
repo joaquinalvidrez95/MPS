@@ -22,9 +22,7 @@
 
     <pages:PopupPage.Resources>
         <ResourceDictionary>
-            <!--<converters:TextStringToLeftCharactersConverter x:Key="TextStringToLeftCharactersConverter" />-->
             <converters:MinTextLengthToBoolConverter x:Key="MinTextLengthToBoolConverter" MinLength="1"/>
-
         </ResourceDictionary>
     </pages:PopupPage.Resources>
     <StackLayout Style="{StaticResource StyleStackLayoutPopup}" >
@@ -58,7 +56,6 @@
                 Command="{Binding CancelCommand}"/>
             <Button 
                 Style="{StaticResource StyleButtonFlat}"
-
                 Text="Guardar"        
                 Command="{Binding DoneCommand}">
                 <Button.Triggers>

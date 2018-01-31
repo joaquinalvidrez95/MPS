@@ -29,7 +29,7 @@
             <x:Double x:Key="OpacityFlatButtonPressed">0.4</x:Double>
 
             <x:String x:Key="AppName">MPS-40</x:String>
-            <x:String x:Key="VersionApplication">Versión 1.0.2</x:String>
+            <x:String x:Key="VersionApplication">Versión 1.0.3</x:String>
 
             <x:String x:Key="ButtonTextAccept">ACEPTAR</x:String>
             <x:String x:Key="ButtonTextCancel">CANCELAR</x:String>
