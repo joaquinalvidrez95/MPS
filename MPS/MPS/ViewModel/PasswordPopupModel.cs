@@ -92,7 +92,7 @@ namespace MPS.ViewModel
         private void OnLoginStateChanged(MainPageModel mainPageModel, PasswordLoginState passwordLoginState)
         {
             LoginState = passwordLoginState;
-            Debug.WriteLine(LoginState);
+            //Debug.WriteLine(LoginState);
         }
 
         private void CloseLogin(MainPageModel mainPageModel)

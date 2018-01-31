@@ -265,22 +265,7 @@ namespace MPS.ViewModel
 
         private void SendMessage(string message)
         {
-            var strBuilder = new StringBuilder(message);
-            for (var j = 0; j < strBuilder.Length; j++)
-            {
-                if (strBuilder[j] != 'ñ' && strBuilder[j] != 'Ñ') continue;
-                
-                strBuilder[j] = '\x00D1';
-                strBuilder[j] = '\u00D1';
-                strBuilder[j] = (char) 68;
-            }
-            string m="";
-            for (int x = 161; x < 210; x++)
-            {
-                m += (char) x;
-            }
-            //var data = MessengerKeys.Message + strBuilder + "   " + '\n';
-            var data = MessengerKeys.Message + m + "   " + '\n';
+            var data = MessengerKeys.Message + message + "   " + '\n';
             int i;
             const int max = 15;
             for (i = 0; i < data.Length / max; i++)
@@ -291,6 +276,43 @@ namespace MPS.ViewModel
             if (data.Length % max != 0)
                 WriteData(data.Substring(i * max, data.Length % max));
         }
+  
+    
+        //private void SendMessage(string message)
+        //{
+
+        //    //WriteData(MessengerKeys.Message + 'J' + '\xC391' + '\n');
+        //    var data = 'M' + 'J' + '\u00D1' + "  " + '\n';
+        //    Device.BeginInvokeOnMainThread(async () =>
+        //    {
+        //        try
+        //        {
+        //            var service =
+        //                await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+        //            var characteristic =
+        //                await service.GetCharacteristicAsync(
+        //                    Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+
+        //            //var array = Encoding.UTF8.GetBytes(data);
+        //            byte[] array = { 77, 74, 209, 10 };
+
+        //            if (!characteristic.CanWrite) return;
+        //            await characteristic.WriteAsync(array);
+        //            Debug.WriteLine(GetType() + " Bytes: " + Encoding.UTF8.GetString(array, 0, array.Length) + '\n');
+        //        }
+        //        catch (InvalidOperationException)
+        //        {
+        //            Debug.WriteLine("No se pudo escribir");
+        //        }
+        //        catch (Exception)
+        //        {
+
+        //        }
+        //        Debug.WriteLine(GetType() + " Se envío: " + data + '\n');
+        //    });
+
+
+        //}    
 
         private void OnColoursReceived(ColorsPageModel arg1, DisplayColors arg2)
         {
@@ -306,8 +328,6 @@ namespace MPS.ViewModel
                 + '\n';
             WriteData(data);
         }
-
-
 
         private void OnSpeedReceived(MessagePageModel messagePageModel, int arg2)
         {
@@ -343,6 +363,48 @@ namespace MPS.ViewModel
             WriteData(data);
         }
         #endregion
+        //private void WriteData(string data)
+        //{
+        //    if (_isFixingControls) return;
+        //    if (_connectedDevice == null)
+        //    {
+        //        return;
+        //    }
+        //    if (_connectedDevice?.State != DeviceState.Connected)
+        //    {
+        //        MessagingCenter.Send(this, MessengerKeys.DeviceStatus, _connectedDevice);
+        //        return;
+        //    }
+
+        //    Device.BeginInvokeOnMainThread(async () =>
+        //    {
+        //        try
+        //        {
+        //            var service =
+        //                await _connectedDevice.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+        //            var characteristic =
+        //                await service.GetCharacteristicAsync(
+        //                    Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
+
+        //            var array = Encoding.UTF8.GetBytes(data);
+
+        //            if (!characteristic.CanWrite) return;
+        //            await characteristic.WriteAsync(array);
+        //            Debug.WriteLine(GetType() + " Bytes: " + Encoding.UTF8.GetString(array, 0, array.Length) + '\n');
+        //        }
+        //        catch (InvalidOperationException)
+        //        {
+        //            Debug.WriteLine("No se pudo escribir");
+        //        }
+        //        catch (Exception)
+        //        {
+
+        //        }
+        //        Debug.WriteLine(GetType() + " Se envío: " + data + '\n');
+        //    });
+
+        //}
+
         private void WriteData(string data)
         {
             if (_isFixingControls) return;
@@ -366,19 +428,27 @@ namespace MPS.ViewModel
                         await service.GetCharacteristicAsync(
                             Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
 
-                    var array = Encoding.UTF8.GetBytes(data);
                     if (!characteristic.CanWrite) return;
-                    await characteristic.WriteAsync(array);
+                  
+                    var foos = new List<byte>(Encoding.Unicode.GetBytes(data));
+                    var length = foos.Count;
+                    for (var i = 1; i <= length / 2; i++)
+                    {
+                        foos.RemoveAt(i);
+                    }                   
+                   
+                    await characteristic.WriteAsync(foos.ToArray());
+                    //Debug.WriteLine(GetType() + " Bytes: " + Encoding.Unicode.GetString(array, 0, array.Length) + '\n');
                 }
                 catch (InvalidOperationException)
                 {
-                    //   Debug.WriteLine("No se pudo escribir");
+                    //Debug.WriteLine("No se pudo escribir");
                 }
                 catch (Exception)
                 {
 
                 }
-                  Debug.WriteLine(GetType() + " Se envío: " + data + '\n');
+                //Debug.WriteLine(GetType() + " Se envío: " + data + '\n');
             });
 
         }
@@ -404,25 +474,17 @@ namespace MPS.ViewModel
         {
             if (subscribe)
             {
-                MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power,
-                    OnPowerStatusReceived);
-                MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView,
-                    OnViewReceived);
+                MessagingCenter.Subscribe<MainParametersPageModel, bool>(this, MessengerKeys.Power, OnPowerStatusReceived);
+                MessagingCenter.Subscribe<MainParametersPageModel, int>(this, MessengerKeys.CurrentView, OnViewReceived);
                 MessagingCenter.Subscribe<MessagePageModel, int>(this, MessengerKeys.Speed, OnSpeedReceived);
-                MessagingCenter.Subscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime,
-                    OnDateTimeReceived);
-                MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.Message,
-                    OnQuickMessageReceived);
-                MessagingCenter.Subscribe<MessagePageModel, Message>(this, MessengerKeys.Message,
-                    OnMessageStoredReceived);
-                MessagingCenter.Subscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours,
-                    OnColoursReceived);
-                MessagingCenter.Subscribe<VisibilityPageModel, DisplayVisibility>(this, MessengerKeys.Visibilities,
-                    OnDisplayVisibilityReceived);
-                MessagingCenter.Subscribe<VisibilityPageModel, TimeFormat>(this, MessengerKeys.TimeFormat,
-                    OnTimeFormatReceived);
-                MessagingCenter.Subscribe<VisibilityPageModel, ViewMode>(this, MessengerKeys.ViewMode,
-                    OnViewModeReceived);
+                MessagingCenter.Subscribe<MainParametersPageModel, DateTime>(this, MessengerKeys.DateTime, OnDateTimeReceived);
+                MessagingCenter.Subscribe<QuickMessagePopupModel, Message>(this, MessengerKeys.Message, OnQuickMessageReceived);
+                MessagingCenter.Subscribe<MessagePageModel, Message>(this, MessengerKeys.Message, OnMessageStoredReceived);
+                MessagingCenter.Subscribe<ColorsPageModel, DisplayColors>(this, MessengerKeys.Colours, OnColoursReceived);
+                MessagingCenter.Subscribe<VisibilityPageModel, DisplayVisibility>(this, MessengerKeys.Visibilities, OnDisplayVisibilityReceived);
+                MessagingCenter.Subscribe<VisibilityPageModel, TimeFormat>(this, MessengerKeys.TimeFormat, OnTimeFormatReceived);
+                MessagingCenter.Subscribe<VisibilityPageModel, ViewMode>(this, MessengerKeys.ViewMode, OnViewModeReceived);
+
             }
             else
             {
@@ -456,8 +518,6 @@ namespace MPS.ViewModel
         }
 
         #endregion
-
-
 
 
         private void RequestParameters(string password)
