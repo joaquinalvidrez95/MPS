@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MPS.Helper;
@@ -47,20 +46,20 @@ namespace MPS.ViewModel
         private async void AutoConnect()
         {
             if (!CrossBluetoothLE.Current.IsOn) return;
-            //CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
+            if (Settings.LastDeviceGuid == Guid.Empty) return;
+           
+            CrossBluetoothLE.Current.Adapter.DeviceConnected -= OnDeviceStateChanged;
+            CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
 
             try
             {
-                CrossBluetoothLE.Current.Adapter.DeviceConnected -= OnDeviceStateChanged;
-                CrossBluetoothLE.Current.Adapter.DeviceConnected += OnDeviceStateChanged;
                 await CrossBluetoothLE.Current.Adapter.ConnectToKnownDeviceAsync(Settings.LastDeviceGuid);
                 _isConnectionAutomatic = true;
-
             }
             catch (DeviceConnectionException)
             {
                 CrossBluetoothLE.Current.Adapter.DeviceConnected -= OnDeviceStateChanged;
-                //  Debug.WriteLine("No se pudo autoconectar");
+                  //Debug.WriteLine("No se pudo autoconectar");
             }
         }
 
@@ -276,8 +275,8 @@ namespace MPS.ViewModel
             if (data.Length % max != 0)
                 WriteData(data.Substring(i * max, data.Length % max));
         }
-  
-    
+
+
         //private void SendMessage(string message)
         //{
 
@@ -429,14 +428,14 @@ namespace MPS.ViewModel
                             Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
 
                     if (!characteristic.CanWrite) return;
-                  
+
                     var foos = new List<byte>(Encoding.Unicode.GetBytes(data));
                     var length = foos.Count;
                     for (var i = 1; i <= length / 2; i++)
                     {
                         foos.RemoveAt(i);
-                    }                   
-                   
+                    }
+
                     await characteristic.WriteAsync(foos.ToArray());
                     //Debug.WriteLine(GetType() + " Bytes: " + Encoding.Unicode.GetString(array, 0, array.Length) + '\n');
                 }
