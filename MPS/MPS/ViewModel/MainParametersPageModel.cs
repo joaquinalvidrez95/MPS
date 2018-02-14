@@ -17,12 +17,18 @@ namespace MPS.ViewModel
 {
     public class MainParametersPageModel : BaseViewModel
     {
-        //private const double STEP_VALUE = 1.0;
+
         private string _currentDateTime;
-        //int _currentView;   
-        private bool _isBluetoothConnected;
+
+        //private bool _isBluetoothConnected;
         private string _message;
         private bool _isDisplayEnabled;
+
+        public DeviceState DeviceState
+        {
+            get => _deviceState;
+            set { _deviceState = value; OnPropertyChanged(); }
+        }
 
         public ICommand DateTimeCommand { get; }
         public ICommand ToggleViewCommand { get; }
@@ -48,24 +54,25 @@ namespace MPS.ViewModel
                 OnPropertyChanged();
             }
         }
-   
-        private int _currentView;  
+
+        private int _currentView;
+        private DeviceState _deviceState;
 
         public bool IsDisplayEnabled
         {
             get => _isDisplayEnabled;
             set { _isDisplayEnabled = value; OnPropertyChanged(); }
         }
-       
-        public bool IsBluetoothConnected
-        {
-            get => _isBluetoothConnected;
-            set
-            {
-                _isBluetoothConnected = value;
-                OnPropertyChanged();
-            }
-        }
+
+        //public bool IsBluetoothConnected
+        //{
+        //    get => _isBluetoothConnected;
+        //    set
+        //    {
+        //        _isBluetoothConnected = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         public ICommand PowerCommand { get; }
 
@@ -74,7 +81,7 @@ namespace MPS.ViewModel
             DateTimeCommand = new Command(UpdateDateTime);
             ToggleViewCommand = new Command(ToggleView);
             PowerCommand = new Command(TogglePower);
-            _currentView = 0;          
+            _currentView = 0;
             QuickMessageCommand = new Command(SendQuickMessage);
 
         }
@@ -93,23 +100,24 @@ namespace MPS.ViewModel
         private void UpdateView(Feedbacker feedbacker, int arg2)
         {
             _currentView = arg2;
-        }      
-    
+        }
+
 
         private void OnDeviceStatusChanged(MainPageModel arg1, IDevice arg2)
         {
-            switch (arg2.State)
-            {
-                case DeviceState.Connected:
-                    IsBluetoothConnected = true;
-                    break;
-                case DeviceState.Disconnected:
-                    IsBluetoothConnected = false;
-                    break;                
-                case DeviceState.Limited:
-                    IsBluetoothConnected = false;
-                    break;
-            }
+            //switch (arg2.State)
+            //{
+            //    case DeviceState.Connected:
+            //        IsBluetoothConnected = true;
+            //        break;
+            //    case DeviceState.Disconnected:
+            //        IsBluetoothConnected = false;
+            //        break;
+            //    case DeviceState.Limited:
+            //        IsBluetoothConnected = false;
+            //        break;
+            //}
+            DeviceState = arg2.State;
         }
 
         private void ToggleView()
@@ -117,32 +125,30 @@ namespace MPS.ViewModel
             _currentView++;
             _currentView = _currentView % 3;
             MessagingCenter.Send(this, MessengerKeys.CurrentView, _currentView);
-             //PopupNavigation.PushAsync(new PasswordPopup());
+            //PopupNavigation.PushAsync(new PasswordPopup());
         }
 
         private void UpdateDateTime()
-        {           
+        {
             DateTime now = DateTime.Now.ToLocalTime();
             if (DateTime.Now.IsDaylightSavingTime())
             {
                 now = now.AddHours(1);
             }
             string currentTime = $"Current Time: {now}";
-            CurrentDateTime = currentTime;       
+            CurrentDateTime = currentTime;
             MessagingCenter.Send(this, MessengerKeys.DateTime, now);
         }
 
         private async void SendQuickMessage()
-        {           
+        {
             await PopupNavigation.PushAsync(new QuickMessagePopup());
         }
 
         protected override void SubscribeMessagingCenter()
         {
-            MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);         
-            //MessagingCenter.Subscribe<MainPageModel, int>(this, MessengerKeys.CurrentView, UpdateView);
-            MessagingCenter.Subscribe<Feedbacker, int>(this, MessengerKeys.CurrentView, UpdateView);
-            //MessagingCenter.Subscribe<MainPageModel, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
+            MessagingCenter.Subscribe<MainPageModel, IDevice>(this, MessengerKeys.DeviceStatus, OnDeviceStatusChanged);           
+            MessagingCenter.Subscribe<Feedbacker, int>(this, MessengerKeys.CurrentView, UpdateView);            
             MessagingCenter.Subscribe<Feedbacker, bool>(this, MessengerKeys.Power, UpdatePowerFromFeedback);
         }
     }

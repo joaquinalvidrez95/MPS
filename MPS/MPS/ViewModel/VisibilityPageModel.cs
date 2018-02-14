@@ -16,7 +16,6 @@ namespace MPS.ViewModel
         private bool _isTemperatureVisible;
         private int _timeFormatSelected;
         private int _viewModeSelected;
-        private bool _isFixingControls;
 
         public bool IsTimeVisible
         {
@@ -25,15 +24,7 @@ namespace MPS.ViewModel
             {
                 _isTimeVisible = value;
                 OnPropertyChanged();
-                if (_isFixingControls)
-                {
-                    _isFixingControls = false;
-                }
-                else
-                {
-                    MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
-                }
-
+                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
             }
         }
 
@@ -49,14 +40,7 @@ namespace MPS.ViewModel
             {
                 _isDateVisible = value;
                 OnPropertyChanged();
-                if (_isFixingControls)
-                {
-                    _isFixingControls = false;
-                }
-                else
-                {
-                    MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
-                }
+                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
 
             }
         }
@@ -68,15 +52,7 @@ namespace MPS.ViewModel
             {
                 _isTemperatureVisible = value;
                 OnPropertyChanged();
-                if (_isFixingControls)
-                {
-                    _isFixingControls = false;
-                }
-                else
-                {
-                    MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
-                }
-                
+                MessagingCenter.Send(this, MessengerKeys.Visibilities, GetDisplayVisibility());
             }
         }
 
@@ -86,17 +62,9 @@ namespace MPS.ViewModel
             set
             {
                 _timeFormatSelected = value;
-                
+
                 OnPropertyChanged();
-                if (_isFixingControls)
-                {
-                    _isFixingControls = false;
-                }
-                else
-                {
-                    MessagingCenter.Send(this, MessengerKeys.TimeFormat, (TimeFormat)value);
-                }
-                
+                MessagingCenter.Send(this, MessengerKeys.TimeFormat, (TimeFormat)value);
             }
         }
 
@@ -107,14 +75,7 @@ namespace MPS.ViewModel
             {
                 _viewModeSelected = value;
                 OnPropertyChanged();
-                if (_isFixingControls)
-                {
-                    _isFixingControls = false;
-                }
-                else
-                {
-                    MessagingCenter.Send(this, MessengerKeys.ViewMode, (ViewMode)value);
-                }                               
+                MessagingCenter.Send(this, MessengerKeys.ViewMode, (ViewMode)value);
             }
         }
 
@@ -131,23 +92,18 @@ namespace MPS.ViewModel
 
         private void OnViewModeReceived(Feedbacker feedbacker, ViewMode viewMode)
         {
-            _isFixingControls = true;
             ViewModeSelected = (int)viewMode;
         }
 
         private void OnTimeFormatReceived(Feedbacker feedbacker, TimeFormat timeFormat)
         {
-            _isFixingControls = true;
             TimeFormatSelected = (int)timeFormat;
         }
 
         private void OnVisibilityReceived(Feedbacker feedbacker, DisplayVisibility displayVisibility)
         {
-            _isFixingControls = true;
             IsDateVisible = displayVisibility.IsDateVisible;
-            _isFixingControls = true;
             IsTemperatureVisible = displayVisibility.IsTemperatureVisible;
-            _isFixingControls = true;
             IsTimeVisible = displayVisibility.IsTimeVisible;
         }
     }

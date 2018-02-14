@@ -9,7 +9,6 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <viewmodel:MainParametersPageModel x:Key="ViewModel" />
             <Style TargetType="Button">
                 <Setter Property="BackgroundColor" Value="Red"/>
                 <Setter Property="HorizontalOptions"  Value="CenterAndExpand"/>
@@ -17,53 +16,68 @@
                 <Setter Property="Margin" Value="0,10,0,5"/>
                 <Setter Property="WidthRequest" Value="190"/>
             </Style>
-            <converters:BoolToBluetoothStatusColor x:Key="BoolToBluetoothStatusColor" />
-            <converters:BoolToPowerColorConverter x:Key="BoolToPowerColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <ContentPage.BindingContext>
+        <viewmodel:MainParametersPageModel />
+    </ContentPage.BindingContext>
+
     <ContentPage.Content>
         <!--<ScrollView Orientation="Vertical">-->
-            <StackLayout BindingContext="{StaticResource ViewModel}">
-
-                <Button 
+        <StackLayout>
+            <Button 
                 Image="{StaticResource IconTime}"
                 Text="Actualizar"                                  
                 Command="{Binding DateTimeCommand}"  />
 
-                <Button 
+            <Button 
                 Text="Cambiar"                 
                 Image="{StaticResource IconEye}"                      
                 Command="{Binding ToggleViewCommand}"/>
 
-                <Button 
+            <Button 
                 Image="{StaticResource IconMessage}"                  
                 Text="Enviar"
                 Command="{Binding QuickMessageCommand}"/>
 
-                <StackLayout  HorizontalOptions="Center" Orientation="Horizontal">
-                    <controls:TintedImage                  
-                            VerticalOptions="Center"
-                            TintColor="{Binding IsBluetoothConnected, Converter={StaticResource BoolToBluetoothStatusColor}}"
-                            Source="{StaticResource IconRadioButton}" />
+            <StackLayout  HorizontalOptions="Center" Orientation="Horizontal">
+                <controls:TintedImage VerticalOptions="Center" Source="{StaticResource IconRadioButton}">
+                    <controls:TintedImage.TintColor>
+                        <Binding Path="DeviceState">
+                            <Binding.Converter>
+                                <converters:DeviceStateToColorConverter ConnectedColor="{StaticResource ColorBluetoothConnected}"
+                                                                       DisconnectedColor="{StaticResource ColorAccent}"/>
+                            </Binding.Converter>
+                        </Binding>
+                    </controls:TintedImage.TintColor>
+                </controls:TintedImage>
 
-                    <Label Text="Conexión" VerticalOptions="Center" TextColor="{StaticResource ColorPrimaryText}"/>
+                <Label Text="Conexión" VerticalOptions="Center" TextColor="{StaticResource ColorPrimaryText}"/>
 
-                    <controls:TintedImage
+                <controls:TintedImage
                         WidthRequest="{StaticResource DimensionButtonPower}"
                         HeightRequest="{StaticResource DimensionButtonPower}"
                         VerticalOptions="Center"                        
-                        Source="{StaticResource IconPower}"
-                        TintColor="{Binding IsDisplayEnabled, Converter={StaticResource BoolToPowerColorConverter}}" >
-                        <controls:TintedImage.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Source={StaticResource ViewModel}, Path=PowerCommand}"/>
-                        </controls:TintedImage.GestureRecognizers>
+                        Source="{StaticResource IconPower}">
+                    <controls:TintedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding PowerCommand}"/>
+                    </controls:TintedImage.GestureRecognizers>
+                    <controls:TintedImage.TintColor>
+                        <Binding Path="IsDisplayEnabled">
+                            <Binding.Converter>
+                                <converters:BoolToObjectConverter x:TypeArguments="Color"
+                                                                 TrueObject="{StaticResource ColorPrimary}"
+                                                                 FalseObject="{StaticResource ColorDivider}"/>
+                            </Binding.Converter>
+                        </Binding>
+                    </controls:TintedImage.TintColor>
 
-                    </controls:TintedImage>
-
-                </StackLayout>
+                </controls:TintedImage>
 
             </StackLayout>
+
+        </StackLayout>
         <!--</ScrollView>-->
     </ContentPage.Content>
 </ContentPage>

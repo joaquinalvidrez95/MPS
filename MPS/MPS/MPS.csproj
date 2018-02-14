@@ -44,8 +44,8 @@
     <Compile Include="Behaviour\ItemTappedAttached.cs" />
     <Compile Include="Behaviour\DiscreteSliderBehaviour.cs" />
     <Compile Include="Bluetooth\BluetoothHelper.cs" />
-    <Compile Include="Converters\BoolToBluetoothStatusColor.cs" />
-    <Compile Include="Converters\BoolToPowerColorConverter.cs" />
+    <Compile Include="Converters\BoolToObjectConverter.cs" />
+    <Compile Include="Converters\DeviceStateToColorConverter.cs" />
     <Compile Include="Converters\DoubleToSliderStringConverter.cs" />
     <Compile Include="Converters\GuidToStringConverter.cs" />
     <Compile Include="Converters\LoginStateToActivityIndicatorVisibleConverter.cs" />

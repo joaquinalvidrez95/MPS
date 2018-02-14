@@ -26,7 +26,7 @@ namespace MPS.ViewModel
         private const int MaxNumberOfTrials = 3;
         private bool _hasFeedbackPassword;
         private bool _isFixingControls;
-        private const int TimeoutForFixingControls = 20;
+        //private const int TimeoutForFixingControls = 20;
         private const int DelayForConnectionAutomatically = 5000;
         private const int TimeoutForRequesting = 2500;
         private string _password = Settings.Password;
