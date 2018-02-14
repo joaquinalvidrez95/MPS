@@ -16,9 +16,8 @@ namespace MPS.ViewModel
 {
     public class PasswordPopupModel : BaseViewModel
     {
-        private string _password;        
-        private readonly PopupPage _page;      
-        private PasswordLoginState _loginState;
+        private string _password;             
+        private PasswordLoginState _loginState = PasswordLoginState.Normal;
         
 
         public PasswordLoginState LoginState
@@ -27,26 +26,17 @@ namespace MPS.ViewModel
             set
             {
                 if (_loginState == value) return;
-                _loginState = value;
-                CanConnect = value != PasswordLoginState.WaitingForRequest;
+                _loginState = value;              
                 OnPropertyChanged();
             }
         }       
-
-        public bool CanConnect
-        {
-            get => LoginState != PasswordLoginState.WaitingForRequest && Password?.Length == (int)Application.Current.Resources["PasswordLength"];
-            set => OnPropertyChanged();
-        }
-
-
+            
         public string Password
         {
             get => _password;
             set
             {
                 _password = value;
-                CanConnect = Password?.Length == (int)Application.Current.Resources["PasswordLength"];                
                 LoginState = PasswordLoginState.Normal;
                 OnPropertyChanged();
             }
@@ -56,26 +46,34 @@ namespace MPS.ViewModel
 
         public ICommand CancelCommand { get; }
 
-        public PasswordPopupModel(PopupPage page)
+        //public PasswordPopupModel(PopupPage page)
+        //{
+        //    Password = Settings.Password;
+        //    DoneCommand = new Command(StartConnection);
+        //    CancelCommand = new Command(CancelConnection);
+        //    this._page = page;
+          
+        //}
+
+        public PasswordPopupModel()
         {
             Password = Settings.Password;
-            DoneCommand = new Command(StartConnection);
+            DoneCommand = new Command(StartConnection, () => false);
             CancelCommand = new Command(CancelConnection);
-            this._page = page;
-          
+
         }
-     
+
         private void CancelConnection()
         {
             MessagingCenter.Send(this, MessengerKeys.OnLoginCancelled);
             ClosePopup();
         }
 
-        private async void ClosePopup()
+        private void ClosePopup()
         {
-            MessagingCenter.Unsubscribe<MainPageModel>(this, MessengerKeys.ClosePasswordLogin);      
+            MessagingCenter.Unsubscribe<MainPageModel>(this, MessengerKeys.OnPopAsync);      
             MessagingCenter.Unsubscribe<MainPageModel>(this, MessengerKeys.LoginState);
-            await PopupNavigation.RemovePageAsync(_page);
+            MessagingCenter.Send(this, MessengerKeys.OnPopAsync);
         }
 
         private void StartConnection()
@@ -85,14 +83,14 @@ namespace MPS.ViewModel
 
         protected override void SubscribeMessagingCenter()
         {           
-            MessagingCenter.Subscribe<MainPageModel>(this, MessengerKeys.ClosePasswordLogin, CloseLogin);            
+            MessagingCenter.Subscribe<MainPageModel>(this, MessengerKeys.OnPopAsync, CloseLogin);            
             MessagingCenter.Subscribe<MainPageModel, PasswordLoginState>(this, MessengerKeys.LoginState, OnLoginStateChanged);         
         }
 
         private void OnLoginStateChanged(MainPageModel mainPageModel, PasswordLoginState passwordLoginState)
         {
             LoginState = passwordLoginState;
-            //Debug.WriteLine(LoginState);
+            Debug.WriteLine(LoginState);
         }
 
         private void CloseLogin(MainPageModel mainPageModel)

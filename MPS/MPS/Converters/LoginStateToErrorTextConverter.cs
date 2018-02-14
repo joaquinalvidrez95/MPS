@@ -11,6 +11,8 @@ namespace MPS.Converters
 {
     public class LoginStateToErrorTextConverter : IValueConverter
     {
+        public string PasswordInvalidText { get; set; }
+        public string TimeoutExpiredText { get; set; }
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             switch ((PasswordLoginState)value)
@@ -18,11 +20,11 @@ namespace MPS.Converters
                 case PasswordLoginState.Normal:
                     return "";
                 case PasswordLoginState.PasswordInvalid:
-                    return (string)Application.Current.Resources["TextPasswordIncorrect"];
+                    return PasswordInvalidText;
                 case PasswordLoginState.WaitingForRequest:
                     return "";
                 case PasswordLoginState.TimeoutExpired:
-                    return (string)Application.Current.Resources["TextTimeExpired"];
+                    return TimeoutExpiredText;
                 default:
                     return "";
             }

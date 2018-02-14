@@ -29,7 +29,7 @@
             <x:Double x:Key="OpacityFlatButtonPressed">0.4</x:Double>
 
             <x:String x:Key="AppName">MPS-40</x:String>
-            <x:String x:Key="VersionApplication">Versión 1.0.3</x:String>
+            <x:String x:Key="VersionApplication">Versión 1.0.5</x:String>
 
             <x:String x:Key="ButtonTextAccept">ACEPTAR</x:String>
             <x:String x:Key="ButtonTextCancel">CANCELAR</x:String>
@@ -51,7 +51,7 @@
             <x:String x:Key="DisplayAlertAcceptDeleteMessage">Borrar</x:String>
             <x:String x:Key="DisplayAlertCancelAccept">Aceptar</x:String>
             <x:String x:Key="DisplayAlertCancelNo">Cancelar</x:String>
-            <x:String x:Key="DisplayAlertMessageBluetoothOff">Para buscar dispositivos necesita habilitar su conexión bluetooth.</x:String>
+            <x:String x:Key="DisplayAlertMessageBluetoothOff">Active su bluetooth para buscar dispositivos.</x:String>
             <x:String x:Key="DisplayAlertMessageConexionLost">Se ha desconectado de:</x:String>
             <x:String x:Key="DisplayAlertMessageColorException">No es posible tener un color de fondo igual al del texto.</x:String>
             <x:String x:Key="DisplayAlertMessageMessageDeletedQuestion">El mensaje se perderá para siempre.</x:String>
@@ -146,19 +146,11 @@
             </Style>
 
             <Style x:Key="StyleSliderDiscrete" TargetType="Slider">
-                <!--<Setter Property="WidthRequest" Value="{StaticResource WidthSlider}"/>-->
-                <!--<Setter Property="HorizontalOptions" Value="Center"/>
-                <Setter Property="VerticalOptions" Value="Center"/>-->
                 <Style.Behaviors>
                     <behaviour:DiscreteSliderBehaviour />
                 </Style.Behaviors>
             </Style>
 
-            <Style x:Key="StyleSliderRgb" BasedOn="{StaticResource StyleSliderDiscrete}" TargetType="Slider">
-                <Setter Property="Maximum" Value="5"/>
-                <Setter Property="Minimum" Value="0"/>
-
-            </Style>
 
             <Style x:Key="StyleContentPage" TargetType="ContentPage" >
                 <Setter Property="Padding" Value="{StaticResource PaddingHorizontalVertical}"/>

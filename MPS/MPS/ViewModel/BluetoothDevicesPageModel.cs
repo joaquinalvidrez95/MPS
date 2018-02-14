@@ -19,11 +19,9 @@ using Xamarin.Forms;
 namespace MPS.ViewModel
 {
     public class BluetoothDevicesPageModel : BaseViewModel
-    {
-        private readonly INavigation _navigation;
+    {       
         private ObservableCollection<IDevice> _devices;
-        private IDevice _selectedDevice;
-        //private IDevice _deviceToDisconnect;
+        private IDevice _selectedDevice;       
 
         public ICommand ItemTappedCommand { get; }
         public ICommand ScanCommand { get; }
@@ -48,9 +46,8 @@ namespace MPS.ViewModel
             }
         }
 
-        public BluetoothDevicesPageModel(INavigation navigation)
-        {
-            _navigation = navigation;
+        public BluetoothDevicesPageModel()
+        {           
             _devices = new ObservableCollection<IDevice>();
             ItemTappedCommand = new Command(SelectDeviceAsync);
             ScanCommand = new Command(ScanDevices);
@@ -79,7 +76,7 @@ namespace MPS.ViewModel
                     (string)Application.Current.Resources["DisplayAlertMessageBluetoothOff"],
                     (string)Application.Current.Resources["DisplayAlertCancelAccept"]
                 );
-                await _navigation.PopAsync();
+                MessagingCenter.Send(this, MessengerKeys.OnPopAsync);
             }
         }
 
@@ -105,14 +102,13 @@ namespace MPS.ViewModel
             {
                 if (CrossBluetoothLE.Current.Adapter.ConnectedDevices.Count > 0)
                 {
-                    var _deviceToDisconnect = CrossBluetoothLE.Current.Adapter.ConnectedDevices[0];
-                 //   Debug.WriteLine("Desconectándome de: " + _deviceToDisconnect.Name);
-                    MessagingCenter.Send(this, MessengerKeys.DeviceToDisconnect, _deviceToDisconnect);
+                    var deviceToDisconnect = CrossBluetoothLE.Current.Adapter.ConnectedDevices[0];
+                    MessagingCenter.Send(this, MessengerKeys.DeviceToDisconnect, deviceToDisconnect);
                 }
             }
 
             MessagingCenter.Send(this, MessengerKeys.DeviceSelected, _selectedDevice);
-            await _navigation.PopAsync();
+            MessagingCenter.Send(this, MessengerKeys.OnPopAsync);
 
         }
 

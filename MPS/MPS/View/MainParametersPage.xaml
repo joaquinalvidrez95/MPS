@@ -23,7 +23,7 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <ScrollView Orientation="Vertical">
+        <!--<ScrollView Orientation="Vertical">-->
             <StackLayout BindingContext="{StaticResource ViewModel}">
 
                 <Button 
@@ -64,6 +64,6 @@
                 </StackLayout>
 
             </StackLayout>
-        </ScrollView>
+        <!--</ScrollView>-->
     </ContentPage.Content>
 </ContentPage>

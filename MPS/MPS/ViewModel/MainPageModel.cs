@@ -75,7 +75,7 @@ namespace MPS.ViewModel
                 (string)Application.Current.Resources["DisplayAlertMessageConexionLost"] + " " + name,
                 (string)Application.Current.Resources["DisplayAlertCancelAccept"]
             ));
-            MessagingCenter.Send(this, MessengerKeys.ClosePasswordLogin);
+            MessagingCenter.Send(this, MessengerKeys.OnPopAsync);
         }
 
         private void OnPasswordReceived(PasswordPopupModel passwordPopupModel, string password)
@@ -113,13 +113,14 @@ namespace MPS.ViewModel
 
         private async void OnDeviceSelected(BluetoothDevicesPageModel arg1, IDevice device)
         {
+            _isConnectionAutomatic = false;
             try
             {
-                _isConnectionAutomatic = false;
-                await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(device);
                 _connectedDevice = device;
+                await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(device);                
                 CrossBluetoothLE.Current.Adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
                 CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
+                if (device.State != DeviceState.Connected) return;
                 SubcribeRead(device, true);
                 Device.BeginInvokeOnMainThread(async () =>
                 {
@@ -167,14 +168,13 @@ namespace MPS.ViewModel
                     _isFixingControls = true;
                     SubscribeConstrols(false);
                     new Feedbacker().SendUiParameters(bytes);
-                    Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForFixingControls), () =>
-                    {
-                        // Debug.WriteLine("Conexión exitosa");
+                    //Device.StartTimer(TimeSpan.FromMilliseconds(TimeoutForFixingControls), () =>
+                    //{                       
                         SubscribeConstrols(true);
-                        MessagingCenter.Send(this, MessengerKeys.ClosePasswordLogin);
+                        MessagingCenter.Send(this, MessengerKeys.OnPopAsync);
                         _isFixingControls = false;
-                        return false;
-                    });
+                    //    return false;
+                    //});
                     MessagingCenter.Send(this, MessengerKeys.DeviceStatus, _connectedDevice);
                     break;
             }
@@ -205,8 +205,7 @@ namespace MPS.ViewModel
 
         private void ConnectWithPassword(string password)
         {
-            _hasFeedbackPassword = false;
-            //_numberOfTrials = 0;
+            _hasFeedbackPassword = false;           
             _password = password;
             RequestParameters(password);
             _numberOfTrials = 1;
@@ -447,7 +446,7 @@ namespace MPS.ViewModel
                 {
 
                 }
-                //Debug.WriteLine(GetType() + " Se envío: " + data + '\n');
+                Debug.WriteLine(GetType() + " Se envío: " + data + '\n');
             });
 
         }
@@ -501,7 +500,9 @@ namespace MPS.ViewModel
         }
         private async void SubcribeRead(IDevice device, bool subscribe)
         {
+            if (device.State != DeviceState.Connected) return;
             var service = await device.GetServiceAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.ServiceUuid));
+            if (service == null) return;
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothHelper.BluetoothUuid.CharacteristicUuid));
             characteristic.ValueUpdated -= OnDataReceived;
             if (subscribe)

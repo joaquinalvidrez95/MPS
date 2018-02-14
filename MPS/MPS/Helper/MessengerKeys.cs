@@ -15,10 +15,11 @@
         public const string DeviceSelected = "DeviceSelected";
         public const string DeviceToDisconnect = "DeviceToDisconnect";
         public const string DeviceStatus = "DeviceStatus";
-        public const string ClosePasswordLogin = "ClosePasswordLogin";
+        //public const string ClosePasswordLogin = "ClosePasswordLogin";
         public const string PasswordLogin = "PasswordLogin";
         public const string LoginState = "LoginState";   
         public const string OnLoginCancelled = "OnLoginCancelled";
+        public const string OnPopAsync = "OnPopAsync";
         public const string OnBackButtonPressed = "OnBackButtonPressed";
     }
 }

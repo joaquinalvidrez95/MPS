@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MPS.Helper;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,8 +17,14 @@ namespace MPS.View
 		public BluetoothDevicesPage ()
 		{
 			InitializeComponent ();
-            BindingContext = new BluetoothDevicesPageModel(Navigation);
-            
+		    MessagingCenter.Subscribe<BluetoothDevicesPageModel>(this, MessengerKeys.OnPopAsync, async model => await Navigation.PopAsync());
+
         }
-	}
+
+        protected override void OnDisappearing()
+	    {
+	        base.OnDisappearing();
+	        MessagingCenter.Unsubscribe<BluetoothDevicesPageModel>(this, MessengerKeys.OnPopAsync);
+	    }
+    }
 }

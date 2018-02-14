@@ -11,11 +11,9 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <viewModel:MessagePageModel x:Key="ViewModel" />
-
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource ColorPrimaryText}"/>
             </Style>
-            <!--<converters:DoubleToSliderStringConverter x:Key="DoubleToSliderStringConverter" />-->
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -37,7 +35,7 @@
                     Grid.Row="1" Grid.Column="0" 
                     Source="{StaticResource IconFastForward}"/>
                 <Slider                                       
-                    Grid.Row="1" Grid.Column="1"
+                    Grid.Row="1" Grid.Column="1" 
                     Maximum="{StaticResource MaxSliderSpeed}" Minimum="3"                                                                                 
                     Value="{Binding Speed}">
                     <Slider.Behaviors>

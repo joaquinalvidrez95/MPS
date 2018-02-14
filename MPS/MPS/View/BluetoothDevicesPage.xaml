@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MPS.Behaviour"
              xmlns:converters="clr-namespace:MPS.Converters;assembly=MPS"
+             xmlns:viewModel="clr-namespace:MPS.ViewModel;assembly=MPS"
              x:Class="MPS.View.BluetoothDevicesPage"
              Padding="{StaticResource PaddingVertical}"
              Title="Seleccione dispositivo">
 
-    <!--<ContentPage.BindingContext>
+    <ContentPage.BindingContext>
         <viewModel:BluetoothDevicesPageModel/>
-    </ContentPage.BindingContext>-->
+    </ContentPage.BindingContext>
 
     <ContentPage.Resources>
         <ResourceDictionary>

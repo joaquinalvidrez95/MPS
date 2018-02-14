@@ -8,8 +8,12 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <viewmodel:ColorsPageModel x:Key="ViewModel" />
-           
+            <Style BasedOn="{StaticResource StyleSliderDiscrete}" TargetType="Slider">
+                <Setter Property="Maximum" Value="5"/>
+                <Setter Property="Minimum" Value="0"/>
+                <!--<Setter Property="BackgroundColor" Value="Yellow"/>-->
+            </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -19,9 +23,7 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout                                
-                HorizontalOptions="Center"
-                Orientation="Horizontal">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal">                                                              
                 <Label Text="Color de: " VerticalOptions="Center"/>
                 <Picker
                     HorizontalOptions="Fill"
@@ -38,17 +40,13 @@
                 </Picker>
             </StackLayout>
 
-
             <Frame 
                 OutlineColor="Black"                              
                 HorizontalOptions="Center"
                 Padding="10,10,10,10"
                 Margin="0,20,0,20">
 
-                <Grid 
-                    ColumnSpacing="5"                              
-                    HorizontalOptions="Center">
-
+                <Grid ColumnSpacing="5" HorizontalOptions="Center">                                                                     
                     <Grid.Resources>
                         <ResourceDictionary>
                             <Style TargetType="Button" BasedOn="{StaticResource StyleButtonColor}">
@@ -157,8 +155,8 @@
                 </Grid>
             </Frame>
 
-            <ScrollView>
-                <Grid >
+            <ScrollView VerticalOptions="FillAndExpand">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto" />
@@ -173,80 +171,20 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Row="0" Grid.Column="0" Text="Rojo" TextColor="Red" />
-                    <Slider Grid.Row="1" Grid.Column="0"                                
-                            Style="{StaticResource StyleSliderRgb}"
-                            Value="{Binding RedValue}" />
-                    <Label Grid.Row="1" Grid.Column="1"                            
-                           Text="{Binding RedValue}"  VerticalOptions="Center"/>
+                    <Slider Grid.Row="1" Grid.Column="0" Value="{Binding RedValue}" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding RedValue}"  VerticalOptions="Center"/>
+
 
                     <Label Grid.Row="2" Grid.Column="0" Text="Verde" TextColor="Green" Margin="0,16,0,0"/>
-                    <Slider Grid.Row="3" Grid.Column="0"
-                            Style="{StaticResource StyleSliderRgb}"
-                            Value="{Binding GreenValue}" />
+                    <Slider Grid.Row="3" Grid.Column="0" Value="{Binding GreenValue}" />                                                       
                     <Label Grid.Row="3" Grid.Column="1" Text="{Binding GreenValue}" VerticalOptions="Center"/>
-                    
+
                     <Label Grid.Row="4" Grid.Column="0" Text="Azul" TextColor="Blue" Margin="0,16,0,0"/>
-                    <Slider  Grid.Row="5" Grid.Column="0"
-                             Style="{StaticResource StyleSliderRgb}"
-                             Value="{Binding BlueValue}" />
+                    <Slider  Grid.Row="5" Grid.Column="0"  Value="{Binding BlueValue}" />                                                       
                     <Label Grid.Row="5" Grid.Column="1" Text="{Binding BlueValue}" VerticalOptions="Center"/>
                 </Grid>
             </ScrollView>
-
-
-            <!--<TableView 
-                Intent="Form"
-                HasUnevenRows="True"         
-                VerticalOptions="EndAndExpand">
-                <TableRoot>
-                    <TableSection>
-                        <ViewCell>
-                            <StackLayout Orientation="Vertical">
-                                <Label Text="Rojo"
-                                       TextColor="Red"/>
-                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                                    <Slider Style="{StaticResource StyleSliderRgb}"                                                  
-                                            Value="{Binding RedValue}">
-                                       
-                                    </Slider>
-                                    <Label 
-                                        Text="{Binding RedValue}" 
-                                        VerticalOptions="Center"/>
-                                </StackLayout>
-                            </StackLayout>
-                        </ViewCell>
-                        <ViewCell>
-                            <StackLayout >
-                                <Label Text="Verde" TextColor="Green"/>
-                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                                    <Slider Style="{StaticResource StyleSliderRgb}"                                                
-                                            Value="{Binding GreenValue}">
-                                    
-                                    </Slider>
-                                    <Label 
-                                        Text="{Binding GreenValue}" 
-                                        VerticalOptions="Center"/>
-                                </StackLayout>
-                            </StackLayout>
-                        </ViewCell>
-                        <ViewCell>
-                            <StackLayout>
-                                <Label Text="Azul" TextColor="Blue"/>
-                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
-                                    <Slider Style="{StaticResource StyleSliderRgb}"                                                                                      
-                                            Value="{Binding BlueValue}">
-                                   
-                                    </Slider>
-                                    <Label 
-                                        Text="{Binding BlueValue}" 
-                                        VerticalOptions="Center"/>
-                                </StackLayout>
-                                
-                            </StackLayout>
-                        </ViewCell>
-                    </TableSection>
-                </TableRoot>
-            </TableView>-->
+         
         </StackLayout>
 
     </ContentPage.Content>
